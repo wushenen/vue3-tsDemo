@@ -124,10 +124,15 @@ public class UtilService {
                                 }
                                 System.arraycopy(bytes, 0, random, 0, length);
                             } else {
-                                byte[] bytes = qr902JNI.QRNG_read_random(sourceIp, length);
-                                if (bytes[0] == 0) {
+                                int num = (length)/8192 ;
+                                if (length%8192 != 0) {
+                                    num += 1;
+                                }
+                                byte[] bytes = qr902JNI.QRNG_read_random(sourceIp, num*8192);
+                                random = Arrays.copyOf(bytes, length);
+                                if (Arrays.equals(random2,random)) {
                                     if (sourceIp2 != null)
-                                        bytes = qr902JNI.QRNG_read_random(sourceIp2, length);
+                                        bytes = qr902JNI.QRNG_read_random(sourceIp2, num*8192);
                                 }
                                 System.arraycopy(bytes, 0, random, 0, length);
                             }
