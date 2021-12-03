@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.PrimaryKeyMapper">
+    <resultMap id="PrimaryKeyResult" type="com.qtec.unicom.pojo.PrimaryKey">
+        <result property="keyId" column="key_id"/>
+        <result property="keySpec" column="key_spec"/>
+        <result property="keyUsage" column="key_usage"/>
+        <result property="origin" column="origin"/>
+        <result property="protectionLevel" column="protection_level"/>
+        <result property="automaticRotation" column="automatic_rotation"/>
+        <result property="rotationInterval" column="rotation_interval"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="description" column="description"/>
+        <result property="keyState" column="key_state"/>
+        <result property="primaryKeyVersion" column="primary_key_version"/>
+        <result property="deleteDate" column="delete_date"/>
+        <result property="lastRotationDate" column="last_rotation_date"/>
+        <result property="owner" column="owner"/>
+
+
+    </resultMap>
+    <sql id="PRIMARY_KEY_COLUMN">
+        key_id,key_spec,key_usage,origin,protection_level,automatic_rotation,rotation_interval,creation_date,
+        description,key_state,primary_key_version,delete_date,last_rotation_date,owner
+    </sql>
+    <insert id="addKey" parameterType="PrimaryKey">
+        insert into t_primary_key (key_id,key_spec,key_usage,
+        <if test="primaryKey.origin != null">origin,</if>
+        <if test="primaryKey.protectionLevel != null">protection_level,</if>
+        automatic_rotation,rotation_interval,
+        description,key_state,primary_key_version,delete_date,last_rotation_date,owner)
+             values(#{primaryKey.keyId},#{primaryKey.keySpec},#{primaryKey.keyUsage},
+        <if test="primaryKey.origin != null">#{primaryKey.origin},</if>
+        <if test="primaryKey.protectionLevel != null">#{primaryKey.protectionLevel},</if>
+             #{primaryKey.automaticRotation},
+             #{primaryKey.rotationInterval},#{primaryKey.description},#{primaryKey.keyState},
+             #{primaryKey.primaryKeyVersion},#{primaryKey.deleteDate},#{primaryKey.lastRotationDate},#{primaryKey.owner})
+    </insert>
+    <update id="updatePrimaryKeyState" parameterType="PrimaryKey">
+        update t_primary_key set key_state = #{primaryKey.keyState}
+            , delete_date= #{primaryKey.deleteDate}
+        where key_id = #{primaryKey.keyId}
+    </update>
+    <update id="updatePrimaryKeyDesc" parameterType="PrimaryKey">
+        update t_primary_key set description = #{primaryKey.description}
+        where key_id = #{primaryKey.keyId}
+    </update>
+    <update id="updateRotationPolicy" parameterType="PrimaryKey">
+        update t_primary_key set automatic_rotation = #{primaryKey.automaticRotation}
+        <if test="primaryKey.rotationInterval != null">,rotation_interval = #{primaryKey.rotationInterval}</if>
+        <if test="primaryKey.automaticRotation != null"> ,automatic_rotation = #{primaryKey.automaticRotation}</if>
+        <if test="primaryKey.primaryKeyVersion != null"> ,primary_key_version = #{primaryKey.primaryKeyVersion}</if>
+        <if test="primaryKey.lastRotationDate != null"> ,last_rotation_date = #{primaryKey.lastRotationDate}</if>
+        where key_id = #{primaryKey.keyId}
+    </update>
+    <select id="getPrimaryKey" resultMap="PrimaryKeyResult">
+        select <include refid="PRIMARY_KEY_COLUMN" />
+        from t_primary_key  where key_id = #{keyId}
+    </select>
+    <select id="listPrimaryKey" resultType="Map" parameterType="String">
+        select key_id as keyId
+        from t_primary_key  k where 1 =1
+        <if test="userName != null">and owner like concat('%',#{userName},'%') </if>
+        order by k.id desc
+    </select>
+    <select id="listKeys1" resultType="Map" parameterType="String">
+        select key_id as keyId
+        from t_primary_key  k where 1 =1
+        <if test="keyId != null">and key_id like concat(#{keyId},'%') </if>
+        order by k.id desc
+    </select>
+    <select id="listPrimaryKeyOutTime" resultMap="PrimaryKeyResult" parameterType="Date">
+        select key_id,protection_level,automatic_rotation,rotation_interval,key_spec,
+        key_state,primary_key_version,delete_date,last_rotation_date
+        from t_primary_key  k where k.key_state = "PendingDeletion" and k.delete_date  <![CDATA[<]]>  #{now,jdbcType=TIMESTAMP}
+    </select>
+    <delete id="deletePrimaryKey"  parameterType="Date">
+        delete from t_primary_key where key_state = "PendingDeletion" and delete_date  <![CDATA[<]]>  #{now,jdbcType=TIMESTAMP}
+    </delete>
+    <select id="listAutomaticKey" resultMap="PrimaryKeyResult" >
+        select key_id,protection_level,automatic_rotation,rotation_interval,key_spec,last_rotation_date,primary_key_version
+        from t_primary_key  k where k.automatic_rotation = "Enabled"
+    </select>
+</mapper>
+
+
+
+

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.OperateLogMapper">
+    <resultMap id="OperateLogResult" type="com.qtec.unicom.pojo.OperateLog">
+        <id property="id" column="id"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="operator" column="operator"/>
+        <result property="operateModel" column="operate_model"/>
+        <result property="detail" column="detail"/>
+        <result property="operateIp" column="operate_ip"/>
+        <result property="operateStatus" column="operate_status"/>
+        <result property="execTime" column="exec_time"/>
+    </resultMap>
+    <sql id="OPERATE_LOG_COLUMN">
+        id,update_time,operator,operate_model,detail,operate_ip,operate_status,exec_time
+    </sql>
+
+    <insert id="insertOperateLog" parameterType="OperateLog">
+        insert into t_operate_log (operator,operate_model,detail,operate_ip,operate_status,exec_time)
+             values(#{operateLog.operator},#{operateLog.operateModel},#{operateLog.detail},#{operateLog.operateIp},#{operateLog.operateStatus}
+             ,#{operateLog.execTime})
+    </insert>
+    <select id="getOperateLogs" parameterType="Map" resultMap="OperateLogResult">
+        SELECT
+        <include refid="OPERATE_LOG_COLUMN"/>
+        FROM t_operate_log
+        <where>
+            <if test="ip != null">
+                operate_ip = #{ip}
+            </if>
+            <if test="operatorName != null and operatorName != ''">
+                AND operator= #{operatorName}
+            </if>
+            <if test="startTime != null">
+                AND update_time <![CDATA[>=]]> #{startTime}
+            </if>
+            <if test="endTime != null">
+            AND update_time <![CDATA[<= ]]> #{endTime}
+            </if>
+        </where> order by update_time desc
+    </select>
+
+    <select id="getOperateLogsForDeviceInfoShow" resultMap="OperateLogResult">
+        SELECT
+        <include refid="OPERATE_LOG_COLUMN"/>
+        FROM t_operate_log
+        where operate_model = '实时密钥模块'
+        order by update_time desc
+        limit 6;
+    </select>
+
+</mapper>
+
+
+
+

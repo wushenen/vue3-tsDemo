@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.KeySourceConfigMapper">
+
+    <update id="upwardPriority">
+        update t_key_source_config
+        set priority = priority - 1
+        where priority &lt;= #{newPriority}
+        and priority > #{oldPriority}
+    </update>
+
+    <update id="downwardPriority">
+        update t_key_source_config
+        set priority = priority + 1
+        where priority >= #{newPriority}
+        and priority &lt; #{oldPriority};
+    </update>
+
+    <update id="enablePriority">
+        update t_key_source_config
+        set priority = priority + 1
+        where priority >= #{priority}
+        and priority != 5;
+    </update>
+
+    <update id="disablePriority">
+        update t_key_source_config
+        set priority = priority - 1
+        where priority > #{priority}
+        and priority != 5;
+    </update>
+
+    <select id="getKeySourceConfigs" resultType="com.qtec.unicom.pojo.KeySourceConfig">
+        select * from t_key_source_config
+        order by priority asc
+    </select>
+
+    <select id="getEnableKeySourceConfigs" resultType="com.qtec.unicom.pojo.KeySourceConfig">
+        select * from t_key_source_config
+        where priority != 5
+        order by priority asc
+    </select>
+
+    <select id="getKeySourceConfig" resultType="com.qtec.unicom.pojo.KeySourceConfig">
+        select *
+        from t_key_source_config
+        where id = #{id}
+    </select>
+
+
+
+
+    <update id="updateKeySourceConfig">
+        update t_key_source_config
+        set source_ip = #{sourceIp},
+        source_ip2 = #{sourceIp2}
+        where id = #{id} ;
+    </update>
+
+
+    <update id="updateKeySourcePriorityById">
+        update t_key_source_config
+        set priority = #{priority}
+        where id = #{id} ;
+    </update>
+
+
+<!--
+    <select id="getKeySourceConfigId" resultType="int">
+        select id from t_key_source_config
+        where priority = #{priority}
+    </select>
+-->
+
+
+
+</mapper>

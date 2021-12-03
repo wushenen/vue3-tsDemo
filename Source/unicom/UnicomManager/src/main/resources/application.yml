@@ -1,0 +1,107 @@
+server:
+  servlet :
+    context-path: /unicom
+  port: 8080
+  ssl:
+    key-store: classpath:certificate/192.168.94.123.keystore
+    key-password: 11032320
+    key-store-type: JKS
+    enabled: false #开启HTTPS
+
+spring:
+  mvc:
+    async:
+      request-timeout: 20000
+  application:
+    name: UnicomManager
+  datasource:
+    host: 192.168.93.186
+    port: 3306
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      url: jdbc:mysql://192.168.94.161:${spring.datasource.port}/unicom?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
+      username: root
+      password: root
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 连接池配置
+      initial-size: 10
+      min-idle: 20
+      max-active: 1000
+      max-wait: 5000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 连接保持空闲而不被驱逐的最小时间
+      min-evictable-idle-time-millis: 300000
+      # 用来检测连接是否有效的sql，要求是一个查询语句
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      remove-abandoned: true
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 50
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=2000
+      use-global-data-source-stat: true
+      # druid的web监控配置登录账号密码
+      stat-view-servlet:
+        login-username: admin
+        login-password: Qtec@2017
+      # druid的web监控排除一些静态资源
+      web-stat-filter:
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+
+  #邮件配置
+#  mail:
+#    host: smtp.exmail.qq.com
+#    port: 465
+#    username: 213_Service@qtec.cn
+#    password: 213_Service
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          ssl:
+#            enable: true
+#          socketFactory:
+#            port: 465
+#            class: javax.bet.ssl.SSLSocketFactory
+
+  #shiro配置
+  redis :
+    shiro :
+      host: localhost
+      port: 6379
+      timeout: 2000
+      password: 123456
+# 开启mybatis小驼峰式命名规则自动转换
+mybatis:
+  type-aliases-package: com.qtec.unicom.pojo
+  mapper-locations: classpath*:mapper/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+
+
+# 分页配置
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
+logging:
+  level:
+    com.qtec.unicom.*: debug
+#获取随机数的方式，1-随机数发生器，2-密码卡，3-901, 4-902,5-软件随机数
+rngSource: 4
+server901IP : 192.168.90.7   #当使用901获取随机数时，设置的901服务ip地址
+server902IP : 192.168.92.100
+cmdPath: /usr/local/unicom/config/
+managerPath: /usr/local/unicom/UnicomManager-1.0.war
+serverPath: /usr/local/unicom/UnicomManager-1.0.war
+
+
+# 系统信息
+systemVersion: V 1.3
+mysqlVersion: mysql-5.7.36
+systemStatus: 就绪

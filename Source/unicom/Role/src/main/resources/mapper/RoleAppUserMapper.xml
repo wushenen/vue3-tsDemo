@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.RoleAppUserMapper">
+
+    <!--添加角色授权用户-->
+    <insert id="addRoleAppUser">
+        insert into t_role_app_user (role_id,app_user_id)
+        values (#{roleId},#{appUserId});
+    </insert>
+
+    <!--判断角色用户是否已添加-->
+    <select id="existAddRoleAppUser" resultType="boolean">
+        select count(*)
+        from t_role_app_user
+        where app_user_id = #{appUserId}
+        and role_id = #{roleId};
+    </select>
+
+    <!--取消角色授权用户-->
+    <delete id="deleteRoleAppUser">
+        delete from t_role_app_user
+        where id in
+        <foreach collection="ids" index="index" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--获取角色已授权用户-->
+    <select id="roleAppUserList" resultType="com.qtec.unicom.pojo.DTO.RoleAppUserInfo">
+        select b.id,a.user_id,a.user_name,a.commit_info,b.create_time
+        from t_app_user a ,t_role_app_user b
+        where b.role_id = #{roleId}
+        and b.app_user_id = a.user_id
+        order by b.create_time desc
+    </select>
+
+</mapper>

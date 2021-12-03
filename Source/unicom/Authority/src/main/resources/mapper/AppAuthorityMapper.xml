@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.AppAuthorityMapper">
+
+    <!--添加终端权限-->
+    <insert id="addAppAuthority">
+        insert into
+        t_app_auth (app_user_id, api_id)
+        values (#{appUserId},#{apiId})
+    </insert>
+
+    <!--判断终端权限是否已经添加-->
+    <select id="appAuthorityIsAdd" resultType="boolean">
+        select count(1)
+        from t_app_auth
+        where app_user_id = #{appUserId}
+        and api_id = #{apiId}
+    </select>
+    
+    <!--删除终端权限-->
+    <delete id="delAppAuthority">
+        delete from t_app_auth
+        where auth_id = #{authId}
+    </delete>
+
+    <!--删除终端用户所有权限-->
+    <delete id="delAppAuthByAppUserId">
+        delete from t_app_auth
+        where app_user_id = #{appUserId}
+    </delete>
+
+    <!--获取指定终端已添加权限信息-->
+    <select id="getAppAuthority" resultType="com.qtec.unicom.pojo.DTO.AuthInfo">
+        select a.auth_id,
+                b.*
+        from t_app_auth a,t_api_resource b
+        where a.app_user_id = #{appUserId}
+        and a.api_id = b.api_id
+        order by a.auth_id asc
+    </select>
+
+
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.GroupDeviceUserMapper">
+
+    <!--添加分组成员-->
+    <insert id="addGroupDeviceUser">
+        insert into t_group_device_user (group_id,device_id)
+        values (#{groupId},#{deviceId});
+    </insert>
+
+    <!--判断成员是否已添加-->
+    <select id="existAddGroupDeviceUser" resultType="boolean">
+        select count(*)
+        from t_group_device_user
+        where device_id = #{deviceId}
+        and group_id = #{groupId};
+    </select>
+
+    <!--删除成员-->
+    <delete id="deleteGroupDeviceUser">
+        delete from t_group_device_user
+        where id in
+        <foreach collection="ids" item="id" open="(" index="index" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--展示该分组所有成员-->
+    <select id="groupDeviceUserList" resultType="com.qtec.unicom.pojo.DTO.GroupDeviceUserInfo">
+        select b.id,a.device_id,a.device_name,a.comments,b.create_time
+        from t_device_user a ,t_group_device_user b
+        where b.group_id = #{groupId}
+        and b.device_id = a.device_id
+        order by b.update_time desc
+    </select>
+
+
+</mapper>

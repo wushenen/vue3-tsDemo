@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.RoleMapper">
+
+    <!--创建角色-->
+    <insert id="addRole">
+        insert into t_role (role_code,role_describe)
+        values (#{roleCode},#{roleDescribe});
+    </insert>
+
+    <!--判断角色code是否唯一-->
+    <select id="uniqueRole" resultType="int">
+        select count(*) from t_role
+        where BINARY role_code = #{roleCode};
+    </select>
+
+    <!--获取角色信息列表-->
+    <select id="roleList" resultType="com.qtec.unicom.pojo.Role">
+        select * from t_role
+        order by create_time desc
+    </select>
+
+    <!--查看角色详情-->
+    <select id="roleInfo" resultType="com.qtec.unicom.pojo.Role">
+        select *
+        from t_role
+        where BINARY role_code = #{roleCode};
+    </select>
+    <!--查看角色详情通过id-->
+    <select id="roleInfoById" resultType="com.qtec.unicom.pojo.Role">
+        select *
+        from t_role
+        where role_id = #{roleId};
+    </select>
+
+    <!--删除角色-->
+    <delete id="delRole">
+        delete from t_role
+        where role_id = #{roleId};
+    </delete>
+    <delete id="delRoleUser">
+        delete from t_role_user
+        where role_id = #{roleId}
+    </delete>
+    <delete id="delStrategyAuthByRoleId">
+        delete from t_strategy_auth
+        where role_id = #{roleId}
+    </delete>
+
+
+    <!--修改角色信息-->
+    <update id="updateRoleInfo">
+        update t_role
+        <set>
+            <if test="roleCode != null">
+                role_code = #{roleCode},
+            </if>
+            <if test="roleDescribe != null">
+                role_describe = #{roleDescribe},
+            </if>
+            update_time = current_time()
+            where role_id = #{roleId}
+        </set>
+    </update>
+
+
+    <!--模糊查询，通过roleCode获取角色信息-->
+    <select id="searchRole" resultType="com.qtec.unicom.pojo.Role">
+        select *
+        from t_role
+        where role_code like concat('%',#{roleCode},'%');
+    </select>
+
+
+
+</mapper>

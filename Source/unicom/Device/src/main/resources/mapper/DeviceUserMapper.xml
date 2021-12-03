@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.DeviceUserMapper">
+
+    <!--添加终端用户信息-->
+    <insert id="addDeviceUser" parameterType="com.qtec.unicom.pojo.DeviceUser">
+        insert into t_device_user (device_name,password,comments,user_type,enc_key)
+        values (#{deviceName},#{password},#{comments},#{userType},#{encKey});
+    </insert>
+
+    <!--判断用户名是否已经被占用-->
+    <select id="userNameIsExist" resultType="boolean">
+        select count(*)
+        from t_device_user
+        where binary device_name = #{deviceName}
+    </select>
+
+    <!--修改终端用户信息-->
+    <update id="updateDevice" parameterType="com.qtec.unicom.controller.vo.UpdateUserInfoRequest">
+        update t_device_user
+        <set>
+            <if test="deviceName != null">
+                device_name = #{deviceName},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="comments != null">
+                comments = #{comments},
+            </if>
+            update_time = now()
+        </set>
+        where device_id = #{deviceId};
+    </update>
+
+    <!--删除终端用户信息-->
+    <delete id="deleteDevice">
+        delete from t_device_user
+        where device_id = #{deviceId}
+    </delete>
+    <!--删除终端被赋予的角色信息-->
+    <delete id="deleteRoleUserByDeviceId">
+        delete from t_role_user
+        where device_id = #{deviceId}
+    </delete>
+    <!--删除终端被赋予的分组信息-->
+    <delete id="deleteGroupUserByDeviceId">
+        delete from t_group_user
+        where device_id = #{deviceId}
+    </delete>
+    <!--删除终端被赋予的策略授权信息-->
+    <delete id="deleteStrategyAuthByDeviceId">
+        delete from t_strategy_auth
+        where device_id = #{deviceId}
+    </delete>
+    <!--删除终端授权信息-->
+    <delete id="deleteDeviceAuthByDeviceId">
+        delete from t_device_auth
+        where device_id = #{deviceId}
+    </delete>
+
+    <!--获取所有终端用户信息-->
+    <select id="listAllDeviceUser" resultType="com.qtec.unicom.pojo.DeviceUser">
+        select *
+        from t_device_user
+        <if test="deviceName != null and !&quot;&quot;.equals(deviceName.trim())">
+            where device_name like concat('%',#{deviceName},'%')
+        </if>
+        order by create_time desc
+    </select>
+
+    <!--获取终端用户信息-->
+    <select id="getDeviceInfo" parameterType="int" resultType="com.qtec.unicom.pojo.DeviceUser">
+        select *
+        from t_device_user
+        where device_id = #{deviceId}
+    </select>
+
+    <!--模糊查询终端用户信息-->
+    <select id="queryDeviceUser" resultType="com.qtec.unicom.pojo.DeviceUser">
+        select *
+        from t_device_user
+        where device_name like concat('%',#{deviceName},'%')
+        order by update_time desc
+    </select>
+
+    <select id="exportDeviceUserInfo" resultType="com.qtec.unicom.pojo.DTO.ExportDeviceUserInfo">
+        select
+        device_name as deviceId,
+        password,
+        HEX(enc_key) as encKey
+        from t_device_user
+        where device_id IN
+        <foreach collection="deviceIds" item="deviceId" index="index" open="(" close=")" separator=",">
+            #{deviceId}
+        </foreach>
+    </select>
+
+    <select id="getEncKey" resultType="string">
+        select HEX(enc_key)
+        from t_device_user
+        where device_name = #{deviceName}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.KeyInfoMapper">
+    
+    <insert id="addKeyInfo">
+        insert into t_key_info (key_id,key_value,applicant)
+        values (#{keyId},#{keyValue},#{applicant})
+    </insert>
+
+    <select id="getKeyInfo" resultType="com.qtec.unicom.pojo.KeyInfo">
+        select * from t_key_info
+        where key_id = #{keyId}
+    </select>
+
+    <update id="updateKeyInfo">
+        update t_key_info
+        set key_status = #{keyStatus}
+        where key_id = #{keyId}
+    </update>
+
+    <delete id="deleteKeyInfo">
+        delete from t_key_info
+        where key_id = #{keyId}
+    </delete>
+
+    <select id="getKeyInfos" resultType="com.qtec.unicom.pojo.KeyInfo">
+        select * from t_key_info
+        where binary applicant = #{applicant}
+        and key_status = #{keyStatus};
+    </select>
+
+    <select id="getTotalNum" resultType="java.lang.Long">
+        select count(1) from t_key_info
+        where applicant = #{applicant}
+    </select>
+
+    <select id="getUsedNum" resultType="java.lang.Long">
+        select count(1) from t_key_info
+        where applicant = #{applicant}
+        and key_status = 2
+    </select>
+
+    <select id="getAdminEmail" resultType="java.lang.String">
+        select email from t_user where binary user_name = 'admin';
+    </select>
+
+
+</mapper>

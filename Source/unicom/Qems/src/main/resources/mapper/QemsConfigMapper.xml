@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.QemsConfigMapper">
+
+    <select id="getQemsConfig" resultType="com.qtec.unicom.pojo.QemsConfig">
+        select * from t_qems_config
+    </select>
+
+    <update id="updateQemsConfig" parameterType="com.qtec.unicom.controller.vo.UpdateQemsConfigRequest">
+        update t_qems_config
+        set config_name = #{configName},
+        enc_port = #{encPort},
+        enc_type = #{encType},
+        enc_freq = #{encFreq},
+        start_index = #{startIndex},
+        end_index = #{endIndex},
+        version = version+1,
+        update_time = now()
+        where id = #{id}
+    </update>
+
+
+
+    <insert id="addQemsOperation">
+        insert into t_device_operation (device_name,operation)
+        values (#{deviceName},#{operation})
+    </insert>
+
+    <select id="countQemsOperation" resultType="int">
+        select count(*) from t_device_operation
+        where device_name = #{deviceName}
+    </select>
+
+    <select id="getOperation" resultType="com.qtec.unicom.pojo.DeviceOperation">
+        select * from t_device_operation
+        where device_name = #{deviceName}
+    </select>
+
+
+    <delete id="delQemsOperation">
+        delete from t_device_operation
+        where device_name = #{deviceName}
+    </delete>
+    
+
+</mapper>
