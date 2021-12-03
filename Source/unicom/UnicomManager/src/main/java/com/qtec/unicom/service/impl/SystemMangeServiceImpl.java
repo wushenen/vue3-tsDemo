@@ -196,7 +196,7 @@ public class SystemMangeServiceImpl implements SystemMangeService {
         cardDataMapper.addCardData(cardData);
     }
     private String backSql() throws Exception{
-        StringBuilder sb = new StringBuilder("mysqldump -h"+mysqlHost+" -uroot -p"+ mysqlPassword +" mixedquantum t_primary_key t_key_version t_key_alias t_secret > /opt/backup.sql");
+        StringBuilder sb = new StringBuilder("mysqldump -h"+mysqlHost+" -uroot -p"+ mysqlPassword +" unicom t_primary_key t_key_version t_key_alias t_secret > /opt/backup.sql");
         String[] command = {"/bin/sh","-c",sb.toString()};
         Runtime.getRuntime().exec(command);
         Thread.sleep(5000);
@@ -233,7 +233,7 @@ public class SystemMangeServiceImpl implements SystemMangeService {
         restoreSql(cardData1.getSqlData());
         try{
             SwsdsTools.restore(cardData1.getCardData(),cardData.getBackPass());
-            StringBuilder sb = new StringBuilder("mysql -h"+mysqlHost+" -uroot -p"+ mysqlPassword +" mixedquantum < /opt/restore.sql");
+            StringBuilder sb = new StringBuilder("mysql -h"+mysqlHost+" -uroot -p"+ mysqlPassword +" unicom < /opt/restore.sql");
             String[] command = {"/bin/sh","-c",sb.toString()};
             Runtime.getRuntime().exec(command);
         }catch (MgrException e){
