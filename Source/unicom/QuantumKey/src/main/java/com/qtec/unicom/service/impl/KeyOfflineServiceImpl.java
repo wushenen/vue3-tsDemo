@@ -31,15 +31,13 @@ public class KeyOfflineServiceImpl implements KeyOfflineService {
             System.arraycopy(random,i*48,keyId,0,16);
             System.arraycopy(random,i*48+16,keyValue,0,32);
             keyOffline.setKeyId(keyId);
-//            keyOffline.setKeyValue(UtilService.encryptMessage(keyValue));
-            keyOffline.setKeyValue(utilService.encryptCBC(keyValue,UtilService.SM4KEY));
+            keyOffline.setKeyValue(UtilService.encryptMessage(keyValue));
             keyOfflineMapper.addOffKey(keyOffline);
         }
     }
 
     @Override
     public List<KeyOfflineDTO> getOffKey(Long start, Long end) throws Exception {
-        KeyOfflineDTO dto = new KeyOfflineDTO();
         ArrayList<KeyOfflineDTO> list = new ArrayList<>();
         Long offlineKeyNum = keyOfflineMapper.countOfflineKeyNum();
         int sub = end.intValue() - offlineKeyNum.intValue();
@@ -48,9 +46,9 @@ public class KeyOfflineServiceImpl implements KeyOfflineService {
         }
         List<KeyOffline> offKeys = keyOfflineMapper.getOffKey(start, end);
         for (KeyOffline offKey : offKeys) {
+            KeyOfflineDTO dto = new KeyOfflineDTO();
             dto.setKeyId(Base64.encodeBase64String(offKey.getKeyId()));
-//            dto.setKeyValue(Base64.encodeBase64String(UtilService.decryptMessage(offKey.getKeyValue())));
-            dto.setKeyValue(Base64.encodeBase64String(utilService.decryptCBC(offKey.getKeyValue(),UtilService.SM4KEY)));
+            dto.setKeyValue(Base64.encodeBase64String(UtilService.decryptMessage(offKey.getKeyValue())));
             list.add(dto);
         }
         return list;
