@@ -64,7 +64,6 @@ public class KeyInfoController {
         if (token != null){
             String deviceName = JWTUtil.getUsername(token);
             String encKey = deviceUserService.getEncKey(deviceName);
-//            encKey = HexUtils.bytesToHexString(utilService.decryptCBC(HexUtils.hexStringToBytes(encKey),UtilService.SM4KEY));
             if (encKey == null)
                 return ResultHelper.genResult(1,"用户加密密钥错误");
             //终端请求的参数都是Base64编码的，需要进行解码才可以使用
@@ -73,19 +72,16 @@ public class KeyInfoController {
             KeyInfo key = keyInfoService.getKeyInfo(keyId);
             if (key == null) {
                 keyValue = utilService.generateQuantumRandom(32);
-//                byte[] encryptKeyValue = UtilService.encryptMessage(keyValue);
-                byte[] encryptKeyValue = utilService.encryptCBC(keyValue,UtilService.SM4KEY);
+                byte[] encryptKeyValue = UtilService.encryptMessage(keyValue);
                 keyInfoService.addKeyInfo(keyId,encryptKeyValue,deviceName,2);
             }else{
                 if (key.getKeyStatus() == 1)
                     return ResultHelper.genResult(1,"此量子密钥不可使用，请更换量子密钥");
-//                keyValue = UtilService.decryptMessage(key.getKeyValue());
-                keyValue = utilService.decryptCBC(key.getKeyValue(),UtilService.SM4KEY);
+                keyValue = UtilService.decryptMessage(key.getKeyValue());
                 keyInfoService.updateKeyInfo(keyId,2);
             }
             sendEmail(deviceName);
             //使用请求者的加密密钥进行SM4加密
-            System.out.println("encKey.length() = " + encKey.length());
             byte[] encryptCBCKeyValue = utilService.encryptCBC(keyValue, encKey.substring(0,32));
             //返回终端的信息，需要Base64编码
             object.put("keyValue",Base64.encodeBase64String(encryptCBCKeyValue));
