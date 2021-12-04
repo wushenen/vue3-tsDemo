@@ -11,6 +11,7 @@ public class KeySourceConfig implements Serializable {
     private int keySource;
     private String SourceIp;
     private String SourceIp2;
+    private String configInfo;
     private int priority;
 
 }

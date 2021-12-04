@@ -13,6 +13,7 @@ public interface KeySourceConfigService {
     List<KeySourceConfig> getKeySourceConfig();
     int enableKeySourceConfig(int priority,int id);
     int disableKeySourceConfig(int priority,int id);
-
+    void updateQKDConfig(String configInfo);
+    String getQKDConfig();
 
 }

@@ -1,8 +1,10 @@
 package com.qtec.unicom.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.qtec.unicom.component.Result;
 import com.qtec.unicom.component.ResultHelper;
 import com.qtec.unicom.controller.vo.KeySourceConfigRequest;
+import com.qtec.unicom.controller.vo.UpdateQKDRequest;
 import com.qtec.unicom.pojo.KeySourceConfig;
 import com.qtec.unicom.service.KeySourceConfigService;
 import io.swagger.annotations.Api;
@@ -28,6 +30,18 @@ public class KeySourceConfigController {
         return ResultHelper.genResultWithSuccess(keySourceConfig);
     }
 
+    @ApiOperation("获取QKD配置")
+    @RequestMapping(value = "/getQKD",method = RequestMethod.GET)
+    @ResponseBody
+    public Result getQKD(){
+        String qkdConfig = keySourceConfigService.getQKDConfig();
+        JSONObject configs = JSONObject.parseObject(qkdConfig);
+//        JSONObject config = configs.getJSONObject("config");
+//        JSONObject config2 = configs.getJSONObject("config2");
+
+        return ResultHelper.genResultWithSuccess(configs);
+    }
+
 
     @ApiOperation("修改密钥源配置")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
@@ -38,6 +52,16 @@ public class KeySourceConfigController {
             return ResultHelper.genResult(1,"主IP未设置时禁止设置备用IP");
         if (i == 2)
             return ResultHelper.genResult(1,"请启用该量子密钥后再设置IP");
+        return ResultHelper.genResultWithSuccess();
+    }
+
+
+    @ApiOperation("修改QKD配置")
+    @RequestMapping(value = "/updateQKD",method = RequestMethod.POST)
+    @ResponseBody
+    public Result updateQKD(@RequestBody UpdateQKDRequest updateQKDRequest){
+        String configInfo = JSONObject.toJSONString(updateQKDRequest);
+        keySourceConfigService.updateQKDConfig(configInfo);
         return ResultHelper.genResultWithSuccess();
     }
 

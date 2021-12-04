@@ -65,6 +65,17 @@
         where id = #{id} ;
     </update>
 
+    <update id="updateQKDConfig">
+        update t_key_source_config
+        set config_info = #{configInfo}
+        where key_source = 4 ;
+    </update>
+    
+    <select id="getQKDConfig" resultType="java.lang.String">
+        select config_info
+        from t_key_source_config
+        where key_source = 4 ;
+    </select>
 
 <!--
     <select id="getKeySourceConfigId" resultType="int">

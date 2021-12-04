@@ -22,6 +22,8 @@ public interface KeySourceConfigMapper {
     void updateKeySourceConfig(KeySourceConfigRequest keySourceConfigRequest);
     void updateKeySourcePriorityById(int priority,int id);
 
+    void updateQKDConfig(String configInfo);
+    String getQKDConfig();
 
 
     /*int getKeySourceConfigId(int priority);*/

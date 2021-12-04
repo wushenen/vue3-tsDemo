@@ -3,10 +3,12 @@ server:
     context-path: /unicom
   port: 8888
   ssl:
-    key-store: classpath:certificate/192.168.94.123.keystore
-    key-password: 11032320
-    key-store-type: JKS
-    enabled: false #开启HTTPS
+    key-store: classpath:certificate/unicom.keystore
+    key-store-password: unicom
+    key-store-type: PKCS12
+    enabled: true #开启HTTPS
+    key-alias: unicom
+    key-password: unicom
 
 spring:
   mvc:
@@ -19,7 +21,7 @@ spring:
     port: 3306
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://192.168.94.161:${spring.datasource.port}/unicom?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
+      url: jdbc:mysql://localhost:${spring.datasource.port}/unicom?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -91,7 +93,7 @@ pagehelper:
 
 logging:
   level:
-    com.qtec.mixedquantum.*: debug
+    com.qtec.unicom.*: info
 #获取随机数的方式，1-随机数发生器，2-密码卡，3-901, 4-902,5-软件随机数
 rngSource: 4
 server901IP : 192.168.90.7   #当使用901获取随机数时，设置的901服务ip地址

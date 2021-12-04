@@ -1,12 +1,14 @@
 server:
   servlet :
     context-path: /unicom
-  port: 8080
+  port: 443
   ssl:
-    key-store: classpath:certificate/192.168.94.123.keystore
-    key-password: 11032320
-    key-store-type: JKS
-    enabled: false #开启HTTPS
+    key-store: classpath:certificate/unicom.keystore
+    key-store-password: unicom
+    key-store-type: PKCS12
+    enabled: true #开启HTTPS
+    key-alias: unicom
+    key-password: unicom
 
 spring:
   mvc:
@@ -15,7 +17,7 @@ spring:
   application:
     name: UnicomManager
   datasource:
-    host: 192.168.93.186
+    host: 192.168.94.161
     port: 3306
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -50,22 +52,6 @@ spring:
       web-stat-filter:
         exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
 
-  #邮件配置
-#  mail:
-#    host: smtp.exmail.qq.com
-#    port: 465
-#    username: 213_Service@qtec.cn
-#    password: 213_Service
-#    properties:
-#      mail:
-#        smtp:
-#          auth: true
-#          ssl:
-#            enable: true
-#          socketFactory:
-#            port: 465
-#            class: javax.bet.ssl.SSLSocketFactory
-
   #shiro配置
   redis :
     shiro :
@@ -79,8 +65,6 @@ mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   configuration:
     map-underscore-to-camel-case: true
-
-
 
 # 分页配置
 pagehelper:

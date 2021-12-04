@@ -64,4 +64,14 @@ public class KeySourceConfigServiceImpl implements KeySourceConfigService {
         keySourceConfigMapper.updateKeySourcePriorityById(5, id);
         return 0;
     }
+
+    @Override
+    public void updateQKDConfig(String configInfo) {
+        keySourceConfigMapper.updateQKDConfig(configInfo);
+    }
+
+    @Override
+    public String getQKDConfig() {
+        return keySourceConfigMapper.getQKDConfig();
+    }
 }

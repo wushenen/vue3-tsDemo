@@ -1,5 +1,7 @@
 package com.qtec.unicom.component.util;
 
+import com.alibaba.fastjson.JSONObject;
+import com.qtec.jni.KMSJNI;
 import com.qtec.jni.QR902JNI;
 import com.qtec.unicom.component.Exception.PwspException;
 import com.qtec.unicom.component.ResultHelper;
@@ -119,12 +121,12 @@ public class UtilService {
                                 if (Arrays.equals(random2,random)) {
                                     if (sourceIp2 != null){
                                         bytes = qr902JNI.QRNG_read_random(sourceIp2, bytes.length);
-                                        random = Arrays.copyOf(bytes, length);
+//                                        random = Arrays.copyOf(bytes, length);
                                     }
                                 }
                                 System.arraycopy(bytes, 0, random, 0, length);
                             } else {
-                                int num = (length)/8192 ;
+                                int num = length/8192 ;
                                 if (length%8192 != 0) {
                                     num += 1;
                                 }
@@ -138,6 +140,38 @@ public class UtilService {
                             }
                             break;
                         case 4: //QKD
+                            KMSJNI kmsjni = new KMSJNI();
+                            String qkdConfig = keySourceConfigs.get(i).getConfigInfo();
+                            JSONObject configInfo = JSONObject.parseObject(qkdConfig);
+                            JSONObject config = configInfo.getJSONObject("config");
+                            JSONObject config2 = configInfo.getJSONObject("config2");
+                            String localName = config.getString("localName");
+                            String peerName = config.getString("peerName");
+                            String devKey = config.getString("devKey");
+                            String cryptKey = config.getString("cryptKey");
+                            int num = length/32;
+                            if (length%32 != 0)
+                                num += 1;
+                            byte[] bytes = new byte[num*32];
+                            byte[] keyId = new byte[num*16];
+                            if (localName != null && peerName != null && devKey != null && cryptKey != null){
+                                bytes = kmsjni.kms_sdk_output_key_plaintext(num*32, keySourceConfigs.get(i).getSourceIp(),
+                                        localName, peerName, HexUtils.hexStringToBytes(devKey),
+                                        HexUtils.hexStringToBytes(cryptKey), false, keyId);
+                            }
+                            random = Arrays.copyOf(bytes, length);
+                            if (Arrays.equals(random2,random)) {
+                                localName = config2.getString("localName");
+                                peerName = config2.getString("peerName");
+                                devKey = config2.getString("devKey");
+                                cryptKey = config2.getString("cryptKey");
+                                if (keySourceConfigs.get(i).getSourceIp2() != null){
+                                    bytes = kmsjni.kms_sdk_output_key_plaintext(num*32, keySourceConfigs.get(i).getSourceIp2(),
+                                            localName, peerName, HexUtils.hexStringToBytes(devKey),
+                                            HexUtils.hexStringToBytes(cryptKey), false, keyId);
+                                }
+                            }
+                            System.arraycopy(bytes, 0, random, 0, length);
                             break;
                         default:
                             random = randomByte(length);
@@ -145,7 +179,6 @@ public class UtilService {
                     if (!Arrays.equals(random,random2))
                         return random;
                 }
-
             }
         }
         return null;
