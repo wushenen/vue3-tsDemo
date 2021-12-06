@@ -216,7 +216,7 @@ public class KeyInfoController {
         for (KeyInfo keyInfo : keyInfos) {
             sb.append("keyId:"+Base64.encodeBase64String(keyInfo.getKeyId()));
             sb.append("    ");
-            sb.append("keyValue:"+Base64.encodeBase64String(UtilService.decryptMessage(keyInfo.getKeyValue())));
+            sb.append("keyValue:"+Base64.encodeBase64String(utilService.decryptCBC(keyInfo.getKeyValue(),UtilService.SM4KEY)));
             sb.append("\n");
         }
         //将密钥信息进行base64编码
