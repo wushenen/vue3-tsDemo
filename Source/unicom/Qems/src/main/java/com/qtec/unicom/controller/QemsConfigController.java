@@ -30,6 +30,8 @@ public class QemsConfigController {
     @RequestMapping(value = "/updateConfig",method = RequestMethod.POST)
     @ResponseBody
     public Result updateConfig(@RequestBody UpdateQemsConfigRequest updateQemsConfigRequest){
+        if (updateQemsConfigRequest.getEndIndex() - updateQemsConfigRequest.getStartIndex() > 2000)
+            return ResultHelper.genResult(1,"充注密钥数不得大于2000");
         qemsConfigService.updateQemsConfig(updateQemsConfigRequest);
         return ResultHelper.genResultWithSuccess();
     }
