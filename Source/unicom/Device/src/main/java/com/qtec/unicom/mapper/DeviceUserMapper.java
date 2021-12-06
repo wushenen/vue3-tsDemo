@@ -28,6 +28,9 @@ public interface DeviceUserMapper {
     int deleteGroupUserByDeviceId(@Param("deviceId") int deviceId);
     int deleteStrategyAuthByDeviceId(@Param("deviceId") int deviceId);
     int deleteDeviceAuthByDeviceId(@Param("deviceId") int deviceId);
+    //删除密钥信息
+    int deleteKeyInfoByDeviceName(String userName);
+    int deleteKeyLimitByDeviceName(String userName);
 
 
     /*获取所有终端用户信息*/

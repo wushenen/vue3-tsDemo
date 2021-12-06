@@ -73,6 +73,9 @@ public class DeviceUserServiceImpl implements DeviceUserService {
         deviceUserMapper.deleteRoleUserByDeviceId(deviceId);
         deviceUserMapper.deleteGroupUserByDeviceId(deviceId);
         deviceUserMapper.deleteStrategyAuthByDeviceId(deviceId);
+        DeviceUser deviceInfo = deviceUserMapper.getDeviceInfo(deviceId);
+        deviceUserMapper.deleteKeyInfoByDeviceName(deviceInfo.getDeviceName());
+        deviceUserMapper.deleteKeyLimitByDeviceName(deviceInfo.getDeviceName());
         return deviceUserMapper.deleteDevice(deviceId);
     }
 

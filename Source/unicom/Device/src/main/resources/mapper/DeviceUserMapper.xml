@@ -60,6 +60,15 @@
         where device_id = #{deviceId}
     </delete>
 
+    <delete id="deleteKeyInfoByDeviceName">
+        delete from t_key_info
+        where binary applicant = #{userName}
+    </delete>
+    <delete id="deleteKeyLimitByDeviceName">
+        delete from t_key_limit
+        where binary user_name = #{userName}
+    </delete>
+
     <!--获取所有终端用户信息-->
     <select id="listAllDeviceUser" resultType="com.qtec.unicom.pojo.DeviceUser">
         select *
