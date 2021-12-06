@@ -15,6 +15,8 @@ public interface KeyInfoMapper {
     void deleteKeyInfo(byte[] keyId);
     List<KeyInfo> getKeyInfos(String applicant, int keyStatus);
 
+    List<KeyInfo> getKeyInfosNotInKeyStatus(String applicant, int keyStatus);
+
     Long getTotalNum(String applicant);
     Long getUsedNum(String applicant);
 

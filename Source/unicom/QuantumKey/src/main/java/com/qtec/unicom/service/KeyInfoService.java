@@ -11,7 +11,10 @@ public interface KeyInfoService {
     int updateKeyInfo(byte[] keyId,int keyStatus);
     void deleteKeyInfo(byte[] keyId);
     List<KeyInfo> getKeyInfos(String applicant, int keyStatus);
+    List<KeyInfo> getKeyInfosNotInKeyStatus(String applicant, int keyStatus);
 
     Map<String,Long> keyInfoStatistics(String applicant);
     String getAdminEmail();
+
+    Long getApplicantKeyNum(String applicant);
 }

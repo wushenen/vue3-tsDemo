@@ -1,6 +1,7 @@
 package com.qtec.unicom.service.impl;
 
 import com.qtec.unicom.mapper.KeyInfoMapper;
+import com.qtec.unicom.mapper.KeyLimitMapper;
 import com.qtec.unicom.mapper.KeyOfflineMapper;
 import com.qtec.unicom.pojo.KeyInfo;
 import com.qtec.unicom.service.KeyInfoService;
@@ -16,6 +17,9 @@ public class KeyInfoServiceImpl implements KeyInfoService {
 
     @Autowired
     private KeyInfoMapper keyInfoMapper;
+
+    @Autowired
+    private KeyLimitMapper keyLimitMapper;
 
     @Autowired
     private KeyOfflineMapper keyOfflineMapper;
@@ -48,13 +52,19 @@ public class KeyInfoServiceImpl implements KeyInfoService {
     }
 
     @Override
+    public List<KeyInfo> getKeyInfosNotInKeyStatus(String applicant, int keyStatus) {
+        return keyInfoMapper.getKeyInfosNotInKeyStatus(applicant,keyStatus);
+    }
+
+    @Override
     public Map<String, Long> keyInfoStatistics(String applicant) {
         HashMap<String, Long> map = new HashMap<>();
         Long usedNum = keyInfoMapper.getUsedNum(applicant);
-        Long totalNum = keyInfoMapper.getTotalNum(applicant);
-        Long offlineKeyNum = keyOfflineMapper.countOfflineKeyNum();
+        Long totalNum = keyLimitMapper.getKeyLimit(applicant);
+        if (totalNum == null)
+            totalNum = 0L;
         map.put("usedNum",usedNum);
-        map.put("totalNum",totalNum + offlineKeyNum);
+        map.put("totalNum", totalNum);
         return map;
     }
 
@@ -62,5 +72,11 @@ public class KeyInfoServiceImpl implements KeyInfoService {
     public String getAdminEmail() {
         String adminEmail = keyInfoMapper.getAdminEmail();
         return adminEmail;
+    }
+
+    @Override
+    public Long getApplicantKeyNum(String applicant) {
+        Long totalNum = keyInfoMapper.getTotalNum(applicant);
+        return totalNum;
     }
 }

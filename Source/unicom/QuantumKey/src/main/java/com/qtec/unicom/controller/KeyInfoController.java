@@ -5,12 +5,15 @@ import com.qtec.unicom.component.Result;
 import com.qtec.unicom.component.ResultHelper;
 import com.qtec.unicom.component.util.JWTUtil;
 import com.qtec.unicom.component.util.UtilService;
+import com.qtec.unicom.controller.vo.GetApplicantKeyIdRequest;
+import com.qtec.unicom.pojo.KeyLimit;
 import com.qtec.unicom.pojo.MailInfo;
 import com.qtec.unicom.service.DeviceUserService;
 import com.qtec.unicom.controller.vo.ExportKeyInfosRequest;
 import com.qtec.unicom.controller.vo.KeyInfoRequest;
 import com.qtec.unicom.pojo.KeyInfo;
 import com.qtec.unicom.service.KeyInfoService;
+import com.qtec.unicom.service.KeyLimitService;
 import com.qtec.unicom.service.MailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -45,6 +48,9 @@ public class KeyInfoController {
 
     @Autowired
     private DeviceUserService deviceUserService;
+
+    @Autowired
+    private KeyLimitService keyLimitService;
 
     @Autowired
     private UtilService utilService;
@@ -90,6 +96,41 @@ public class KeyInfoController {
         return ResultHelper.genResult(401,"用户未登录");
     }
 
+
+    /**
+     * SDK 获取量子密钥，若 RequestBody中带keyId,则使用原来的KeyId，若无，则一并由后端生成
+     * @param keyInfoRequest
+     * @param request
+     * @return
+     * @throws Exception
+     */
+    @ApiOperation(value = "SDK获取密钥",notes = "获取量子密钥，若请求中存在keyId，则使用该keyId")
+    @RequestMapping(value = "/getKeyForSDK",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getKeyForSDK(@RequestBody KeyInfoRequest keyInfoRequest, HttpServletRequest request) throws Exception {
+        JSONObject object = new JSONObject();
+        String token = request.getHeader("Token");
+        if (token != null) {
+            String deviceName = JWTUtil.getUsername(token);
+            byte[] keyId = new byte[16];
+            byte[] keyValue = new byte[32];
+            if (keyInfoRequest.getKeyId() != null) {
+                keyId = Base64.decodeBase64(keyInfoRequest.getKeyId());
+                keyValue= utilService.generateQuantumRandom(32);
+            }else {
+                byte[] keyInfo = utilService.generateQuantumRandom(48);
+                System.arraycopy(keyInfo,0,keyId,0,16);
+                System.arraycopy(keyInfo,16,keyValue,0,32);
+            }
+            keyInfoService.addKeyInfo(keyId,keyValue,deviceName,2);
+            object.put("keyId",Base64.encodeBase64String(keyId));
+            object.put("keyValue",Base64.encodeBase64String(keyValue));
+            return ResultHelper.genResultWithSuccess(object);
+        }else{
+            return ResultHelper.genResult(401,"用户未登录");
+        }
+    }
+
     @ApiOperation(value = "撤回密钥",notes = "撤回指定密钥")
     @RequestMapping(value = "/recallKey",method = RequestMethod.POST)
     @ResponseBody
@@ -98,21 +139,39 @@ public class KeyInfoController {
         return ResultHelper.genResultWithSuccess();
     }
 
-    @ApiOperation(value = "量子密钥额度分配",notes = "销毁指定密钥")
-    @RequestMapping(value = "/addKey",method = RequestMethod.GET)
+
+    @ApiOperation(value = "量子密钥额度分配",notes = "分配在线量子密钥额度")
+    @RequestMapping(value = "/updateKeyLimit",method = RequestMethod.GET)
     @ResponseBody
-    public Result addKey(@RequestParam("applicant") String applicant, @RequestParam("keyNum") int keyNum) throws Exception {
-        byte[] random = utilService.generateQuantumRandom(48 * keyNum);
-        byte[] keyId = new byte[16];
-        byte[] keyValue = new byte[32];
-        KeyInfo keyInfo = new KeyInfo();
-        for (int i = 0; i < keyNum; i++) {
-            System.arraycopy(random,i*48,keyId,0,16);
-            System.arraycopy(random,i*48+16,keyValue,0,32);
-            keyInfo.setKeyId(keyId);
-            keyInfo.setKeyValue(UtilService.encryptMessage(keyValue));
-            keyInfoService.addKeyInfo(keyId,keyValue,applicant,0);
-        }
+    public Result updateKeyLimit(@RequestParam("applicant") String applicant, @RequestParam("keyNum") int keyNum) throws Exception {
+        if (keyNum > 2000)
+            return ResultHelper.genResult(1,"量子密钥额度不可大于2000");
+        KeyLimit keyLimit = new KeyLimit();
+        keyLimit.setLimitNum(keyNum);
+        keyLimit.setUserName(applicant);
+        keyLimit.setUserType(1);
+        keyLimitService.updateKeyLimit(keyLimit);
+        CompletableFuture.runAsync(()->{
+            Long applicantKeyNum = keyInfoService.getApplicantKeyNum(applicant);
+            if (applicantKeyNum < keyNum){
+                int generateNum = keyNum - applicantKeyNum.intValue();
+                byte[] random = new byte[48*generateNum];
+                try {
+                    random = utilService.generateQuantumRandom(48 * generateNum);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                byte[] keyId = new byte[16];
+                byte[] keyValue = new byte[32];
+                KeyInfo keyInfo = new KeyInfo();
+                for (int i = 0; i < generateNum; i++) {
+                    System.arraycopy(random,i*48,keyId,0,16);
+                    System.arraycopy(random,i*48+16,keyValue,0,32);
+                    keyInfo.setKeyValue(utilService.encryptCBC(keyValue,UtilService.SM4KEY));
+                    keyInfoService.addKeyInfo(keyId,keyValue,applicant,0);
+                }
+            }
+        });
         return ResultHelper.genResultWithSuccess();
     }
 
@@ -134,16 +193,12 @@ public class KeyInfoController {
 
 
     @ApiOperation(value = "获取密钥id",notes = "获取量子密钥id")
-    @RequestMapping(value = "/getApplicantKeyId",method = RequestMethod.GET)
+    @RequestMapping(value = "/getApplicantKeyId",method = RequestMethod.POST)
     @ResponseBody
-    public Result getApplicantKeyId(@RequestParam("applicant") String applicant){
-        List<KeyInfo> keyInfos = keyInfoService.getKeyInfos(applicant,0);
-        List<KeyInfo> keyInfos1 = keyInfoService.getKeyInfos(applicant,0);
+    public Result getApplicantKeyId(@RequestBody GetApplicantKeyIdRequest getApplicantKeyIdRequest){
+        List<KeyInfo> keyInfos = keyInfoService.getKeyInfosNotInKeyStatus(getApplicantKeyIdRequest.getApplicant(),1);
         List<String> keyIds = new ArrayList<>();
         for (KeyInfo keyInfo : keyInfos) {
-            keyIds.add(Base64.encodeBase64String(keyInfo.getKeyId()));
-        }
-        for (KeyInfo keyInfo : keyInfos1) {
             keyIds.add(Base64.encodeBase64String(keyInfo.getKeyId()));
         }
         return ResultHelper.genResultWithSuccess(keyIds);
@@ -154,18 +209,14 @@ public class KeyInfoController {
     @RequestMapping(value = "/exportKeyInfos",method = RequestMethod.POST)
     @ResponseBody
     public Result exportKeyInfos(HttpServletResponse response, @RequestBody ExportKeyInfosRequest exportKeyInfosRequest) throws IOException, NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
-        List<KeyInfo> keyInfos = keyInfoService.getKeyInfos(exportKeyInfosRequest.getApplicant(),0);
-        List<KeyInfo> keyInfos1 = keyInfoService.getKeyInfos(exportKeyInfosRequest.getApplicant(),2);
+
+        List<KeyInfo> keyInfos = keyInfoService.getKeyInfosNotInKeyStatus(exportKeyInfosRequest.getApplicant(),1);
 
         StringBuffer sb = new StringBuffer();
         for (KeyInfo keyInfo : keyInfos) {
-            sb.append(Base64.encodeBase64String(keyInfo.getKeyId()));
-            sb.append(Base64.encodeBase64String(UtilService.decryptMessage(keyInfo.getKeyValue())));
-            sb.append("\n");
-        }
-        for (KeyInfo keyInfo : keyInfos1) {
-            sb.append(Base64.encodeBase64String(keyInfo.getKeyId()));
-            sb.append(Base64.encodeBase64String(UtilService.decryptMessage(keyInfo.getKeyValue())));
+            sb.append("keyId:"+Base64.encodeBase64String(keyInfo.getKeyId()));
+            sb.append("    ");
+            sb.append("keyValue:"+Base64.encodeBase64String(UtilService.decryptMessage(keyInfo.getKeyValue())));
             sb.append("\n");
         }
         //将密钥信息进行base64编码
@@ -192,13 +243,19 @@ public class KeyInfoController {
     private void sendEmail(String deviceName){
         CompletableFuture.runAsync(()->{
             Map<String, Long> map = keyInfoService.keyInfoStatistics(deviceName);
-            if (map.get("totalNum") != 0){
-                float warn = map.get("usedNum")/map.get("totalNum");
+            Long totalNum = map.get("totalNum");
+            if (totalNum != 0){
+                Long usedNum = map.get("usedNum");
+                float warn = usedNum / totalNum;
                 String adminEmail = keyInfoService.getAdminEmail();
-                if (warn > 0.9)
-                    mailService.sendSimpleMail(new MailInfo("量子密钥告警",adminEmail,"用户"+deviceName+"量子密钥剩余可使用已不足10%，请立即充值"));
-                if (warn > 0.7)
+                if (warn > 0.7){
                     mailService.sendSimpleMail(new MailInfo("量子密钥预警",adminEmail,"用户"+deviceName+"量子密钥剩余可使用已不足30%，为不影响使用，请及时充值"));
+                }else if (warn > 0.9){
+                    mailService.sendSimpleMail(new MailInfo("量子密钥告警",adminEmail,"用户"+deviceName+"量子密钥剩余可使用已不足10%，请立即充值"));
+                }else if (usedNum > totalNum){
+                    if ((usedNum-totalNum)%(0.2*totalNum) == 0)
+                        mailService.sendSimpleMail(new MailInfo("量子密钥告警",adminEmail,"用户"+deviceName+"量子密钥已超额使用，请立即充值"));
+                }
             }
         });
     }

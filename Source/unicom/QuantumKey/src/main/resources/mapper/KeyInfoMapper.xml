@@ -30,6 +30,15 @@
         and key_status = #{keyStatus};
     </select>
 
+    <select id="getKeyInfosNotInKeyStatus" resultType="com.qtec.unicom.pojo.KeyInfo">
+        select * from t_key_info
+        where binary applicant = #{applicant}
+        and key_status != #{keyStatus}
+        order by update_time desc
+        limit 50
+    </select>
+
+
     <select id="getTotalNum" resultType="java.lang.Long">
         select count(1) from t_key_info
         where applicant = #{applicant}

@@ -267,7 +267,7 @@ public class UtilService {
     public byte[] encryptCBC(byte[] plainTextBytes, String key) {
         try {
             SM4Util sm4Util = new SM4Util();
-            return sm4Util.encryptDataCBC(plainTextBytes, key, SM4IV);
+            return sm4Util.encryptDataCBCWithPadding(plainTextBytes, key, SM4IV);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -277,7 +277,7 @@ public class UtilService {
     public String encryptCBC(String plainTextBytes, String key) {
         try {
             SM4Util sm4Util = new SM4Util();
-            return HexUtils.bytesToHexString(sm4Util.encryptDataCBC(plainTextBytes.getBytes(), key, SM4IV));
+            return HexUtils.bytesToHexString(sm4Util.encryptDataCBCWithPadding(plainTextBytes.getBytes(), key, SM4IV));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -294,7 +294,7 @@ public class UtilService {
     public byte[] decryptCBC(byte[] cipherText, String key) {
         try {
             SM4Util sm4Util = new SM4Util();
-            return sm4Util.decryptDataCBC(cipherText, key, SM4IV);
+            return sm4Util.decryptDataCBCWithPadding(cipherText, key, SM4IV);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -304,7 +304,7 @@ public class UtilService {
     public String decryptCBC(String cipherText, String key) {
         try {
             SM4Util sm4Util = new SM4Util();
-            return new String(sm4Util.decryptDataCBC(HexUtils.hexStringToBytes(cipherText), key, SM4IV)).trim();
+            return new String(sm4Util.decryptDataCBCWithPadding(HexUtils.hexStringToBytes(cipherText), key, SM4IV)).trim();
         } catch (Exception e) {
             e.printStackTrace();
         }

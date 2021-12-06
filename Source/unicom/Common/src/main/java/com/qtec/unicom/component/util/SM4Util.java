@@ -198,6 +198,78 @@ public class SM4Util {
         return output;
     }
 
+    public byte[] encryptDataCBCWithPadding(byte[] plainText, String key, String iv) throws Exception {
+        if (key == null || key.length() != 32) {
+            throw new Exception(KEY_ERROR);
+        }
+        if (iv == null || iv.length() != 32) {
+            throw new Exception(IV_ERROR);
+        }
+        long[] rk = new long[32];
+        sm4_setkey(rk, hexString2Bytes(key));
+        byte[] cipherText = sm4_crypt_cbc_with_padding(rk, hexString2Bytes(iv), plainText, true);
+        return cipherText;
+    }
+    public byte[] decryptDataCBCWithPadding(byte[] cipherText, String key, String iv) throws Exception {
+        if (key == null || key.length() != 32) {
+            throw new Exception(KEY_ERROR);
+        }
+        if (iv == null || iv.length() != 32) {
+            throw new Exception(IV_ERROR);
+        }
+        long[] rk = new long[32];
+        sm4_setkey(rk, hexString2Bytes(key));
+        for (int i = 0; i < 16; i++) {
+            SWAP(rk, i);
+        }
+        byte[] plainText = sm4_crypt_cbc(rk, hexString2Bytes(iv), cipherText, false);
+        return plainText;
+    }
+    private byte[] sm4_crypt_cbc_with_padding(long[] rk, byte[] iv, byte[] input, boolean isEncrypt) throws IOException {
+        if (isEncrypt) {    // 加密填充在加密操作前
+            input = padding(input, isEncrypt);
+        }
+        int length = input.length;
+        ByteArrayInputStream bins = new ByteArrayInputStream(input);
+        ByteArrayOutputStream bous = new ByteArrayOutputStream();
+        if (isEncrypt) {
+            for (; length > 0; length -= 16) {
+                byte[] in = new byte[16];
+                byte[] out = new byte[16];
+                byte[] out1 = new byte[16];
+                bins.read(in);
+                for (int i = 0; i < 16; i++) {
+                    out[i] = ((byte) (xor(in[i], iv[i])));
+                }
+                sm4_one_round(rk, out, out1);
+                System.arraycopy(out1, 0, iv, 0, 16);
+                bous.write(out1);
+            }
+        } else {
+            byte[] temp = new byte[16];
+            for (; length > 0; length -= 16) {
+                byte[] in = new byte[16];
+                byte[] out = new byte[16];
+                byte[] out1 = new byte[16];
+                bins.read(in);
+                System.arraycopy(in, 0, temp, 0, 16);
+                sm4_one_round(rk, in, out);
+                for (int i = 0; i < 16; i++) {
+                    out1[i] = ((byte) (xor(out[i], iv[i])));
+                }
+                System.arraycopy(temp, 0, iv, 0, 16);
+                bous.write(out1);
+            }
+        }
+
+        byte[] output = bous.toByteArray();
+        if (!isEncrypt) {   // 解密去除填充在解密操作后
+            output = padding(output, isEncrypt);
+        }
+        bins.close();
+        bous.close();
+        return output;
+    }
 
     /*
      * 加密算法
