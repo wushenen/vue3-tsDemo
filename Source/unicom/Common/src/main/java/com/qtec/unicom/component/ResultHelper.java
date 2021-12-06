@@ -13,17 +13,17 @@ public class ResultHelper {
         if (data==null){
             data = new JSONObject();
         }
-        Result result = Result.builder().code(code)
+        Result result = Result.builder().requestId().code(code)
                 .msg(msg).data(data).build();
         return result;
     }
     public static Result genResult(int code, String msg){
-        Result result = Result.builder().code(code).data(new JSONObject())
+        Result result = Result.builder().requestId().code(code).data(new JSONObject())
                 .msg(msg).build();
         return result;
     }
     public static Result genResultWithSuccess(){
-        Result result = Result.builder().data(new JSONObject()).code(SUCCESS).build();
+        Result result = Result.builder().requestId().data(new JSONObject()).code(SUCCESS).build();
         return result;
     }
     public static Result genResultWithSuccess(Object data){
@@ -31,12 +31,12 @@ public class ResultHelper {
             data= new JSONObject();
         }
 
-        Result result =  Result.builder().code(SUCCESS).data(data).build();
+        Result result =  Result.builder().requestId().code(SUCCESS).data(data).build();
         return result;
     }
 
     public static Result genResult(int code){
-        Result result = Result.builder().code(code).data(new JSONObject())
+        Result result = Result.builder().requestId().code(code).data(new JSONObject())
                 .build();
         return result;
     }

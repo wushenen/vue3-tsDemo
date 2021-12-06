@@ -1,6 +1,7 @@
 package com.qtec.unicom.component;
 
 
+import java.util.UUID;
 
 /**
  * 公共返回结果
@@ -8,6 +9,7 @@ package com.qtec.unicom.component;
  */
 
 public class Result<T> {
+    private String requestId;
     private int code;
     private String msg;
     private T data;
@@ -15,13 +17,20 @@ public class Result<T> {
         return new Builder();
     }
     public static class Builder<T>{
+        private String requestId;
         private int code;
         private String msg;
         private T data;
          public Builder(){
 
          }
-         public  Builder code(int code){
+
+        public Builder requestId() {
+            this.requestId = UUID.randomUUID().toString();
+            return this;
+        }
+
+        public  Builder code(int code){
              this.code = code;
              return this;
         }
@@ -42,6 +51,7 @@ public class Result<T> {
     }
 
     private Result(Builder<T> builder){
+        this.requestId = builder.requestId;
         this.code = builder.code;
         this.msg = builder.msg;
         this.data = builder.data;
@@ -69,7 +79,16 @@ public class Result<T> {
     public void setData(T data) {
         this.data = data;
     }
-//    public boolean isSuccess(){
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    //    public boolean isSuccess(){
 //       return code==0;
 //    }
 
