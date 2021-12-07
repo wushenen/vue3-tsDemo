@@ -58,6 +58,7 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
         //数据总量
         DeviceStatusDataInfo info = deviceStatusMapper.getDeviceStatusInfo();
         Long onlineKeyNum = deviceStatusMapper.keyGenNum();
+        Long usedKeyNum = deviceStatusMapper.keyUsedNum();
         //密钥信息获取
         List<DeviceKeyInfo> everyDayKeyInfos = deviceStatusMapper.everyDayKeyInfo();
         Long nearlyDayKeyNum = deviceStatusMapper.nearlyDayKeyNum();
@@ -65,7 +66,7 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
         response.setDeviceNum(info.getDeviceNum())
                 .setOnlineNum(info.getOnlineNum())
                 .setOfflineNum(info.getDeviceNum() - info.getOnlineNum())
-                .setKeyUseNum(info.getKeyNum())
+                .setKeyUseNum(usedKeyNum)
                 .setEncDataNum(info.getEncDataNum())
                 .setDecDataNum(info.getDecDataNum())
                 .setOnlineKeyNum(onlineKeyNum)

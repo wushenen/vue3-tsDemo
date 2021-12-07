@@ -141,6 +141,14 @@ public class KeyInfoController {
         return ResultHelper.genResultWithSuccess();
     }
 
+    @ApiOperation(value = "还原密钥",notes = "还原指定密钥")
+    @RequestMapping(value = "/reductionKey",method = RequestMethod.POST)
+    @ResponseBody
+    public Result reductionKey(@RequestBody KeyInfoRequest keyInfoRequest) {
+        keyInfoService.updateKeyInfo(Base64.decodeBase64(keyInfoRequest.getKeyId()),0);
+        return ResultHelper.genResultWithSuccess();
+    }
+
 
     @ApiOperation(value = "量子密钥额度分配",notes = "分配在线量子密钥额度")
     @RequestMapping(value = "/updateKeyLimit",method = RequestMethod.GET)
@@ -194,11 +202,35 @@ public class KeyInfoController {
     }
 
 
-    @ApiOperation(value = "获取密钥id",notes = "获取量子密钥id")
+    @ApiOperation(value = "获取可撤回密钥id",notes = "获取量子密钥id")
     @RequestMapping(value = "/getApplicantKeyId",method = RequestMethod.POST)
     @ResponseBody
     public Result getApplicantKeyId(@RequestBody GetApplicantKeyIdRequest getApplicantKeyIdRequest){
         List<KeyInfo> keyInfos = keyInfoService.getKeyInfosNotInKeyStatus(getApplicantKeyIdRequest.getApplicant(),1);
+        List<String> keyIds = new ArrayList<>();
+        for (KeyInfo keyInfo : keyInfos) {
+            keyIds.add(Base64.encodeBase64String(keyInfo.getKeyId()));
+        }
+        return ResultHelper.genResultWithSuccess(keyIds);
+    }
+
+    @ApiOperation(value = "获取可还原密钥id",notes = "获取量子密钥id")
+    @RequestMapping(value = "/getCanReductionApplicantKeyId",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getCanReductionApplicantKeyId(@RequestBody GetApplicantKeyIdRequest getApplicantKeyIdRequest){
+        List<KeyInfo> keyInfos = keyInfoService.getKeyInfos(getApplicantKeyIdRequest.getApplicant(),1);
+        List<String> keyIds = new ArrayList<>();
+        for (KeyInfo keyInfo : keyInfos) {
+            keyIds.add(Base64.encodeBase64String(keyInfo.getKeyId()));
+        }
+        return ResultHelper.genResultWithSuccess(keyIds);
+    }
+
+    @ApiOperation(value = "获取可销毁密钥id",notes = "获取量子密钥id")
+    @RequestMapping(value = "/getCanDeleteApplicantKeyId",method = RequestMethod.POST)
+    @ResponseBody
+    public Result getCanDeleteApplicantKeyId(@RequestBody GetApplicantKeyIdRequest getApplicantKeyIdRequest){
+        List<KeyInfo> keyInfos = keyInfoService.getKeyInfosNotInKeyStatus(getApplicantKeyIdRequest.getApplicant(),3);
         List<String> keyIds = new ArrayList<>();
         for (KeyInfo keyInfo : keyInfos) {
             keyIds.add(Base64.encodeBase64String(keyInfo.getKeyId()));
@@ -211,9 +243,7 @@ public class KeyInfoController {
     @RequestMapping(value = "/exportKeyInfos",method = RequestMethod.POST)
     @ResponseBody
     public Result exportKeyInfos(HttpServletResponse response, @RequestBody ExportKeyInfosRequest exportKeyInfosRequest) throws IOException, NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
-
         List<KeyInfo> keyInfos = keyInfoService.getKeyInfosNotInKeyStatus(exportKeyInfosRequest.getApplicant(),1);
-
         StringBuffer sb = new StringBuffer();
         for (KeyInfo keyInfo : keyInfos) {
             sb.append("keyId:"+Base64.encodeBase64String(keyInfo.getKeyId()));

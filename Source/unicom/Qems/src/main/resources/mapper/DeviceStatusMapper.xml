@@ -69,6 +69,11 @@
         SELECT COUNT(1)
         FROM t_key_info
     </select>
+    <select id="keyUsedNum" resultType="Long">
+        SELECT COUNT(1)
+        FROM t_key_info
+        where key_status = 2
+    </select>
 
     <select id="keyGenNum2" resultType="Long">
         SELECT COUNT(1)

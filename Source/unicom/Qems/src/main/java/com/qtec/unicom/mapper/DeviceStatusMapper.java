@@ -29,6 +29,7 @@ public interface DeviceStatusMapper {
     DeviceStatusDataInfo getDeviceStatusInfo2();
     //在线密钥生产总量
     Long keyGenNum();
+    Long keyUsedNum();
     //近5天密钥生产总量
     Long keyGenNum2();
 
