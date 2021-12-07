@@ -31,7 +31,8 @@ public class KeyOfflineServiceImpl implements KeyOfflineService {
             System.arraycopy(random,i*48,keyId,0,16);
             System.arraycopy(random,i*48+16,keyValue,0,32);
             keyOffline.setKeyId(keyId);
-            keyOffline.setKeyValue(UtilService.encryptMessage(keyValue));
+//            keyOffline.setKeyValue(UtilService.encryptMessage(keyValue));
+            keyOffline.setKeyValue(utilService.encryptCBCWithPadding(keyValue,UtilService.SM4KEY));
             keyOfflineMapper.addOffKey(keyOffline);
         }
     }
@@ -48,7 +49,8 @@ public class KeyOfflineServiceImpl implements KeyOfflineService {
         for (KeyOffline offKey : offKeys) {
             KeyOfflineDTO dto = new KeyOfflineDTO();
             dto.setKeyId(Base64.encodeBase64String(offKey.getKeyId()));
-            dto.setKeyValue(Base64.encodeBase64String(UtilService.decryptMessage(offKey.getKeyValue())));
+//            dto.setKeyValue(Base64.encodeBase64String(UtilService.decryptMessage(offKey.getKeyValue())));
+            dto.setKeyValue(Base64.encodeBase64String(utilService.decryptCBCWithPadding(offKey.getKeyValue(),UtilService.SM4KEY)));
             list.add(dto);
         }
         return list;

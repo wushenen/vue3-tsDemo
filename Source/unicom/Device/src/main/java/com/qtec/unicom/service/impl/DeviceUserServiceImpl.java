@@ -39,8 +39,8 @@ public class DeviceUserServiceImpl implements DeviceUserService {
     @Override
     public DeviceUser getDeviceInfo(int deviceId) {
         DeviceUser deviceInfo = deviceUserMapper.getDeviceInfo(deviceId);
-        deviceInfo.setPassword(utilService.decryptCBC(deviceInfo.getPassword(),UtilService.SM4KEY));
-        deviceInfo.setEncKey(utilService.decryptCBC(deviceInfo.getEncKey(),UtilService.SM4KEY));
+        deviceInfo.setPassword(utilService.decryptCBCWithPadding(deviceInfo.getPassword(),UtilService.SM4KEY));
+        deviceInfo.setEncKey(utilService.decryptCBCWithPadding(deviceInfo.getEncKey(),UtilService.SM4KEY));
         return deviceInfo;
     }
 
@@ -52,9 +52,9 @@ public class DeviceUserServiceImpl implements DeviceUserService {
     @OperateLogAnno(operateDesc = "添加终端用户信息", operateModel = OPERATE_MODEL)
     @Override
     public int addDeviceUser(DeviceUser deviceUser) {
-        deviceUser.setPassword(utilService.encryptCBC(deviceUser.getPassword(),UtilService.SM4KEY));
+        deviceUser.setPassword(utilService.encryptCBCWithPadding(deviceUser.getPassword(),UtilService.SM4KEY));
         if (deviceUser.getEncKey() != null) {
-            deviceUser.setEncKey(utilService.encryptCBC(deviceUser.getEncKey(),UtilService.SM4KEY));
+            deviceUser.setEncKey(utilService.encryptCBCWithPadding(deviceUser.getEncKey(),UtilService.SM4KEY));
         }
         return deviceUserMapper.addDeviceUser(deviceUser);
     }
@@ -62,7 +62,7 @@ public class DeviceUserServiceImpl implements DeviceUserService {
     @OperateLogAnno(operateDesc = "修改终端用户信息", operateModel = OPERATE_MODEL)
     @Override
     public int updateDevice(UpdateUserInfoRequest updateUserInfoRequest) {
-        updateUserInfoRequest.setPassword(utilService.encryptCBC(updateUserInfoRequest.getPassword(),UtilService.SM4KEY));
+        updateUserInfoRequest.setPassword(utilService.encryptCBCWithPadding(updateUserInfoRequest.getPassword(),UtilService.SM4KEY));
         return deviceUserMapper.updateDevice(updateUserInfoRequest);
     }
 
@@ -89,9 +89,9 @@ public class DeviceUserServiceImpl implements DeviceUserService {
     public List<ExportDeviceUserInfo> exportDeviceUserInfo(List<Integer> deviceIds) {
         List<ExportDeviceUserInfo> userInfos = deviceUserMapper.exportDeviceUserInfo(deviceIds);
         for (ExportDeviceUserInfo userInfo : userInfos) {
-            userInfo.setPassword(utilService.decryptCBC(userInfo.getPassword(),UtilService.SM4KEY));
+            userInfo.setPassword(utilService.decryptCBCWithPadding(userInfo.getPassword(),UtilService.SM4KEY));
             if (userInfo.getEncKey() != null) {
-                userInfo.setEncKey(HexUtils.bytesToHexString(utilService.decryptCBC(HexUtils.hexStringToBytes(userInfo.getEncKey()),UtilService.SM4KEY)));
+                userInfo.setEncKey(HexUtils.bytesToHexString(utilService.decryptCBCWithPadding(HexUtils.hexStringToBytes(userInfo.getEncKey()),UtilService.SM4KEY)));
             }
         }
         return userInfos;
@@ -99,7 +99,7 @@ public class DeviceUserServiceImpl implements DeviceUserService {
 
     @Override
     public String getEncKey(String deviceName) {
-        return HexUtils.bytesToHexString(utilService.decryptCBC(HexUtils.hexStringToBytes(deviceUserMapper.getEncKey(deviceName)),UtilService.SM4KEY));
+        return HexUtils.bytesToHexString(utilService.decryptCBCWithPadding(HexUtils.hexStringToBytes(deviceUserMapper.getEncKey(deviceName)),UtilService.SM4KEY));
 //        return utilService.decryptCBC(deviceUserMapper.getEncKey(deviceName),UtilService.SM4KEY);
     }
 }

@@ -78,12 +78,14 @@ public class KeyInfoController {
             KeyInfo key = keyInfoService.getKeyInfo(keyId);
             if (key == null) {
                 keyValue = utilService.generateQuantumRandom(32);
-                byte[] encryptKeyValue = UtilService.encryptMessage(keyValue);
+//                byte[] encryptKeyValue = UtilService.encryptMessage(keyValue);
+                byte[] encryptKeyValue = utilService.encryptCBCWithPadding(keyValue,UtilService.SM4KEY);
                 keyInfoService.addKeyInfo(keyId,encryptKeyValue,deviceName,2);
             }else{
                 if (key.getKeyStatus() == 1)
                     return ResultHelper.genResult(1,"此量子密钥不可使用，请更换量子密钥");
-                keyValue = UtilService.decryptMessage(key.getKeyValue());
+//                keyValue = UtilService.decryptMessage(key.getKeyValue());
+                keyValue = utilService.decryptCBCWithPadding(key.getKeyValue(),UtilService.SM4KEY);
                 keyInfoService.updateKeyInfo(keyId,2);
             }
             sendEmail(deviceName);
@@ -216,7 +218,7 @@ public class KeyInfoController {
         for (KeyInfo keyInfo : keyInfos) {
             sb.append("keyId:"+Base64.encodeBase64String(keyInfo.getKeyId()));
             sb.append("    ");
-            sb.append("keyValue:"+Base64.encodeBase64String(utilService.decryptCBC(keyInfo.getKeyValue(),UtilService.SM4KEY)));
+            sb.append("keyValue:"+Base64.encodeBase64String(utilService.decryptCBCWithPadding(keyInfo.getKeyValue(),UtilService.SM4KEY)));
             sb.append("\n");
         }
         //将密钥信息进行base64编码

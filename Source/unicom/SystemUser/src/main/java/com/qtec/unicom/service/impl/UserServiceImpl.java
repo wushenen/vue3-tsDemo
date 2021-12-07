@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         }
         User user = new User();
         user.setUserName(addUserRequest.getUserName())
-        .setPassword(utilService.encryptCBC(addUserRequest.getPassword(),UtilService.SM4KEY))
+        .setPassword(utilService.encryptCBCWithPadding(addUserRequest.getPassword(),UtilService.SM4KEY))
         .setEmail(addUserRequest.getEmail())
         .setAccountType(addUserRequest.getAccountType())
         .setComments(addUserRequest.getComments());
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     public int updateUser(UpdateUserRequest updateUserRequest) {
         User user = new User();
         user.setId(updateUserRequest.getId());
-        user.setPassword(utilService.encryptCBC(updateUserRequest.getPassword(),UtilService.SM4KEY));
+        user.setPassword(utilService.encryptCBCWithPadding(updateUserRequest.getPassword(),UtilService.SM4KEY));
         user.setComments(updateUserRequest.getComments());
         user.setEmail(updateUserRequest.getEmail());
         return userMapper.updateUser(user);

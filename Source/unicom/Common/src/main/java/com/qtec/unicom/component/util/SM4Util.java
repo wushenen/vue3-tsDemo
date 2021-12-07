@@ -222,7 +222,7 @@ public class SM4Util {
         for (int i = 0; i < 16; i++) {
             SWAP(rk, i);
         }
-        byte[] plainText = sm4_crypt_cbc(rk, hexString2Bytes(iv), cipherText, false);
+        byte[] plainText = sm4_crypt_cbc_with_padding(rk, hexString2Bytes(iv), cipherText, false);
         return plainText;
     }
     private byte[] sm4_crypt_cbc_with_padding(long[] rk, byte[] iv, byte[] input, boolean isEncrypt) throws IOException {

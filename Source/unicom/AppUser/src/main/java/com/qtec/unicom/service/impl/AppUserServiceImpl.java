@@ -45,12 +45,12 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public void addAppUser(AppUser appUser) throws Exception {
         appUser.setStatus(1);
-        appUser.setLoginPass(utilService.encryptCBC(appUser.getLoginPass().toString(),UtilService.SM4KEY));
+        appUser.setLoginPass(utilService.encryptCBCWithPadding(appUser.getLoginPass().toString(),UtilService.SM4KEY));
         int num = appUserMapper.addAppUser(appUser);
         AppSecret appSecret = new AppSecret();
         appSecret.setUserName(appUser.getUserName());
-        appSecret.setAppKey(utilService.encryptCBC(utilService.createRandomCharData(24),UtilService.SM4KEY));
-        appSecret.setAppSecret(utilService.encryptCBC(utilService.createRandomCharData(32),UtilService.SM4KEY));
+        appSecret.setAppKey(utilService.encryptCBCWithPadding(utilService.createRandomCharData(24),UtilService.SM4KEY));
+        appSecret.setAppSecret(utilService.encryptCBCWithPadding(utilService.createRandomCharData(32),UtilService.SM4KEY));
         appSecretMapper.addAppSecret(appSecret);
     }
     @OperateLogAnno(operateDesc = "列出应用用户", operateModel = OPERATE_MODEL)
@@ -58,9 +58,9 @@ public class AppUserServiceImpl implements AppUserService {
     public List<AppUser> listAppUser(AppUser appUser) throws Exception {
         List<AppUser> list = appUserMapper.listAppUser(appUser);
         for (AppUser user : list) {
-            user.setLoginPass(utilService.decryptCBC(user.getLoginPass().toString(),UtilService.SM4KEY));
-            user.setAppKey(utilService.decryptCBC(user.getAppKey(),UtilService.SM4KEY));
-            user.setAppSecret(utilService.decryptCBC(user.getAppSecret(),UtilService.SM4KEY));
+            user.setLoginPass(utilService.decryptCBCWithPadding(user.getLoginPass().toString(),UtilService.SM4KEY));
+            user.setAppKey(utilService.decryptCBCWithPadding(user.getAppKey(),UtilService.SM4KEY));
+            user.setAppSecret(utilService.decryptCBCWithPadding(user.getAppSecret(),UtilService.SM4KEY));
         }
         return list;
     }
@@ -74,13 +74,13 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUser describeUser(AppUser appUser) throws Exception {
         AppUser user = appUserMapper.getAppUser(appUser);
-        user.setLoginPass(utilService.decryptCBC(user.getLoginPass().toString(),UtilService.SM4KEY));
+        user.setLoginPass(utilService.decryptCBCWithPadding(user.getLoginPass().toString(),UtilService.SM4KEY));
         AppSecret appSecret = new AppSecret();
         appSecret.setUserName(appUser.getUserName());
         AppSecret secret = appSecretMapper.getAppSecretByUserName(appSecret);
         if(secret != null){
-            user.setAppKey(utilService.decryptCBC(secret.getAppKey(),UtilService.SM4KEY));
-            user.setAppSecret(utilService.decryptCBC(secret.getAppSecret(),UtilService.SM4KEY));
+            user.setAppKey(utilService.decryptCBCWithPadding(secret.getAppKey(),UtilService.SM4KEY));
+            user.setAppSecret(utilService.decryptCBCWithPadding(secret.getAppSecret(),UtilService.SM4KEY));
         }
         return user;
     }
@@ -90,7 +90,7 @@ public class AppUserServiceImpl implements AppUserService {
     public List<AppUser> queryAppUser(String appUserName) {
         List<AppUser> appUsers = appUserMapper.queryAppUser(appUserName);
         for (AppUser appUser : appUsers) {
-            appUser.setLoginPass(utilService.decryptCBC(appUser.getLoginPass().toString(),UtilService.SM4KEY));
+            appUser.setLoginPass(utilService.decryptCBCWithPadding(appUser.getLoginPass().toString(),UtilService.SM4KEY));
         }
         return appUsers;
     }
