@@ -25,6 +25,6 @@ public interface CardDataMapper {
     CardData getCardData(@Param("cardData") CardData cardData);
 
     //初始化系统时删除对应表中的所有数据
-    @Delete("DELETE t_primary_key,t_key_version,t_secret,t_key_alias,t_operate_log from t_primary_key,t_key_version,t_secret,t_key_alias,t_operate_log")
+    @Delete("DELETE t_primary_key,t_key_version,t_operate_log from t_primary_key,t_key_version,t_operate_log")
     void initSql();
 }

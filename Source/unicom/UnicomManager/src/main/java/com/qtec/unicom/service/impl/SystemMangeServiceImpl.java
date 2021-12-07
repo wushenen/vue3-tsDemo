@@ -116,7 +116,6 @@ public class SystemMangeServiceImpl implements SystemMangeService {
     @Override
     public String init() throws Exception {
         QkmVersion kv = getQkmVersion();
-
         if(1 ==SwsdsTools.getKeyIndex()){
             String ml = "sh "+ cmdPath +"addSymmetric.sh "+" 1"+" 128 "+cmdPath;
             CmdUtil.executeLinuxCmd(ml);
@@ -132,15 +131,12 @@ public class SystemMangeServiceImpl implements SystemMangeService {
     public boolean initKeyPair(QkmVersion kv) throws NoSuchProviderException, NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException {
         byte[] b = new byte[1024 * 1024];
         String zo = "";
-        //读取pwsp-0.0.1-SNAPSHOT.jar
         InputStream in = new BufferedInputStream(new FileInputStream(serverPath));
-
         while (in.read(b) != -1) {
             byte[] m = SM3Util.hash(b);
             zo += HexUtils.bytesToHexString(m);
         }
         in.close();
-        //读取pwspManager-0.0.1-SNAPSHOT.war
         in = new BufferedInputStream(new FileInputStream(managerPath));
         while (in.read(b) != -1) {
             byte[] m = SM3Util.hash(b);
@@ -180,9 +176,7 @@ public class SystemMangeServiceImpl implements SystemMangeService {
     public void backUp(String backPass) throws Exception {
         String macAddr = NetworkUtil.getLinuxMACAddress();
         byte[] bk = SwsdsTools.backup(backPass);
-
         String sqlData = backSql();
-
         CardData cardData = new CardData();
         cardData.setCardData(bk);
         cardData.setMacAddr(macAddr);
