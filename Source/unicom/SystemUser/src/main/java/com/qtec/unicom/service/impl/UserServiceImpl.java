@@ -57,7 +57,9 @@ public class UserServiceImpl implements UserService {
     public int updateUser(UpdateUserRequest updateUserRequest) {
         User user = new User();
         user.setId(updateUserRequest.getId());
-        user.setPassword(utilService.encryptCBCWithPadding(updateUserRequest.getPassword(),UtilService.SM4KEY));
+        if (user.getPassword() != null){
+            user.setPassword(utilService.encryptCBCWithPadding(updateUserRequest.getPassword(),UtilService.SM4KEY));
+        }
         user.setComments(updateUserRequest.getComments());
         user.setEmail(updateUserRequest.getEmail());
         return userMapper.updateUser(user);

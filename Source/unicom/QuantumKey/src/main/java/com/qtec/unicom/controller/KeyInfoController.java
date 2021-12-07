@@ -169,7 +169,7 @@ public class KeyInfoController {
                 for (int i = 0; i < generateNum; i++) {
                     System.arraycopy(random,i*48,keyId,0,16);
                     System.arraycopy(random,i*48+16,keyValue,0,32);
-                    keyInfo.setKeyValue(utilService.encryptCBC(keyValue,UtilService.SM4KEY));
+                    keyInfo.setKeyValue(utilService.encryptCBCWithPadding(keyValue,UtilService.SM4KEY));
                     keyInfoService.addKeyInfo(keyId,keyValue,applicant,0);
                 }
             }
