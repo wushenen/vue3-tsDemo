@@ -55,7 +55,7 @@ public class LoginController {
         User login = loginService.systemUserLogin(systemUserLoginRequest.getUserName());
         if (login == null)
             return ResultHelper.genResult(1,"用户不存在");
-        if (utilService.decryptCBC(login.getPassword(),UtilService.SM4KEY).equals(systemUserLoginRequest.getPassword())){
+        if (utilService.decryptCBCWithPadding(login.getPassword(),UtilService.SM4KEY).equals(systemUserLoginRequest.getPassword())){
             String jwtToken = JWTUtil.generateToken(systemUserLoginRequest.getUserName());
             UsernamePasswordToken token = new MyUserNamePasswordToken(jwtToken,jwtToken,"systemUser");
             Subject subject = SecurityUtils.getSubject();

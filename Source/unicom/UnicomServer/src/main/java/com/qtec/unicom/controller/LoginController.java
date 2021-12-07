@@ -50,12 +50,12 @@ public class LoginController {
         DeviceUser deviceUser = loginService.deviceUserLogin(deviceName);
         if (deviceUser !=null){
             if (deviceUser.getUserType() ==1) {
-                byte[] hash = SM3Util.hash(utilService.decryptCBC(deviceUser.getPassword(), UtilService.SM4KEY).getBytes());
-                byte[] hmac = SM3Util.hmac(utilService.decryptCBC(deviceUser.getEncKey(), UtilService.SM4KEY), hash);
+                byte[] hash = SM3Util.hash(utilService.decryptCBCWithPadding(deviceUser.getPassword(), UtilService.SM4KEY).getBytes());
+                byte[] hmac = SM3Util.hmac(utilService.decryptCBCWithPadding(deviceUser.getEncKey(), UtilService.SM4KEY), hash);
                 tag = Arrays.equals(hmac, hmac1);
             }
             if (deviceUser.getUserType() == 0)
-                tag = utilService.decryptCBC(deviceUser.getPassword(),UtilService.SM4KEY).equals(deviceUserLoginRequest.getPassword());
+                tag = utilService.decryptCBCWithPadding(deviceUser.getPassword(),UtilService.SM4KEY).equals(deviceUserLoginRequest.getPassword());
             //判断用户成功后，获取用户的权限信息
             if (tag){
                 String token = JWTUtil.generateToken(deviceUser.getDeviceName());
