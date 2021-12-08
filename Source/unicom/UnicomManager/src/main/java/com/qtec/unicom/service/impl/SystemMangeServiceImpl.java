@@ -38,8 +38,6 @@ public class SystemMangeServiceImpl implements SystemMangeService {
     private String serverPath;
     @Value("${spring.datasource.druid.password}")
     private String mysqlPassword;
-    @Value("${spring.datasource.host}")
-    private String mysqlHost;
     @Autowired
     private QkmVersionMapper qkmVersionMapper;
     @Autowired
@@ -84,7 +82,6 @@ public class SystemMangeServiceImpl implements SystemMangeService {
             });
             return "0";
         }
-        mysqlHost = linuxServer.getIp();
         return res.get();
     }
     @OperateLogAnno(operateDesc = "获取系统版本信息", operateModel = "系统管理模块")
@@ -190,7 +187,7 @@ public class SystemMangeServiceImpl implements SystemMangeService {
         cardDataMapper.addCardData(cardData);
     }
     private String backSql() throws Exception{
-        StringBuilder sb = new StringBuilder("mysqldump -h"+mysqlHost+" -uroot -p"+ mysqlPassword +" unicom t_primary_key t_key_version t_key_alias t_secret > /opt/backup.sql");
+        StringBuilder sb = new StringBuilder("mysqldump -h127.0.0.1"+" -uroot -p"+ mysqlPassword +" unicom t_primary_key t_key_version t_key_alias t_secret > /opt/backup.sql");
         String[] command = {"/bin/sh","-c",sb.toString()};
         Runtime.getRuntime().exec(command);
         Thread.sleep(5000);
@@ -227,7 +224,7 @@ public class SystemMangeServiceImpl implements SystemMangeService {
         restoreSql(cardData1.getSqlData());
         try{
             SwsdsTools.restore(cardData1.getCardData(),cardData.getBackPass());
-            StringBuilder sb = new StringBuilder("mysql -h"+mysqlHost+" -uroot -p"+ mysqlPassword +" unicom < /opt/restore.sql");
+            StringBuilder sb = new StringBuilder("mysql -h127.0.0.1"+" -uroot -p"+ mysqlPassword +" unicom < /opt/restore.sql");
             String[] command = {"/bin/sh","-c",sb.toString()};
             Runtime.getRuntime().exec(command);
         }catch (MgrException e){

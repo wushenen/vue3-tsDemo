@@ -17,7 +17,6 @@ spring:
   application:
     name: UnicomManager
   datasource:
-    host: 192.168.94.161
     port: 3306
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
