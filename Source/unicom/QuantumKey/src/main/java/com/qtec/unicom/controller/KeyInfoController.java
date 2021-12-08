@@ -278,15 +278,16 @@ public class KeyInfoController {
             Long totalNum = map.get("totalNum");
             if (totalNum != 0){
                 Long usedNum = map.get("usedNum");
-                float warn = usedNum / totalNum;
+                float warn = (float) usedNum / totalNum;
                 String adminEmail = keyInfoService.getAdminEmail();
-                if (warn > 0.7){
+                if (warn > 0.7 && warn < 0.9){
                     mailService.sendSimpleMail(new MailInfo("量子密钥预警",adminEmail,"用户"+deviceName+"量子密钥剩余可使用已不足30%，为不影响使用，请及时充值"));
-                }else if (warn > 0.9){
+                }else if (warn > 0.9 && warn < 1.0){
                     mailService.sendSimpleMail(new MailInfo("量子密钥告警",adminEmail,"用户"+deviceName+"量子密钥剩余可使用已不足10%，请立即充值"));
-                }else if (usedNum > totalNum){
-                    if ((usedNum-totalNum)%(0.2*totalNum) == 0)
+                }else if (usedNum >= totalNum){
+                    if ((usedNum-totalNum)%(0.2*totalNum) == 0){
                         mailService.sendSimpleMail(new MailInfo("量子密钥告警",adminEmail,"用户"+deviceName+"量子密钥已超额使用，请立即充值"));
+                    }
                 }
             }
         });

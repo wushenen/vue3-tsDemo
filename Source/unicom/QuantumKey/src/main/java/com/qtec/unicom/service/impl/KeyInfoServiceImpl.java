@@ -59,10 +59,12 @@ public class KeyInfoServiceImpl implements KeyInfoService {
     @Override
     public Map<String, Long> keyInfoStatistics(String applicant) {
         HashMap<String, Long> map = new HashMap<>();
-        Long usedNum = keyInfoMapper.getUsedNum(applicant);
+        Long usedNum = keyInfoMapper.getDeviceStatusKeyNum(applicant);
         Long totalNum = keyLimitMapper.getKeyLimit(applicant);
         if (totalNum == null)
             totalNum = 0L;
+        if (usedNum == null)
+            usedNum = 0L;
         map.put("usedNum",usedNum);
         map.put("totalNum", totalNum);
         return map;

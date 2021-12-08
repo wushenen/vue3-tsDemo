@@ -21,4 +21,6 @@ public interface KeyInfoMapper {
     Long getUsedNum(String applicant);
 
     String getAdminEmail();
+
+    Long getDeviceStatusKeyNum(String deviceName);
 }

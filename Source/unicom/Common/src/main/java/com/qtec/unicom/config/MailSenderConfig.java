@@ -26,7 +26,7 @@ public class MailSenderConfig {
         MailConfigInfo mail = mailMapper.getMailSenderConfig();
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         Properties properties = new Properties();
-        properties.put("mail.smtp.socketFactory.class","javax.bet.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
         properties.put("mail.smtp.auth","true");
         properties.put("mail.smtp.ssl.enable","true");
         if (mail !=null){
@@ -37,7 +37,6 @@ public class MailSenderConfig {
             javaMailSender.setUsername(mail.getEmailUsername());
             javaMailSender.setPassword(mail.getEmailPassword());
             javaMailSender.setJavaMailProperties(properties);
-            properties.put("mail.smtp.socketFactory.port",mail.getEmailHost());
             // 添加数据
             senderList.add(javaMailSender);
         }
@@ -48,7 +47,6 @@ public class MailSenderConfig {
             javaMailSender.setProtocol(mailProperties.getProtocol());
             javaMailSender.setUsername(mailProperties.getUsername());
             javaMailSender.setPassword(mailProperties.getPassword());
-            properties.put("mail.smtp.socketFactory.port","465");
             // 添加数据
             senderList.add(javaMailSender);
         }
