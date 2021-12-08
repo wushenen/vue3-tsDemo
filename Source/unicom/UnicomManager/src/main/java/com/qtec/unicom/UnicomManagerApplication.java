@@ -1,16 +1,13 @@
 package com.qtec.unicom;
 
 import com.qtec.unicom.component.init.Init;
-import com.qtec.unicom.controller.QemsConfigController;
 import com.qtec.unicom.pojo.IpInfo;
 import com.qtec.unicom.service.IpService;
-import com.qtec.unicom.service.QemsConfigService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.mail.MailProperties;
 
 import java.util.List;
 

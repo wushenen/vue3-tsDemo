@@ -31,15 +31,15 @@ public class SwaggerConfig {
     //配置接口信息
     private ApiInfo apiInfo(){
         //作者信息
-        Contact contact = new Contact("jerry", "", "xulx@qtec.cn");
+        Contact contact = new Contact("qtec", "", "");
 
-        return new ApiInfo("混合量子加密平台API管理平台"
-                , "混合量子加密平台接口"
+        return new ApiInfo("联通密钥云管理平台"
+                , "联通密钥云管理平台在线接口"
                 , "1.0"
-                , "http://192.168.90.96/213"
+                , ""
                 ,  contact
-                , "Apache 2.0"
-                , "http://www.apache.org/licenses/LICENSE-2.0"
+                , ""
+                , ""
                 , new ArrayList<VendorExtension>());
     }
 
