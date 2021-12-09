@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qtec.unicom.mapper.KeyLimitMapper">
+
+    <select id="getKeyLimit" resultType="Long">
+        select limit_num from t_key_limit
+        where binary user_name = #{userName}
+    </select>
+
+</mapper>

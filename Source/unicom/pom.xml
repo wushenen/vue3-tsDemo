@@ -18,6 +18,7 @@
         <module>SystemUser</module>
         <module>QuantumKey</module>
         <module>UnicomServer</module>
+        <module>UnicomHttpServer</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
