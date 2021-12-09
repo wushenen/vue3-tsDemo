@@ -88,12 +88,9 @@ public class UtilService {
 
 
     public byte[] generateQuantumRandom(int length) throws Exception {
-        System.out.println("length = " + length);
         List<KeySourceConfig> keySourceConfigs = keySourceConfigMapper.getKeySourceConfigs();
         byte[] random = new byte[length];
         byte[] random2 = new byte[length];
-        System.out.println("random.length = " + random.length);
-        System.out.println("keySourceConfigs.size() = " + keySourceConfigs.size());
         if (keySourceConfigs.size() != 0) {
             for (int i = 0; i < keySourceConfigs.size(); i++) {
                 if(keySourceConfigs.get(i).getPriority() != 5){
@@ -115,31 +112,36 @@ public class UtilService {
                             if (sourceIp == null)
                                 break;
                             if (length < 8192) {
-                                byte[] bytes = new byte[8192];
-                                bytes = qr902JNI.QRNG_read_random(sourceIp, bytes.length);
-                                random = Arrays.copyOf(bytes, length);
-                                if (Arrays.equals(random2,random)) {
+                                byte[] bytes = qr902JNI.QRNG_read_random(sourceIp, 8192);
+                                if (bytes != null) {
+                                    System.arraycopy(bytes, 0, random, 0, length);
+                                }else {
                                     if (sourceIp2 != null){
-                                        bytes = qr902JNI.QRNG_read_random(sourceIp2, bytes.length);
-//                                        random = Arrays.copyOf(bytes, length);
+                                        byte[] bytes1 = qr902JNI.QRNG_read_random(sourceIp2, 8192);
+                                        if (bytes1 != null) {
+                                            System.arraycopy(bytes1, 0, random, 0, length);
+                                        }
                                     }
                                 }
-                                System.arraycopy(bytes, 0, random, 0, length);
                             } else {
                                 int num = length/8192 ;
                                 if (length%8192 != 0) {
                                     num += 1;
                                 }
                                 byte[] bytes = qr902JNI.QRNG_read_random(sourceIp, num*8192);
-                                random = Arrays.copyOf(bytes, length);
-                                if (Arrays.equals(random2,random)) {
-                                    if (sourceIp2 != null)
-                                        bytes = qr902JNI.QRNG_read_random(sourceIp2, num*8192);
+                                if (bytes != null) {
+                                    System.arraycopy(bytes, 0, random, 0, length);
+                                }else{
+                                    if (sourceIp2 != null) {
+                                        byte[] bytes1 = qr902JNI.QRNG_read_random(sourceIp2, num * 8192);
+                                        if (bytes1 != null)
+                                            System.arraycopy(bytes1, 0, random, 0, length);
+                                    }
                                 }
-                                System.arraycopy(bytes, 0, random, 0, length);
                             }
                             break;
                         case 4: //QKD
+                            System.out.println("-------qkd-------");
                             KMSJNI kmsjni = new KMSJNI();
                             String qkdConfig = keySourceConfigs.get(i).getConfigInfo();
                             JSONObject configInfo = JSONObject.parseObject(qkdConfig);
@@ -159,7 +161,9 @@ public class UtilService {
                                         localName, peerName, HexUtils.hexStringToBytes(devKey),
                                         HexUtils.hexStringToBytes(cryptKey), false, keyId);
                             }
-                            random = Arrays.copyOf(bytes, length);
+                            if (bytes != null) {
+                                System.arraycopy(bytes, 0, random, 0, length);
+                            }
                             if (Arrays.equals(random2,random)) {
                                 localName = config2.getString("localName");
                                 peerName = config2.getString("peerName");
@@ -171,7 +175,8 @@ public class UtilService {
                                             HexUtils.hexStringToBytes(cryptKey), false, keyId);
                                 }
                             }
-                            System.arraycopy(bytes, 0, random, 0, length);
+                            if (bytes != null)
+                                System.arraycopy(bytes, 0, random, 0, length);
                             break;
                         default:
                             random = randomByte(length);
@@ -181,7 +186,7 @@ public class UtilService {
                 }
             }
         }
-        return null;
+        return randomByte(length);
     }
 
     /**
