@@ -15,7 +15,7 @@ spring:
     async:
       request-timeout: 20000
   application:
-    name: UnicomManager
+    name: UnicomServer
   datasource:
     port: 3306
     type: com.alibaba.druid.pool.DruidDataSource
