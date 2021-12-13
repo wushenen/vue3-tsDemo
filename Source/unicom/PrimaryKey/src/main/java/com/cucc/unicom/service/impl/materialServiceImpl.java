@@ -13,7 +13,6 @@ import com.cucc.unicom.service.PrimaryKeyService;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.component.Exception.PwspException;
 import com.cucc.unicom.component.annotation.OperateLogAnno;
-import com.qtec.unicom.component.util.*;
 import com.sansec.device.bean.SM2refPublicKey;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -23,7 +23,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .groupName("qtec")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.qtec.unicom"))
+                .apis(RequestHandlerSelectors.basePackage("com.cucc.unicom"))
                 .paths(PathSelectors.any())
                 .build();
     }

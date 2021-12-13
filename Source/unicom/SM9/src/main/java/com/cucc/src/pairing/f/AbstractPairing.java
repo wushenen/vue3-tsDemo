@@ -1,7 +1,6 @@
 package com.cucc.src.pairing.f;
 
 import com.cucc.src.api.*;
-import com.qtec.src.api.*;
 import com.cucc.src.pairing.f.map.PairingMap;
 
 import java.security.SecureRandom;

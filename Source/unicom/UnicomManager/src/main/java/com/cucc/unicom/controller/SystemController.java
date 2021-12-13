@@ -8,7 +8,6 @@ import com.cucc.unicom.pojo.QkmVersion;
 import com.cucc.unicom.service.SystemMangeService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.qtec.unicom.pojo.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

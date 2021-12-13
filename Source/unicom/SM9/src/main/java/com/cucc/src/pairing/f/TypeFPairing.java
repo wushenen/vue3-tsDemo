@@ -11,7 +11,6 @@ import com.cucc.src.field.poly.PolyModField;
 import com.cucc.src.field.quadratic.QuadraticField;
 import com.cucc.src.field.z.ZrField;
 import com.cucc.src.util.math.BigIntegerUtils;
-import com.qtec.src.api.*;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;

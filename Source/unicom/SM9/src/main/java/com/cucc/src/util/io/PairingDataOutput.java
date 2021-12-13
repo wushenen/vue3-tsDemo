@@ -3,7 +3,6 @@ package com.cucc.src.util.io;
 
 import com.cucc.src.api.*;
 import com.cucc.src.util.Arrays;
-import com.qtec.src.api.*;
 
 import java.io.DataOutput;
 import java.io.IOException;

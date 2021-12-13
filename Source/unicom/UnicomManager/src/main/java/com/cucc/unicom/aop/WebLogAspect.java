@@ -42,45 +42,22 @@ public class WebLogAspect {
     OperateLogService operateLogService;
 
 
-    @Pointcut("execution(public * com.qtec.unicom.service.impl..*.*(..))")//切入点描述 这个是包的切入点
-    public void controllerLog1(){}//签名，可以理解成这个切入点的一个名称
-    @Pointcut("!execution(public * com.qtec.unicom.service.impl..*.getAllIps(..))")//切入点描述 这个是包的切入点
+    @Pointcut("execution(public * com.cucc.unicom.service.impl..*.*(..))")
+    public void controllerLog1(){}
+    @Pointcut("!execution(public * com.cucc.unicom.service.impl..*.getAllIps(..))")
     public void controllerLog2(){}
-    @Pointcut("!execution(public * com.qtec.unicom.service.impl..*.getQemsConfig(..))")//切入点描述 这个是包的切入点
+    @Pointcut("!execution(public * com.cucc.unicom.service.impl..*.getQemsConfig(..))")
     public void controllerLog3(){}
-    @Pointcut("controllerLog1() && controllerLog2() && controllerLog3()")//切入点描述 这个是包的切入点
-    public void controllerLog(){}//签名，可以理解成这个切入点的一个名称
+    @Pointcut("controllerLog1() && controllerLog2() && controllerLog3()")
+    public void controllerLog(){}
 
 
-    @Around("controllerLog()") //在切入点的方法run之前要干的controllerLog() || uiControllerLog()
+    @Around("controllerLog()")
     public Object logBeforeController(ProceedingJoinPoint joinPoint) throws Throwable{
-//        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();//这个RequestContextHolder是Springmvc提供来获得请求的东西
-
         Object result = null;
         Map<String, String> methodDesc = getMethodDesc(joinPoint);
         if (methodDesc.get("IS_NEED_SAVE").equals("true")) {
-            //TODO 持久化
-//            HttpServletRequest request = ((ServletRequestAttributes)requestAttributes).getRequest();
             OperateLog operateLog = new OperateLog();
-            /*operateLog.setOperateModel(methodDesc.get("operateModel"));
-            operateLog.setDetail(methodDesc.get("operateDesc"));
-            ShiroUser user = (ShiroUser)SecurityUtils.getSubject().getPrincipal();
-            if (UserType.SYSTEM_USER.getUserType().equals(user.getUserType())) {
-                User userInfo = (User) user.getUser();
-                if(userInfo != null)
-                    operateLog.setOperator(userInfo.getUserName());
-            }else if (UserType.APP_USER.getUserType().equals(user.getUserType())){
-                AppUser userInfo = (AppUser) user.getUser();
-                if(userInfo != null)
-                    operateLog.setOperator(userInfo.getUserName());
-            }else if (UserType.DEVICE_USER.getUserType().equals(user.getUserType())){
-                DeviceUser userInfo = (DeviceUser) user.getUser();
-                if(userInfo != null)
-                    operateLog.setOperator(userInfo.getDeviceName());
-            }
-
-            String ip = NetworkUtil.getIpAddress(request);
-            operateLog.setOperateIp(ip);*/
             long start = System.currentTimeMillis();
             result = joinPoint.proceed();
             operateLog.setExecTime(System.currentTimeMillis() - start);
@@ -89,7 +66,6 @@ public class WebLogAspect {
             logger.info("保存日志" + operateLog);
             System.out.println(result);
         } else {
-            //调用目标对象方法
             result = joinPoint.proceed();
         }
         return result;
@@ -102,26 +78,7 @@ public class WebLogAspect {
         System.out.println("连接点方法为：" + methodName + ",参数为：" + args + ",异常为：" + ex);
         Map<String, String> methodDesc = getMethodDesc(joinPoint);
         OperateLog operateLog = new OperateLog();
-        /*HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        String ip = NetworkUtil.getIpAddress(request);
-        operateLog.setOperateIp(ip);
-        ShiroUser user = (ShiroUser)SecurityUtils.getSubject().getPrincipal();
-        if (UserType.SYSTEM_USER.getUserType().equals(user.getUserType())) {
-            User userInfo = (User) user.getUser();
-            if(userInfo != null)
-                operateLog.setOperator(userInfo.getUserName());
-        }else if (UserType.APP_USER.getUserType().equals(user.getUserType())){
-            AppUser userInfo = (AppUser) user.getUser();
-            if(userInfo != null)
-                operateLog.setOperator(userInfo.getUserName());
-        }else if (UserType.DEVICE_USER.getUserType().equals(user.getUserType())){
-            DeviceUser userInfo = (DeviceUser) user.getUser();
-            if(userInfo != null)
-                operateLog.setOperator(userInfo.getDeviceName());
-        }*/
         operateLog.setOperateStatus(1);
-/*        operateLog.setOperateModel(methodDesc.get("operateModel"));
-        operateLog.setDetail(methodDesc.get("operateDesc") + "[操作失败]");*/
         operateLogService.insertOperateLog(getOperateLog(operateLog,methodDesc));
         logger.error("失败日志记录：" + operateLog);
     }

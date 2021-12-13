@@ -23,13 +23,11 @@ public class QrngUtil {
         try {
             Class.forName("com.qtec.qtecQr.QtecQr");
         } catch (Throwable e){  // 此处原来的Exception改为Throwable就可以了
-//            throw new RuntimeException("Try to load QtecQr failed!\n" + e.getMessage());
             return data;
         }
         int countPci = QtecQr.Count(QtecQr.QtecQrDeviceType.QTEC_QR_DEVICE_PCI);
         int countUsb = QtecQr.Count(QtecQr.QtecQrDeviceType.QTEC_QR_DEVICE_USB);
         if (countUsb == 0 && countPci == 0) {
-//            throw new RuntimeException("No QtecQr device installed.\n");
             return data;
         }
         QtecQr[] qtecQrs = new QtecQr[countPci + countUsb];
@@ -68,7 +66,6 @@ public class QrngUtil {
         try {
             countDownLatch.await();
         } catch (InterruptedException e) {
-//            throw new RuntimeException("InterruptedException:\n" + e.getMessage());
             return data;
         }
         return data;

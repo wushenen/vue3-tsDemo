@@ -2,7 +2,6 @@ package com.cucc.src.util;
 
 
 import com.cucc.src.api.*;
-import com.qtec.src.api.*;
 
 import java.math.BigInteger;
 import java.util.Arrays;

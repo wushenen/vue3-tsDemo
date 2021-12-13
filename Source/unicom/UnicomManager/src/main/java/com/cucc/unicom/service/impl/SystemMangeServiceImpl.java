@@ -9,7 +9,6 @@ import com.cucc.unicom.pojo.CardData;
 import com.cucc.unicom.pojo.LinuxServer;
 import com.cucc.unicom.pojo.QkmVersion;
 import com.cucc.unicom.service.SystemMangeService;
-import com.qtec.unicom.component.util.*;
 import com.sansec.device.crypto.MgrException;
 import com.sansec.jce.provider.JCESM2PublicKey;
 import com.sansec.jce.provider.asymmetric.ec.KeyPairGenerator;

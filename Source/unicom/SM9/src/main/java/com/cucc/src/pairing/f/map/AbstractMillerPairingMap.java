@@ -4,7 +4,6 @@ package com.cucc.src.pairing.f.map;
 import com.cucc.src.api.*;
 import com.cucc.src.util.io.PairingStreamReader;
 import com.cucc.src.util.io.PairingStreamWriter;
-import com.qtec.src.api.*;
 
 import java.io.IOException;
 import java.math.BigInteger;

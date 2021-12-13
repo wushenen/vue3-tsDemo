@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>unicom</artifactId>
-        <groupId>com.qtec</groupId>
+        <groupId>com.cucc</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -13,27 +13,27 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Common</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Device</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Role</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Group</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>AppUser</artifactId>
             <version>1.0</version>
         </dependency>

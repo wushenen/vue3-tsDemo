@@ -4,7 +4,6 @@ import com.cucc.src.*;
 import com.cucc.src.field.curve.CurveElement;
 import com.cucc.src.util.HexUtils;
 import com.cucc.unicom.service.SM9Service;
-import com.qtec.src.*;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;

@@ -8,7 +8,6 @@ import com.cucc.unicom.pojo.User;
 import com.cucc.unicom.service.*;
 import com.cucc.unicom.pojo.AppUser;
 import com.cucc.unicom.pojo.DTO.GroupAuthInfo;
-import com.qtec.unicom.service.*;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;

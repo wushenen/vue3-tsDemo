@@ -1,7 +1,6 @@
 package com.cucc.src.util.io;
 
 import com.cucc.src.api.*;
-import com.qtec.src.api.*;
 
 import java.io.DataInput;
 import java.io.IOException;

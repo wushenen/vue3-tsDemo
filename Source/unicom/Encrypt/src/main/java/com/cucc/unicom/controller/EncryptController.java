@@ -6,7 +6,6 @@ import com.cucc.unicom.pojo.dto.*;
 import com.cucc.unicom.service.EncryptService;
 import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
-import com.qtec.unicom.pojo.dto.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.beanutils.BeanUtils;

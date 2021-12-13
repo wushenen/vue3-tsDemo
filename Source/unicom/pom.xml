@@ -27,7 +27,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.qtec</groupId>
+    <groupId>com.cucc</groupId>
     <artifactId>unicom</artifactId>
     <version>1.0</version>
     <name>unicom</name>

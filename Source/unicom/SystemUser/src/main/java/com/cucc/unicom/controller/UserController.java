@@ -8,7 +8,6 @@ import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.controller.vo.AddUserRequest;
 import com.cucc.unicom.controller.vo.UpdateUserRequest;
-//import com.qtec.mixedquantum.service.LockUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresRoles;

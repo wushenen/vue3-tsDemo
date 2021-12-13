@@ -14,7 +14,6 @@ import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.component.Exception.PwspException;
 import com.cucc.unicom.component.annotation.OperateLogAnno;
 import com.cucc.unicom.component.init.SelfExaminationParam;
-import com.qtec.unicom.component.util.*;
 import com.sansec.device.crypto.CryptoException;
 import com.sansec.device.crypto.MgrException;
 import com.sansec.jce.provider.JCESM2PrivateKey;

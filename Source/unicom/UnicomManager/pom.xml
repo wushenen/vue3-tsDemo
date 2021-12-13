@@ -4,12 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>unicom</artifactId>
-        <groupId>com.qtec</groupId>
+        <groupId>com.cucc</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.qtec</groupId>
+    <groupId>com.cucc</groupId>
     <artifactId>UnicomManager</artifactId>
     <version>1.0</version>
     <name>UnicomManager</name>
@@ -17,62 +17,62 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Common</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Device</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Qems</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Role</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Group</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Authority</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>AppUser</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>PrimaryKey</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Secret</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>Encrypt</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>SystemUser</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
-            <groupId>com.qtec</groupId>
+            <groupId>com.cucc</groupId>
             <artifactId>QuantumKey</artifactId>
             <version>1.0</version>
         </dependency>
