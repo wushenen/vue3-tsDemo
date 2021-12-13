@@ -34,7 +34,7 @@ public class GroupController {
     @ApiOperation(value = "创建分组",notes = "创建新分组")
     @RequestMapping(value = "/addGroup",method = RequestMethod.POST)
     @ResponseBody
-    public Result addGroup(@RequestBody AddGroupRequest addGroupRequest){
+    public Result unicomAddGroup(@RequestBody AddGroupRequest addGroupRequest){
         if(groupService.groupNameExist(addGroupRequest.getGroupName()) == 1){
             logger.info("--------分组名称重复---------");
             return ResultHelper.genResult(1,"分组名称已存在");
@@ -55,7 +55,7 @@ public class GroupController {
     @ApiOperation(value = "查看分组信息",notes = "查看分组信息")
     @RequestMapping(value = "/groupList/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
-    public Result groupList(HttpServletRequest request,
+    public Result unicomGroupList(HttpServletRequest request,
                             @PathVariable("offset") int offset,
                             @PathVariable("pageSize") int pageSize) throws Exception{
         request.setCharacterEncoding("UTF-8");
@@ -73,7 +73,7 @@ public class GroupController {
     @ApiOperation(value = "修改分组信息",notes = "修改分组信息")
     @RequestMapping(value = "/updateGroupInfo",method = RequestMethod.POST)
     @ResponseBody
-    public Result updateGroupInfo(@RequestBody UpdateGroupInfoRequest updateGroupInfoRequest){
+    public Result unicomUpdateGroupInfo(@RequestBody UpdateGroupInfoRequest updateGroupInfoRequest){
         if(1 == groupService.groupNameExist(updateGroupInfoRequest.getGroupName())){
             if(groupService.getGroupInfo(updateGroupInfoRequest.getGroupId()).getGroupName().equals(updateGroupInfoRequest.getGroupName())){
                 int res = groupService.updateGroupInfo(updateGroupInfoRequest.getGroupId(),updateGroupInfoRequest.getGroupName(),updateGroupInfoRequest.getGroupDescribe());
@@ -97,7 +97,7 @@ public class GroupController {
     @ApiOperation(value = "删除分组",notes = "删除分组")
     @RequestMapping(value = "/deleteGroup",method = RequestMethod.GET)
     @ResponseBody
-    public Result deleteGroup(@RequestParam("groupId") int groupId) {
+    public Result unicomDeleteGroup(@RequestParam("groupId") int groupId) {
         groupService.deleteGroup(groupId);
         return ResultHelper.genResultWithSuccess();
     }
@@ -105,7 +105,7 @@ public class GroupController {
     @ApiOperation(value = "模糊查询分组信息",notes = "模糊查询分组信息")
     @RequestMapping(value = "/queryGroupInfo",method = RequestMethod.GET)
     @ResponseBody
-    public Result queryGroupInfo(@RequestParam("groupName") String groupName) {
+    public Result unicomQueryGroupInfo(@RequestParam("groupName") String groupName) {
         List<Group> groups = groupService.queryGroupInfo(groupName);
         return ResultHelper.genResultWithSuccess(groups);
     }

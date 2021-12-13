@@ -30,7 +30,7 @@ public class SystemVersionController {
     @ApiOperation(value = "查看系统信息",notes = "查看系统版本信息")
     @GetMapping("/getVersion")
     @ResponseBody
-    public Result getVersion(){
+    public Result unicomGetVersion(){
         HashMap<String, String> map = new HashMap<>();
         map.put("systemVersion",systemVersion);
         map.put("mysqlVersion",mysqlVersion);

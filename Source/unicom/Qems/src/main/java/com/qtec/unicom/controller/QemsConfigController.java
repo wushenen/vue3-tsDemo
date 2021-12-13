@@ -29,7 +29,7 @@ public class QemsConfigController {
     @RequiresPermissions(value = {"/updateConfig","/**"},logical = Logical.OR)
     @RequestMapping(value = "/updateConfig",method = RequestMethod.POST)
     @ResponseBody
-    public Result updateConfig(@RequestBody UpdateQemsConfigRequest updateQemsConfigRequest){
+    public Result unicomUpdateConfig(@RequestBody UpdateQemsConfigRequest updateQemsConfigRequest){
         if (updateQemsConfigRequest.getEndIndex() - updateQemsConfigRequest.getStartIndex() > 2000)
             return ResultHelper.genResult(1,"充注密钥数不得大于2000");
         qemsConfigService.updateQemsConfig(updateQemsConfigRequest);
@@ -41,7 +41,7 @@ public class QemsConfigController {
     @ApiOperation(value = "获取配置信息",notes = "获取qems配置信息")
     @RequestMapping(value = "/getConfig",method = RequestMethod.GET)
     @ResponseBody
-    public Result getConfig(){
+    public Result unicomGetConfig(){
         QemsConfig configInfo = qemsConfigService.getQemsConfig();
         return ResultHelper.genResultWithSuccess(configInfo);
     }
@@ -50,7 +50,7 @@ public class QemsConfigController {
     @ApiOperation(value = "SDK获取配置信息",notes = "SDK获取qems配置信息")
     @RequestMapping(value = "/getConfig2",method = RequestMethod.POST)
     @ResponseBody
-    public Result getConfig2(HttpServletResponse response) {
+    public Result unicomGetConfig2(HttpServletResponse response) {
         JSONObject object = new JSONObject();
         if (response.getHeader("Token") != null) {
             object.put("Token",response.getHeader("Token"));
@@ -65,7 +65,7 @@ public class QemsConfigController {
     @ApiOperation(value = "设备控制置零或重启",notes ="设备控制置零或重启")
     @RequestMapping(value = "/operation",method = RequestMethod.POST)
     @ResponseBody
-    public Result operation(@RequestBody QemsOperateRequest qemsOperateRequest) {
+    public Result unicomOperation(@RequestBody QemsOperateRequest qemsOperateRequest) {
         int res = qemsConfigService.addQemsOperation(qemsOperateRequest.getDeviceName(), qemsOperateRequest.getOperation());
         if (res == 1)
             return ResultHelper.genResult(1,"命令已下发，请耐心等待");

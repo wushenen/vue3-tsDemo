@@ -23,7 +23,7 @@ public class GroupAuthController {
     @ApiOperation(value = "添加分组权限",notes = "添加分组权限")
     @ResponseBody
     @PostMapping("/add")
-    public Result addGroupAuth(@RequestBody AddGroupAuthRequest addGroupAuthRequest){
+    public Result unicomAddGroupAuth(@RequestBody AddGroupAuthRequest addGroupAuthRequest){
         int res = groupAuthService.addGroupAuth(addGroupAuthRequest.getGroupId(), addGroupAuthRequest.getApiId());
         if (res != 0)
             return ResultHelper.genResult(1,"资源"+res+"权限已重复添加");
@@ -33,7 +33,7 @@ public class GroupAuthController {
     @ApiOperation(value = "删除分组部分权限",notes = "删除分组部分权限")
     @ResponseBody
     @GetMapping("/deletePart")
-    public Result deletePartGroupAuth(@RequestParam("groupAuthId") Integer groupAuthId){
+    public Result unicomDeletePartGroupAuth(@RequestParam("groupAuthId") Integer groupAuthId){
         groupAuthService.deleteGroupAuthById(groupAuthId);
         return ResultHelper.genResultWithSuccess();
     }
@@ -42,7 +42,7 @@ public class GroupAuthController {
     @ApiOperation(value = "删除该分组所有权限",notes = "删除该分组所有权限")
     @ResponseBody
     @GetMapping("/deleteAll")
-    public Result deleteAllGroupAuth(@RequestParam("groupId") Integer groupId){
+    public Result unicomDeleteAllGroupAuth(@RequestParam("groupId") Integer groupId){
         groupAuthService.deleteGroupAuthByGroupId(groupId);
         return ResultHelper.genResultWithSuccess();
     }
@@ -50,7 +50,7 @@ public class GroupAuthController {
     @ApiOperation(value = "获取该分组下的所有权限信息",notes = "获取该分组下的所有权限信息")
     @ResponseBody
     @GetMapping("/get")
-    public Result getGroupAuth(@RequestParam("groupId") Integer groupId){
+    public Result unicomGetGroupAuth(@RequestParam("groupId") Integer groupId){
         List<GroupAuthInfo> groupAuth = groupAuthService.getGroupAuth(groupId);
         return ResultHelper.genResultWithSuccess(groupAuth);
     }

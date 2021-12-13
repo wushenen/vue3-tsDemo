@@ -30,7 +30,7 @@ public class StrategyController {
     @ApiOperation(value = "添加策略", notes = "添加策略")
     @RequestMapping(value = "/addStrategy",method = RequestMethod.POST)
     @ResponseBody
-    public Result addStrategy(@RequestBody AddStrategyRequest addStrategyRequest){
+    public Result unicomAddStrategy(@RequestBody AddStrategyRequest addStrategyRequest){
         if (!strategyService.strategyNameExist(addStrategyRequest.getStrategyName())) {
             int res = strategyService.addStrategy(addStrategyRequest.getStrategyName(), 1, addStrategyRequest.getStrategyDescribe());
             if (res == 1)
@@ -44,7 +44,7 @@ public class StrategyController {
     @ApiOperation(value = "删除策略", notes = "删除策略信息")
     @RequestMapping(value = "/deleteStrategy",method = RequestMethod.POST)
     @ResponseBody
-    public Result deleteStrategy(@RequestParam("strategyId") int strategyId){
+    public Result unicomDeleteStrategy(@RequestParam("strategyId") int strategyId){
         int i = strategyService.delStrategy(strategyId);
         if (1 == i)
             return ResultHelper.genResultWithSuccess();
@@ -56,7 +56,7 @@ public class StrategyController {
     @ApiOperation(value = "修改策略", notes = "修改策略信息")
     @RequestMapping(value = "/updateStrategy",method = RequestMethod.POST)
     @ResponseBody
-    public Result updateStrategy(@RequestBody UpdateStrategyRequest updateStrategyRequest){
+    public Result unicomUpdateStrategy(@RequestBody UpdateStrategyRequest updateStrategyRequest){
         boolean exist = strategyService.strategyNameExist(updateStrategyRequest.getStrategyName());
         boolean equals = strategyService.getStrategyInfo(updateStrategyRequest.getStrategyId()).getStrategyName().equals(updateStrategyRequest.getStrategyName());
 
@@ -74,7 +74,7 @@ public class StrategyController {
     @ApiOperation(value = "获取所有策略信息", notes = "获取所有策略信息")
     @RequestMapping(value = "/getStrategy/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
-    public Result getStrategy(HttpServletRequest request, @PathVariable("offset") int offset,
+    public Result unicomGetStrategy(HttpServletRequest request, @PathVariable("offset") int offset,
                               @PathVariable("pageSize") int pageSize) throws Exception {
         request.setCharacterEncoding("utf-8");
         if (pageSize > 50)
@@ -89,7 +89,7 @@ public class StrategyController {
     @ApiOperation(value = "添加策略操作", notes = "添加策略操作")
     @RequestMapping(value = "/addAction",method = RequestMethod.POST)
     @ResponseBody
-    public Result addAction(@RequestBody AddStrategyActionRequest addStrategyActionRequest){
+    public Result unicomAddAction(@RequestBody AddStrategyActionRequest addStrategyActionRequest){
         for (Integer apiId : addStrategyActionRequest.getApiId()) {
             strategyService.addStrategyAction(addStrategyActionRequest.getStrategyId(),apiId);
         }
@@ -100,7 +100,7 @@ public class StrategyController {
     @ApiOperation(value = "删除策略操作", notes = "删除策略操作")
     @RequestMapping(value = "/deleteAction",method = RequestMethod.POST)
     @ResponseBody
-    public Result deleteAction(@RequestParam("strategyActionId") int strategyActionId){
+    public Result unicomDeleteAction(@RequestParam("strategyActionId") int strategyActionId){
         int i = strategyService.delStrategyAction(strategyActionId);
         if (1 == i)
             return ResultHelper.genResultWithSuccess();
@@ -112,7 +112,7 @@ public class StrategyController {
     @ApiOperation(value = "获取指定策略操作信息", notes = "获取指定策略操作信息")
     @RequestMapping(value = "/getActionInfo",method = RequestMethod.GET)
     @ResponseBody
-    public Result getActionInfo(@RequestParam("strategyId") int strategyId){
+    public Result unicomGetActionInfo(@RequestParam("strategyId") int strategyId){
         List<StrategyActionInfo> strategyActionInfo = strategyService.getStrategyActionInfo(strategyId);
         return ResultHelper.genResultWithSuccess(strategyActionInfo);
     }

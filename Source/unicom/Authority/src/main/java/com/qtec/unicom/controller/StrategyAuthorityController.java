@@ -43,7 +43,7 @@ public class StrategyAuthorityController {
     @ApiOperation(value = "添加策略授权信息", notes = "添加策略授权信息")
     @RequestMapping(value = "/addStrategyAuth",method = RequestMethod.POST)
     @ResponseBody
-    public Result addStrategyAuth(@RequestBody AddStrategyAuthorityRequest addStrategyAuthorityRequest){
+    public Result unicomAddStrategyAuth(@RequestBody AddStrategyAuthorityRequest addStrategyAuthorityRequest){
 
         for (Integer strategyId : addStrategyAuthorityRequest.getStrategyId()) {
             if (DEVICE == addStrategyAuthorityRequest.getAuthType()){
@@ -81,7 +81,7 @@ public class StrategyAuthorityController {
     @ApiOperation(value = "删除策略授权信息", notes = "删除策略授权信息")
     @RequestMapping(value = "/delStrategyAuth",method = RequestMethod.POST)
     @ResponseBody
-    public Result delStrategyAuth(@RequestParam("strategyAuthId") int strategyAuthId){
+    public Result unicomDelStrategyAuth(@RequestParam("strategyAuthId") int strategyAuthId){
 
         int res = strategyAuthorityService.delStrategyAuth(strategyAuthId);
         if (1 == res)
@@ -95,7 +95,7 @@ public class StrategyAuthorityController {
     @ApiOperation(value = "获取策略授权信息", notes = "获取策略授权信息")
     @RequestMapping(value = "/getStrategyAuthInfo/{offset}/{pageSize}", method = RequestMethod.GET)
     @ResponseBody
-    public Result getStrategyAuthInfo(HttpServletRequest request,
+    public Result unicomGetStrategyAuthInfo(HttpServletRequest request,
                                       @PathVariable("offset") int offset,
                                       @PathVariable("pageSize") int pageSize) throws Exception{
         request.setCharacterEncoding("utf-8");

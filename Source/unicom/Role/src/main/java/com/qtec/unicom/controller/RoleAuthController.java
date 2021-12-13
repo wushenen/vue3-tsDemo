@@ -23,7 +23,7 @@ public class RoleAuthController {
     @ApiOperation(value = "添加角色权限",notes = "添加角色权限")
     @ResponseBody
     @PostMapping("/add")
-    public Result addRoleAuth(@RequestBody AddRoleAuthRequest addRoleAuthRequest){
+    public Result unicomAddRoleAuth(@RequestBody AddRoleAuthRequest addRoleAuthRequest){
         int res = roleAuthService.addRoleAuth(addRoleAuthRequest.getRoleId(), addRoleAuthRequest.getApiId());
         if (res != 0)
             return ResultHelper.genResult(1,"资源"+res+"权限已重复添加");
@@ -33,7 +33,7 @@ public class RoleAuthController {
     @ApiOperation(value = "删除角色部分权限",notes = "删除角色部分权限")
     @ResponseBody
     @GetMapping("/deletePart")
-    public Result deletePartRoleAuth(@RequestParam("roleAuthId") int roleAuthId){
+    public Result unicomDeletePartRoleAuth(@RequestParam("roleAuthId") int roleAuthId){
         roleAuthService.deleteRoleAuthById(roleAuthId);
         return ResultHelper.genResultWithSuccess();
     }
@@ -42,7 +42,7 @@ public class RoleAuthController {
     @ApiOperation(value = "删除该角色所有权限",notes = "删除该角色所有权限")
     @ResponseBody
     @GetMapping("/deleteAll")
-    public Result deleteAllRoleAuth(@RequestParam("roleId") Integer roleId){
+    public Result unicomDeleteAllRoleAuth(@RequestParam("roleId") Integer roleId){
         roleAuthService.deleteRoleAuthByRoleId(roleId);
         return ResultHelper.genResultWithSuccess();
     }
@@ -50,7 +50,7 @@ public class RoleAuthController {
     @ApiOperation(value = "获取该角色下的所有权限信息",notes = "获取该角色下的所有权限信息")
     @ResponseBody
     @GetMapping("/get")
-    public Result getRoleAuth(@RequestParam("roleId") Integer roleId){
+    public Result unicomGetRoleAuth(@RequestParam("roleId") Integer roleId){
         List<RoleAuthInfo> roleAuth = roleAuthService.getRoleAuth(roleId);
         return ResultHelper.genResultWithSuccess(roleAuth);
     }

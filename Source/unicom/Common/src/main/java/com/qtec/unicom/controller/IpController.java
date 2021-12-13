@@ -27,7 +27,7 @@ public class IpController {
     @ApiOperation(value = "添加ip",notes = "向ip白名单中添加将被允许访问的ip")
     @RequestMapping(value = "/addIp", method = RequestMethod.POST)
     @ResponseBody
-    public Result addIp(@RequestBody IpInfoRequest ipInfoRequest) throws Exception {
+    public Result unicomAddIp(@RequestBody IpInfoRequest ipInfoRequest) throws Exception {
         int result = ipService.addIp(ipInfoRequest.getIpInfo());
         if(result ==2){
             return ResultHelper.genResult(2,"该ip已添加，勿重复添加");
@@ -38,7 +38,7 @@ public class IpController {
     @ApiOperation(value = "获取所以ip白名单信息" ,notes ="分页获取ip白名单信息")
     @RequestMapping(value = "/getAllIps/{offset}/{pageSize}", method = RequestMethod.GET)
     @ResponseBody
-    public Result getAllIps(HttpServletRequest request,
+    public Result unicomGetAllIps(HttpServletRequest request,
                             @PathVariable("offset") int offset,
                             @PathVariable("pageSize") int pageSize) throws UnsupportedEncodingException {
         request.setCharacterEncoding("utf-8");
@@ -51,7 +51,7 @@ public class IpController {
     @ApiOperation(value = "删除指定ip",notes = "移除白名单中指定ip")
     @RequestMapping(value = "/delIpById", method = RequestMethod.POST)
     @ResponseBody
-    public Result delIpById(@RequestBody IpInfoRequest ipInfoRequest){
+    public Result unicomDelIpById(@RequestBody IpInfoRequest ipInfoRequest){
         ipService.deleteIpById(ipInfoRequest.getIpInfo());
         return ResultHelper.genResultWithSuccess();
     }

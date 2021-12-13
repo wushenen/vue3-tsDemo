@@ -11,6 +11,7 @@ import com.qtec.unicom.pojo.User;
 import com.qtec.unicom.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +32,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-//    @Autowired
-//    private LockUserService lockUserService;
 
     /**
      * 用户名重复检测
@@ -42,7 +41,7 @@ public class UserController {
     @ApiOperation(value = "用户名重复检测", notes = "检测用户名是否已被占用")
     @RequestMapping(value = "/userNameCheck",method = RequestMethod.GET)
     @ResponseBody
-    public Result userNameCheck(@RequestParam("userName") String userName){
+    public Result unicomUserNameCheck(@RequestParam("userName") String userName){
         if (userService.userExist(userName)) {
             return ResultHelper.genResult(1,"用户名已被占用");
         }
@@ -55,11 +54,11 @@ public class UserController {
      * @param addUserRequest
      * @return
      */
-//    @RequiresRoles("admin")
+    @RequiresRoles("admin")
     @ApiOperation(value = "添加用户信息",notes = "添加用户信息")
     @RequestMapping(value = "/addUserInfo",method = RequestMethod.POST)
     @ResponseBody
-    public Result addUserInfo(@RequestBody AddUserRequest addUserRequest) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
+    public Result unicomAddUserInfo(@RequestBody AddUserRequest addUserRequest) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
         int i = userService.addUser(addUserRequest);
         if (i == 1)
             return ResultHelper.genResult(1,"用户名已被占用");
@@ -75,7 +74,7 @@ public class UserController {
     @ApiOperation(value = "修改系统用户信息",notes = "修改系统用户信息（修改信息包括密码、备注）")
     @RequestMapping(value = "/updateUserInfo",method = RequestMethod.POST)
     @ResponseBody
-    public Result updateUserInfo(@RequestBody UpdateUserRequest updateUserRequest) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
+    public Result unicomUpdateUserInfo(@RequestBody UpdateUserRequest updateUserRequest) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
         userService.updateUser(updateUserRequest);
         return ResultHelper.genResultWithSuccess();
     }
@@ -85,7 +84,7 @@ public class UserController {
     @ApiOperation(value = "删除系统用户",notes = "删除系统用户")
     @RequestMapping(value = "/deleteUserInfo",method = RequestMethod.GET)
     @ResponseBody
-    public Result deleteUserInfo(@RequestParam("id") int id) {
+    public Result unicomDeleteUserInfo(@RequestParam("id") int id) {
         userService.deleteUser(id);
         return ResultHelper.genResultWithSuccess();
     }
@@ -102,7 +101,7 @@ public class UserController {
     @ApiOperation(value = "获取所有系统用户信息",notes = "获取所有系统用户信息")
     @RequestMapping(value = "/getAllUsers/{offset}/{pageSize}", method = RequestMethod.GET)
     @ResponseBody
-    public Result listAllUsers(HttpServletRequest request,
+    public Result unicomListAllUsers(HttpServletRequest request,
                                @RequestParam(value = "userName", required = false) String userName,
                                @PathVariable("offset") int offset,
                                @PathVariable("pageSize") int pageSize) throws UnsupportedEncodingException {

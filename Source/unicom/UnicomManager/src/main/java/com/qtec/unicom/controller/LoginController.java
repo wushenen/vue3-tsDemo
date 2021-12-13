@@ -51,7 +51,7 @@ public class LoginController {
     @ApiOperation(value = "系统用户登录",notes = "系统用户登录")
     @ResponseBody
     @RequestMapping(value = "/sysLogin",method = RequestMethod.POST)
-    public Result sysLogin(@RequestBody SystemUserLoginRequest systemUserLoginRequest)  {
+    public Result unicomSysLogin(@RequestBody SystemUserLoginRequest systemUserLoginRequest)  {
         User login = loginService.systemUserLogin(systemUserLoginRequest.getUserName());
         if (login == null)
             return ResultHelper.genResult(1,"用户不存在");
@@ -88,103 +88,10 @@ public class LoginController {
         }
     }
 
-
-    /*@ApiOperation(value = "应用用户登录",notes = "应用用户登录")
-    @RequestMapping(value = "/appUserLogin",method = RequestMethod.POST)
-    @ResponseBody
-    public Result appUserLogin(@RequestBody AppUserLoginRequest appUserLoginRequest) {
-
-        String appKey = StringUtils.newStringUtf8(Base64.decodeBase64(appUserLoginRequest.getAppKey()));
-        String appSecret = StringUtils.newStringUtf8(Base64.decodeBase64(appUserLoginRequest.getAppSecret()));
-        AppSecret appUserInfo = loginService.appUserLogin(appKey, appSecret);
-
-        //判断用户成功后，获取用户的权限信息
-        if (appUserInfo != null){
-            String userName = appUserInfo.getUserName();
-            String token = JWTUtil.generateToken(userName);
-            UsernamePasswordToken userToken = new MyUserNamePasswordToken(token, token, "appUser");
-            Subject subject = SecurityUtils.getSubject();
-            try {
-                subject.logout();
-                subject.login(userToken);
-                // 剔除其他此账号在其它地方登录
-                // 获取所有的session
-                Collection<Session> sessions = sessionDAO.getActiveSessions();
-                for (Session session : sessions) {
-                    //第二次登录时，把第一个session剔除
-                    if (userName.equals(session.getAttribute("loginedUser"))) {
-                        session.setTimeout(0);
-                    }
-                }
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("token", token);
-                subject.getSession().setAttribute("loginedUser", userName);
-                return ResultHelper.genResultWithSuccess(jsonObject);
-            } catch (UnknownAccountException e){
-                return ResultHelper.genResult(1,"用户名不存在");
-            } catch (IncorrectCredentialsException e) {
-                return ResultHelper.genResult(1, "密码错误");
-            } catch (Exception e) {
-                e.printStackTrace();
-                return ResultHelper.genResult(1, e.getMessage());
-            }
-        }else
-            return ResultHelper.genResult(1,"用户名或密码错误");
-    }
-
-    @ApiOperation(value = "终端用户登录",notes = "终端用户登录")
-    @RequestMapping(value = "/deviceLogin",method = RequestMethod.POST)
-    @ResponseBody
-    public Result deviceLogin(@RequestBody DeviceUserLoginRequest deviceUserLoginRequest) {
-
-        String deviceName = StringUtils.newStringUtf8(Base64.decodeBase64(deviceUserLoginRequest.getDeviceName()));
-        byte[] hmac1 = Base64.decodeBase64(deviceUserLoginRequest.getPassword());
-        DeviceUser deviceUser = loginService.deviceUserLogin(deviceName);
-        if (deviceUser !=null){
-            byte[] hash = SM3Util.hash(deviceUser.getPassword().getBytes());
-            byte[] hmac = SM3Util.hmac(deviceUser.getEncKey(),hash);
-            //判断用户成功后，获取用户的权限信息
-            if (Arrays.equals(hmac, hmac1)){
-                String token = JWTUtil.generateToken(deviceUser.getDeviceName());
-                UsernamePasswordToken userToken = new MyUserNamePasswordToken(token, token, "deviceUser");
-                Subject subject = SecurityUtils.getSubject();
-                try {
-                    subject.logout();
-                    subject.login(userToken);
-                    // 剔除其他此账号在其它地方登录
-                    // 获取所有的session
-                    Collection<Session> sessions = sessionDAO.getActiveSessions();
-                    for (Session session : sessions) {
-                        //第二次登录时，把第一个session剔除
-                        if (deviceName.equals(session.getAttribute("loginedUser"))) {
-                            session.setTimeout(0);
-                        }
-                    }
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("token", token);
-                    subject.getSession().setAttribute("loginedUser", deviceName);
-                    return ResultHelper.genResultWithSuccess(jsonObject);
-                } catch (UnknownAccountException e){
-                    return ResultHelper.genResult(1,"用户名不存在");
-                } catch (IncorrectCredentialsException e) {
-                    return ResultHelper.genResult(1, "密码错误");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return ResultHelper.genResult(1, e.getMessage());
-                }
-            }else
-                return ResultHelper.genResult(1,"用户名或密码错误");
-        }else
-            return ResultHelper.genResult(1,"用户不存在");
-
-    }*/
-
-
-
     @ApiOperation(value = "注销",notes = "用户注销登录")
     @ResponseBody
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public Result logout() {
+    public Result unicomLogout() {
         Subject subject = SecurityUtils.getSubject();
         if (subject != null){
             subject.logout();
@@ -196,7 +103,7 @@ public class LoginController {
     @ApiOperation(value = "无权限",notes = "无权限")
     @ResponseBody
     @RequestMapping(value = "/noPerm", method = RequestMethod.GET)
-    public Result noPerm() {
+    public Result unicomNoPerm() {
         return ResultHelper.genResult(403,"no perms");
     }
 

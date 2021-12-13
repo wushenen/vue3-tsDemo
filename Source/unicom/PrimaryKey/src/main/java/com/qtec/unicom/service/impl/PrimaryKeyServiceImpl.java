@@ -6,11 +6,9 @@ import com.qtec.unicom.component.Exception.PwspException;
 import com.qtec.unicom.component.annotation.OperateLogAnno;
 import com.qtec.unicom.component.init.SelfExaminationParam;
 import com.qtec.unicom.component.util.*;
-import com.qtec.unicom.mapper.AliasMapper;
 import com.qtec.unicom.mapper.KeyVersionMapper;
 import com.qtec.unicom.mapper.MaterialMapper;
 import com.qtec.unicom.mapper.PrimaryKeyMapper;
-import com.qtec.unicom.pojo.Alias;
 import com.qtec.unicom.pojo.KeyVersion;
 import com.qtec.unicom.pojo.Material;
 import com.qtec.unicom.pojo.PrimaryKey;
@@ -52,8 +50,8 @@ public class PrimaryKeyServiceImpl implements PrimaryKeyService {
     private MaterialMapper materialMapper;
     @Autowired
     private UtilService utilService;
-    @Autowired
-    private AliasMapper aliasMapper;
+/*    @Autowired
+    private AliasMapper aliasMapper;*/
     @Autowired
     private com.qtec.unicom.service.SM9Service SM9Service;
 
@@ -110,7 +108,6 @@ public class PrimaryKeyServiceImpl implements PrimaryKeyService {
      */
     public void createSoftWareKey(PrimaryKey primaryKey,KeyVersion keyVersion) throws Exception {
         if(!"QTEC_KMS".equalsIgnoreCase(primaryKey.getOrigin())){
-//            throw new PwspException(JSONResult.genFailResult(400,"InvalidParameter","指定的参数“<Origin>”无效"));
             throw new PwspException(ResultHelper.genResult(400,"<材料来源>无效"));
         }
         switch (primaryKey.getKeySpec()==null?"":primaryKey.getKeySpec()){
@@ -482,13 +479,13 @@ public class PrimaryKeyServiceImpl implements PrimaryKeyService {
      */
     @Override
     public PrimaryKey getPrimaryKeybyKeyIdORalias(String keyIdORalias) throws PwspException {
-        if(keyIdORalias.startsWith("alias/")){
+        /*if(keyIdORalias.startsWith("alias/")){
             Alias alias = aliasMapper.getAlias(keyIdORalias);
             if(alias == null){
                 throw new PwspException(ResultHelper.genResult(404,"未找到指定密钥"));
             }
             keyIdORalias = alias.getKeyId();
-        }
+        }*/
         PrimaryKey primaryKey = primaryKeyMapper.getPrimaryKey(keyIdORalias);
         if(primaryKey == null){
             throw new PwspException(ResultHelper.genResult(404,"未找到指定密钥"));

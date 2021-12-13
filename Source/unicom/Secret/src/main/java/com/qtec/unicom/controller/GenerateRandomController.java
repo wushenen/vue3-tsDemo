@@ -44,7 +44,7 @@ public class GenerateRandomController {
     @ApiOperation(value = "获取随机数",notes = "生成一个随机数")
     @RequestMapping(value = "/GenerateRandom",method = RequestMethod.POST)
     @ResponseBody
-    public Result createRandomCharData(@RequestBody Random random) throws Exception {
+    public Result unicomCreateRandomCharData(@RequestBody Random random) throws Exception {
         logger.info("生成一个随机口令字符串");
         Integer passwordLength = random.getPasswordLength();
         if (passwordLength == null || passwordLength.equals("")) {
@@ -70,7 +70,7 @@ public class GenerateRandomController {
     @ApiOperation(value = "获取临时密钥",notes = "产生一个临时密钥并返回")
     @RequestMapping(value = "/GenerateTempKey",method = RequestMethod.POST)
     @ResponseBody
-    public Result generateTempKey(@RequestBody Random random) throws Exception {
+    public Result unicomGenerateTempKey(@RequestBody Random random) throws Exception {
         logger.info("产生临时密钥");
         TempKeyDTO dto = generateRandomService.generateTempKey(random);
         return ResultHelper.genResultWithSuccess(dto);

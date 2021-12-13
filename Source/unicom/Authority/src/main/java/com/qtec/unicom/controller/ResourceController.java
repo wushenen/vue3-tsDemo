@@ -29,7 +29,7 @@ public class ResourceController {
     @ApiOperation(value = "添加资源分类", notes = "添加资源分类")
     @RequestMapping(value = "/addCategory",method = RequestMethod.POST)
     @ResponseBody
-    public Result addCategory(@RequestBody AddResourceCategoryRequest addResourceCategoryRequest) {
+    public Result unicomAddCategory(@RequestBody AddResourceCategoryRequest addResourceCategoryRequest) {
         boolean exist = apiResourceService.resourceNameExist(addResourceCategoryRequest.getApiName());
         if (!exist) {
             int res = apiResourceService.addResourceCategory(addResourceCategoryRequest.getApiName(), addResourceCategoryRequest.getComments());
@@ -44,7 +44,7 @@ public class ResourceController {
     @ApiOperation(value = "添加接口资源信息", notes = "添加接口资源信息")
     @RequestMapping(value = "/addResource",method = RequestMethod.POST)
     @ResponseBody
-    public Result addResource(@RequestBody AddResourceInfoRequest addResourceInfoRequest) {
+    public Result unicomAddResource(@RequestBody AddResourceInfoRequest addResourceInfoRequest) {
         boolean exist = apiResourceService.apiNameExist(addResourceInfoRequest.getApiName());
         if (!exist) {
             int res = apiResourceService.addResourceInfo(addResourceInfoRequest.getApiName(),addResourceInfoRequest.getApiURL(),addResourceInfoRequest.getParentId(),addResourceInfoRequest.getComments());
@@ -59,7 +59,7 @@ public class ResourceController {
     @ApiOperation(value = "删除资源信息", notes = "删除资源信息")
     @RequestMapping(value = "/deleteResource",method = RequestMethod.POST)
     @ResponseBody
-    public Result deleteResource(@RequestParam("apiId") int apiId) {
+    public Result unicomDeleteResource(@RequestParam("apiId") int apiId) {
         int res = apiResourceService.delResource(apiId);
         if (res > 0) {
             return ResultHelper.genResultWithSuccess();
@@ -71,7 +71,7 @@ public class ResourceController {
     @ApiOperation(value = "修改资源分类信息", notes = "修改资源分类信息")
     @RequestMapping(value = "/updateCategory",method = RequestMethod.POST)
     @ResponseBody
-    public Result updateCategory(@RequestBody UpdateResourceCategoryRequest updateResourceCategoryRequest) {
+    public Result unicomUpdateCategory(@RequestBody UpdateResourceCategoryRequest updateResourceCategoryRequest) {
         boolean exist = apiResourceService.resourceNameExist(updateResourceCategoryRequest.getApiName());
         boolean equals = apiResourceService.getResourceInfo(updateResourceCategoryRequest.getApiId()).getApiName().equals(updateResourceCategoryRequest.getApiName());
         if (!exist || equals){
@@ -88,7 +88,7 @@ public class ResourceController {
     @ApiOperation(value = "修改接口资源信息", notes = "修改接口资源信息")
     @RequestMapping(value = "/updateResource",method = RequestMethod.POST)
     @ResponseBody
-    public Result updateResource(@RequestBody UpdateResourceInfoRequest updateResourceInfoRequest) {
+    public Result unicomUpdateResource(@RequestBody UpdateResourceInfoRequest updateResourceInfoRequest) {
         boolean exist = apiResourceService.apiNameExist(updateResourceInfoRequest.getApiName());
         boolean equals = apiResourceService.getResourceInfo(updateResourceInfoRequest.getApiId()).getApiName().equals(updateResourceInfoRequest.getApiName());
         if (!exist || equals){
@@ -105,7 +105,7 @@ public class ResourceController {
     @ApiOperation(value = "获取所有资源分类信息", notes = "获取所有资源分类信息")
     @RequestMapping(value = "/getCategory",method = RequestMethod.POST)
     @ResponseBody
-    public Result getCategory() {
+    public Result unicomGetCategory() {
         List<ApiResourceCategory> resourceCategory = apiResourceService.getResourceCategory();
         return ResultHelper.genResultWithSuccess(resourceCategory);
     }
@@ -113,7 +113,7 @@ public class ResourceController {
     @ApiOperation(value = "获取该资源分类下的接口信息", notes = "获取该资源分类下的接口信息")
     @RequestMapping(value = "/getApiResource",method = RequestMethod.POST)
     @ResponseBody
-    public Result getApiResource(@RequestParam("apiId") int apiId) {
+    public Result unicomGetApiResource(@RequestParam("apiId") int apiId) {
         List<ApiResource> apiResources = apiResourceService.getApiResource(apiId);
         return ResultHelper.genResultWithSuccess(apiResources);
     }
@@ -122,7 +122,7 @@ public class ResourceController {
     @ApiOperation(value = "一次性获取接口资源信息", notes = "一次获取全部接口资源信息")
     @RequestMapping(value = "/getResource",method = RequestMethod.POST)
     @ResponseBody
-    public Result getResource() {
+    public Result unicomGetResource() {
         List<ResourceInfo> resourceInfos = new ArrayList<>();
         List<ApiResourceCategory> resourceCategory = apiResourceService.getResourceCategory();
         for (ApiResourceCategory category : resourceCategory) {

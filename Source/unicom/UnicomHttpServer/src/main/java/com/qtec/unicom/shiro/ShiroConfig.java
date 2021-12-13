@@ -47,7 +47,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/login/**", "anon");
 
         //放行用户导入模板
-        filterChainDefinitionMap.put("/keyInfo/getKey","authc");
+        filterChainDefinitionMap.put("/keyInfo/getKey","anon");
 
         //放行swagger
         filterChainDefinitionMap.put("/swagger-ui/**","anon");

@@ -39,7 +39,7 @@ public class AsymmetryEncryptController {
     @RequiresPermissions(value = {"/**","AsymmetricSign"},logical = Logical.OR)
     @ApiOperation(value = "非对称密钥签名",notes = "非对称密钥签名")
     @RequestMapping(value = "/AsymmetricSign", method = RequestMethod.POST)
-    public Result asymmetricSign(@RequestBody AsymmetricData asymmetricData) throws Exception {
+    public Result unicomAsymmetricSign(@RequestBody AsymmetricData asymmetricData) throws Exception {
         logger.info("使用非对称密钥进行签名");
         AsymmetricData reAsymmetricData = asymmetryEncryptService.asymmetricSign(asymmetricData);
         AsymmetricSignDTO dto = new AsymmetricSignDTO();
@@ -56,7 +56,7 @@ public class AsymmetryEncryptController {
     @RequiresPermissions(value = {"/**","AsymmetricVerify"},logical = Logical.OR)
     @ApiOperation(value = "非对称密钥验签",notes = "非对称密钥验签")
     @RequestMapping(value = "/AsymmetricVerify", method = RequestMethod.POST)
-    public Result asymmetricVerify(@RequestBody AsymmetricData asymmetricData) throws Exception {
+    public Result unicomAsymmetricVerify(@RequestBody AsymmetricData asymmetricData) throws Exception {
         logger.info("使用非对称密钥进行验签");
         AsymmetricData reAsymmetricData = asymmetryEncryptService.asymmetricVerify(asymmetricData);
         AsymmetricSignDTO dto = new AsymmetricSignDTO();
@@ -73,7 +73,7 @@ public class AsymmetryEncryptController {
     @RequiresPermissions(value = {"/**","AsymmetricEncrypt"},logical = Logical.OR)
     @ApiOperation(value = "非对称密钥加密",notes = "非对称密钥加密")
     @RequestMapping(value = "/AsymmetricEncrypt", method = RequestMethod.POST)
-    public Result asymmetricEncrypt(@RequestBody AsymmetricData asymmetricData) throws Exception {
+    public Result unicomAsymmetricEncrypt(@RequestBody AsymmetricData asymmetricData) throws Exception {
         logger.info("使用非对称密钥进行加密");
         AsymmetricData reAsymmetricData = asymmetryEncryptService.asymmetricEncrypt(asymmetricData);
         EncryptionContextDTO dto = new EncryptionContextDTO();
@@ -90,7 +90,7 @@ public class AsymmetryEncryptController {
     @RequiresPermissions(value = {"/**","AsymmetricDecrypt"},logical = Logical.OR)
     @ApiOperation(value = "非对称密钥进行解密",notes = "非对称密钥进行解密")
     @RequestMapping(value = "/AsymmetricDecrypt", method = RequestMethod.POST)
-    public Result asymmetricDecrypt(@RequestBody AsymmetricData asymmetricData) throws Exception {
+    public Result unicomAsymmetricDecrypt(@RequestBody AsymmetricData asymmetricData) throws Exception {
         logger.info("使用非对称密钥进行解密");
         AsymmetricData reAsymmetricData = asymmetryEncryptService.asymmetricDecrypt(asymmetricData);
         DecryptionContextDTO dto = new DecryptionContextDTO();
@@ -107,7 +107,7 @@ public class AsymmetryEncryptController {
     @RequiresPermissions(value = {"/**","GetPublicKey"},logical = Logical.OR)
     @ApiOperation(value = "获取非对称密钥公钥",notes = "获取非对称密钥公钥")
     @RequestMapping(value = "/GetPublicKey", method = RequestMethod.POST)
-    public Result getPublicKey(@RequestBody AsymmetricData asymmetricData) throws Exception {
+    public Result unicomGetPublicKey(@RequestBody AsymmetricData asymmetricData) throws Exception {
         logger.info("获取非对称密钥的公钥");
         AsymmetricData reAsymmetricData = asymmetryEncryptService.getPublicKey(asymmetricData);
         GetPublicKeyDTO dto = new GetPublicKeyDTO();

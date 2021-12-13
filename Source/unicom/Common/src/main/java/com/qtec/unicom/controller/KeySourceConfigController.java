@@ -25,7 +25,7 @@ public class KeySourceConfigController {
     @ApiOperation("获取密钥源配置")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     @ResponseBody
-    public Result get(){
+    public Result unicomGet(){
         List<KeySourceConfig> keySourceConfig = keySourceConfigService.getKeySourceConfig();
         return ResultHelper.genResultWithSuccess(keySourceConfig);
     }
@@ -33,7 +33,7 @@ public class KeySourceConfigController {
     @ApiOperation("获取QKD配置")
     @RequestMapping(value = "/getQKD",method = RequestMethod.GET)
     @ResponseBody
-    public Result getQKD(){
+    public Result unicomGetQKD(){
         String qkdConfig = keySourceConfigService.getQKDConfig();
         JSONObject configs = JSONObject.parseObject(qkdConfig);
 //        JSONObject config = configs.getJSONObject("config");
@@ -46,7 +46,7 @@ public class KeySourceConfigController {
     @ApiOperation("修改密钥源配置")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
-    public Result update(@RequestBody KeySourceConfigRequest keySourceConfigRequest){
+    public Result unicomUpdate(@RequestBody KeySourceConfigRequest keySourceConfigRequest){
         int i = keySourceConfigService.updateKeySourceConfig(keySourceConfigRequest);
         if (i == 1)
             return ResultHelper.genResult(1,"主IP未设置时禁止设置备用IP");
@@ -59,7 +59,7 @@ public class KeySourceConfigController {
     @ApiOperation("修改QKD配置")
     @RequestMapping(value = "/updateQKD",method = RequestMethod.POST)
     @ResponseBody
-    public Result updateQKD(@RequestBody UpdateQKDRequest updateQKDRequest){
+    public Result unicomUpdateQKD(@RequestBody UpdateQKDRequest updateQKDRequest){
         String configInfo = JSONObject.toJSONString(updateQKDRequest);
         keySourceConfigService.updateQKDConfig(configInfo);
         return ResultHelper.genResultWithSuccess();
@@ -68,7 +68,7 @@ public class KeySourceConfigController {
     @ApiOperation("修改密钥源优先级")
     @RequestMapping(value = "/updatePriority",method = RequestMethod.GET)
     @ResponseBody
-    public Result updatePriority(@RequestParam("oldPriority") int oldPriority,@RequestParam("newPriority") int newPriority,@RequestParam("id") int id){
+    public Result unicomUpdatePriority(@RequestParam("oldPriority") int oldPriority,@RequestParam("newPriority") int newPriority,@RequestParam("id") int id){
         keySourceConfigService.updateKeySourcePriority(oldPriority,newPriority,id);
         return ResultHelper.genResultWithSuccess();
     }
@@ -76,7 +76,7 @@ public class KeySourceConfigController {
     @ApiOperation("禁用密钥源配置")
     @RequestMapping(value = "/delete",method = RequestMethod.GET)
     @ResponseBody
-    public Result delete(@RequestParam("id") int id,@RequestParam("priority") int priority){
+    public Result unicomDelete(@RequestParam("id") int id,@RequestParam("priority") int priority){
         int i = keySourceConfigService.disableKeySourceConfig(priority, id);
         if (i == 1)
             return ResultHelper.genResult(1,"禁止禁用所有量子密钥源");
@@ -86,7 +86,7 @@ public class KeySourceConfigController {
     @ApiOperation("启用密钥源配置")
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     @ResponseBody
-    public Result add(@RequestParam("id") int id,@RequestParam("priority") int priority){
+    public Result unicomAdd(@RequestParam("id") int id,@RequestParam("priority") int priority){
         int i = keySourceConfigService.enableKeySourceConfig(priority, id);
         if (i == 1)
             return ResultHelper.genResult(1,"密钥源已启用，无需重复重启");

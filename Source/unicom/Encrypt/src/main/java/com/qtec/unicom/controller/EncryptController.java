@@ -42,7 +42,7 @@ public class EncryptController {
     @RequiresPermissions(value = {"/**","Encrypt"},logical = Logical.OR)
     @ApiOperation(value = "加密",notes = "使用对称主密钥（Symmetric CMK）将明文加密")
     @RequestMapping(value = "/Encrypt", method = RequestMethod.POST)
-    public Result encrypt(HttpServletRequest request, @RequestBody EncryptionContext encrypt) throws Exception {
+    public Result unicomEncrypt(HttpServletRequest request, @RequestBody EncryptionContext encrypt) throws Exception {
         logger.info("使用对称主密钥（Symmetric CMK）将明文加密");
         EncryptionContext reEncrypt = encryptService.encrypt(encrypt);
         EncryptionContextDTO dto = new EncryptionContextDTO();
@@ -60,7 +60,7 @@ public class EncryptController {
     @RequiresPermissions(value = {"/**","Decrypt"},logical = Logical.OR)
     @ApiOperation(value = "解密",notes = "解密CiphertextBlob中的密文")
     @RequestMapping(value = "/Decrypt", method = RequestMethod.POST)
-    public Result decrypt(HttpServletRequest request, @RequestBody EncryptionContext encrypt) throws Exception {
+    public Result unicomDecrypt(HttpServletRequest request, @RequestBody EncryptionContext encrypt) throws Exception {
         logger.info("解密CiphertextBlob中的密文");
         EncryptionContext reEncrypt = encryptService.decrypt(encrypt);
         DecryptionContextDTO dto = new DecryptionContextDTO();
@@ -78,7 +78,7 @@ public class EncryptController {
     @RequiresPermissions(value = {"/**","GenerateDataKey"},logical = Logical.OR)
     @ApiOperation(value = "生成密钥",notes = "生成一个随机的数据密钥,返回数据密钥的密文和明文")
     @RequestMapping(value = "/GenerateDataKey", method = RequestMethod.POST)
-    public Result generateDataKey(HttpServletRequest request, @RequestBody DataKey dataKey) throws Exception {
+    public Result unicomGenerateDataKey(HttpServletRequest request, @RequestBody DataKey dataKey) throws Exception {
         logger.info("生成一个随机的数据密钥,返回数据密钥的密文和明文");
         DataKey reDataKey = encryptService.generateDataKey(dataKey);
         GenerateDataKeyDTO dto = new GenerateDataKeyDTO();
@@ -97,7 +97,7 @@ public class EncryptController {
 //    @RequiresPermissions(value = {"/**","GenerateDataKeyWithoutPlaintext"},logical = Logical.OR)
     @ApiOperation(value = "生成明文密钥",notes = "生成一个随机的数据密钥,返回数据密钥的密文")
     @RequestMapping(value = "/GenerateDataKeyWithoutPlaintext", method = RequestMethod.POST)
-    public Result generateDataKeyWithoutPlaintext(HttpServletRequest request, @RequestBody DataKey dataKey) throws Exception {
+    public Result unicomGenerateDataKeyWithoutPlaintext(HttpServletRequest request, @RequestBody DataKey dataKey) throws Exception {
         logger.info("生成一个随机的数据密钥,返回数据密钥的密文");
         DataKey reDataKey = encryptService.generateDataKey(dataKey);
         EncryptionContextDTO dto = new EncryptionContextDTO();
@@ -115,7 +115,7 @@ public class EncryptController {
     @RequiresPermissions(value = {"/**","ExportDataKey"},logical = Logical.OR)
     @ApiOperation(value = "导出数据密钥",notes = "导出数据密钥")
     @RequestMapping(value = "/ExportDataKey", method = RequestMethod.POST)
-    public Result exportDataKey(HttpServletRequest request, @RequestBody DataKey dataKey) throws Exception {
+    public Result unicomExportDataKey(HttpServletRequest request, @RequestBody DataKey dataKey) throws Exception {
         logger.info("使用传入的公钥加密导出数据密钥");
         DataKey reDataKey = encryptService.exportDataKey(dataKey);
         ExportDataKeyDTO dto = new ExportDataKeyDTO();
@@ -134,7 +134,7 @@ public class EncryptController {
     @ApiOperation(value = "随机生成密钥并返回加密密文"
             ,notes = "随机生成一个数据密钥.返回CMK加密数据密钥的密文和公钥加密数据密钥的密文")
     @RequestMapping(value = "/GenerateAndExportDataKey", method = RequestMethod.POST)
-    public Result generateAndExportDataKey(HttpServletRequest request, @RequestBody DataKey dataKey) throws Exception {
+    public Result unicomGenerateAndExportDataKey(HttpServletRequest request, @RequestBody DataKey dataKey) throws Exception {
         logger.info("随机生成一个数据密钥.返回CMK加密数据密钥的密文和公钥加密数据密钥的密文");
         DataKey reDataKey = encryptService.generateAndExportDataKey(dataKey);
         GenerateAndExportDataKeyDTO dto = new GenerateAndExportDataKeyDTO();
@@ -152,7 +152,7 @@ public class EncryptController {
     @RequiresPermissions(value = {"/**","ReEncrypt"},logical = Logical.OR)
     @ApiOperation(value = "对密文进行转加密",notes = "对密文进行转加密")
     @RequestMapping(value = "/ReEncrypt", method = RequestMethod.POST)
-    public Result reEncrypt(HttpServletRequest request, @RequestBody DataKey dataKey) throws Exception {
+    public Result unicomReEncrypt(HttpServletRequest request, @RequestBody DataKey dataKey) throws Exception {
         logger.info("对密文进行转加密");
         DataKey reDataKey = encryptService.reEncrypt(dataKey);
         EncryptionContextDTO dto = new EncryptionContextDTO();

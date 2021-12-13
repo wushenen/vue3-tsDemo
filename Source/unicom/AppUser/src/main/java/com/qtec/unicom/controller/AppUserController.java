@@ -35,7 +35,7 @@ public class AppUserController {
     @ApiOperation(value = "验证注册信息",notes = "注册前需要先验证将要注册信息")
     @RequestMapping(value = "/preRegister",method = RequestMethod.POST)
     @ResponseBody
-    public Result preRegister(HttpServletRequest request, @RequestBody AppUser param) throws Exception {
+    public Result unicomPreRegister(HttpServletRequest request, @RequestBody AppUser param) throws Exception {
         AppUser appUser = appUserService.getAppUser(param);
         if (appUser != null) {
             return ResultHelper.genResult(2002,"用户名已存在");
@@ -50,7 +50,7 @@ public class AppUserController {
     @ApiOperation(value = "添加用户",notes = "添加用户")
     @RequestMapping(value = "/AddUser",method = RequestMethod.POST)
     @ResponseBody
-    public Result addUserInfo(HttpServletRequest request, @RequestBody AppUser appUser) throws Exception {
+    public Result unicomAddUserInfo(HttpServletRequest request, @RequestBody AppUser appUser) throws Exception {
         AppUser reAppUser = appUserService.getAppUser(appUser);
         if (reAppUser != null) {
             return ResultHelper.genResult(2002,"用户名已存在");
@@ -70,7 +70,7 @@ public class AppUserController {
     @ApiOperation(value = "获取用户信息",notes = "分页获取用户信息")
     @RequestMapping(value = "/ListUser/{offset}/{pageSize}", method = RequestMethod.GET)
     @ResponseBody
-    public Result listAllUsers(HttpServletRequest request,
+    public Result unicomListAllUsers(HttpServletRequest request,
                                @PathVariable("offset") int offset,
                                @PathVariable("pageSize") int pageSize) throws Exception {
         request.setCharacterEncoding("UTF-8");
@@ -95,7 +95,7 @@ public class AppUserController {
     @ApiOperation(value = "SDK分页获取用户信息",notes = "SDK分页获取用户信息")
     @RequestMapping(value = "/ListUser", method = RequestMethod.POST)
     @ResponseBody
-    public Result listUser(HttpServletRequest request, @RequestBody PageVo pageVo) throws Exception {
+    public Result unicomListUser(HttpServletRequest request, @RequestBody PageVo pageVo) throws Exception {
         if (pageVo.getPageSize() > 50) {
             return ResultHelper.genResult(1, "pageSize过大");
         }
@@ -116,7 +116,7 @@ public class AppUserController {
     @ApiOperation(value = "删除应用用户",notes = "删除应用用户")
     @RequestMapping(value = "/DelUser", method = RequestMethod.POST)
     @ResponseBody
-    public Result delUser(@RequestBody AppUser appUser) throws Exception {
+    public Result unicomDelUser(@RequestBody AppUser appUser) throws Exception {
         int num = appUserService.delUser(appUser);
         return ResultHelper.genResultWithSuccess();
     }
@@ -130,7 +130,7 @@ public class AppUserController {
     @ApiOperation(value = "查询应用用户详情", notes = "查询应用用户详情")
     @RequestMapping(value = "/DescribeUser", method = RequestMethod.POST)
     @ResponseBody
-    public Result describeUser(@RequestBody AppUser appUser) throws Exception {
+    public Result unicomDescribeUser(@RequestBody AppUser appUser) throws Exception {
         AppUser re = appUserService.describeUser(appUser);
         return ResultHelper.genResultWithSuccess(re);
     }
@@ -139,7 +139,7 @@ public class AppUserController {
     @ApiOperation(value = "模糊查询应用用户信息", notes = "模糊查询应用用户信息")
     @RequestMapping(value = "/queryAppUser",method = RequestMethod.GET)
     @ResponseBody
-    public Result queryDeviceUser(@RequestParam("appUserName") String appUserName){
+    public Result unicomQueryDeviceUser(@RequestParam("appUserName") String appUserName){
         List<AppUser> appUsers = appUserService.queryAppUser(appUserName);
         return ResultHelper.genResultWithSuccess(appUsers);
     }

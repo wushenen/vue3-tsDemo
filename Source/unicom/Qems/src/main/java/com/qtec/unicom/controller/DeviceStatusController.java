@@ -47,7 +47,7 @@ public class DeviceStatusController {
     @ApiOperation(value = "上报数据",notes = "终端上报数据")
     @RequestMapping(value = "/uploadData",method = RequestMethod.POST)
     @ResponseBody
-    public Result uploadData(@RequestBody UploadDataRequest uploadDataRequest,HttpServletRequest request, HttpServletResponse response) {
+    public Result unicomUploadData(@RequestBody UploadDataRequest uploadDataRequest,HttpServletRequest request, HttpServletResponse response) {
         //判断token是否是重新签发的
         JSONObject object = new JSONObject();
         if (response.getHeader("Token") != null) {
@@ -82,7 +82,7 @@ public class DeviceStatusController {
     @ApiOperation(value = "获取密钥云终端数据信息",notes = "获取密钥云终端数据信息")
     @RequestMapping(value = "/listDeviceInfo/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
-    public Result listDeviceInfo(HttpServletRequest request, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) throws UnsupportedEncodingException {
+    public Result unicomListDeviceInfo(HttpServletRequest request, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) throws UnsupportedEncodingException {
         request.setCharacterEncoding("utf-8");
         if (pageSize > 50){
             return ResultHelper.genResult(1,"pageSize太大");
@@ -112,7 +112,7 @@ public class DeviceStatusController {
     @ApiOperation(value = "获取密码态势感知数据信息",notes = "获取密码态势感知数据信息")
     @RequestMapping(value = "/getDeviceStatusInfo",method = RequestMethod.GET)
     @ResponseBody
-    public Result getDeviceStatusInfo(){
+    public Result unicomGetDeviceStatusInfo(){
         DeviceStatusDataResponse deviceStatusInfo = deviceStatusService.getStatusShowInfo();
         List<OperateLog> operateLogs = operateLogService.getOperateLogsForDeviceInfoShow();
         JSONObject object = new JSONObject();

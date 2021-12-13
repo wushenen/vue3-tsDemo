@@ -34,7 +34,7 @@ public class RoleController {
     @ApiOperation(value = "新建角色",notes = "新建角色")
     @RequestMapping(value = "/addRole",method = RequestMethod.POST)
     @ResponseBody
-    public Result addRole(@RequestBody AddRoleRequest addRoleRequest) {
+    public Result unicomAddRole(@RequestBody AddRoleRequest addRoleRequest) {
         //判断角色code是否唯一
         int unique = roleService.uniqueRole(addRoleRequest.getRoleCode());
         if (unique == 1) {
@@ -54,7 +54,7 @@ public class RoleController {
     @ApiOperation(value = "获取所有角色信息列表",notes = "获取所有角色信息列表")
     @RequestMapping(value = "/roleList/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
-    public Result roleList(HttpServletRequest request,
+    public Result unicomRoleList(HttpServletRequest request,
                            @PathVariable("offset") int offset,
                            @PathVariable("pageSize") int pageSize)throws Exception{
         request.setCharacterEncoding("UTF-8");
@@ -71,7 +71,7 @@ public class RoleController {
     @ApiOperation(value = "获取角色详细信息",notes = "获取角色详细信息")
     @RequestMapping(value = "/roleInfo",method = RequestMethod.GET)
     @ResponseBody
-    public Result roleInfo(@RequestParam("roleCode") String roleCode){
+    public Result unicomRoleInfo(@RequestParam("roleCode") String roleCode){
         Role roleInfo = roleService.roleInfo(roleCode);
         if(roleInfo != null){
             logger.info("--------获取角色信息成功---------");
@@ -85,7 +85,7 @@ public class RoleController {
     @ApiOperation(value = "删除角色信息",notes = "删除角色信息")
     @RequestMapping(value = "/deleteRole",method = RequestMethod.POST)
     @ResponseBody
-    public Result deleteRole(@RequestParam("roleId") int roleId){
+    public Result unicomDeleteRole(@RequestParam("roleId") int roleId){
         //删除角色信息需要同时删除该角色信息下的所有用户
         roleService.delRole(roleId);
         logger.info("--------成功删除角色信息以及该角色下的用户信息---------");
@@ -96,7 +96,7 @@ public class RoleController {
     @ApiOperation(value = "修改角色信息",notes = "修改角色信息")
     @RequestMapping(value = "/updateRoleInfo",method = RequestMethod.POST)
     @ResponseBody
-    public Result updateRoleInfo(@RequestBody UpdateRoleInfoRequest updateRoleInfoRequest){
+    public Result unicomUpdateRoleInfo(@RequestBody UpdateRoleInfoRequest updateRoleInfoRequest){
 
         if (1 == roleService.uniqueRole(updateRoleInfoRequest.getRoleCode())){
             if (updateRoleInfoRequest.getRoleCode().equals(roleService.roleInfoById(updateRoleInfoRequest.getRoleId()).getRoleCode())) {
@@ -122,7 +122,7 @@ public class RoleController {
     @ApiOperation(value = "模糊查询角色信息",notes = "模糊查询角色信息")
     @RequestMapping(value = "/searchRole",method = RequestMethod.GET)
     @ResponseBody
-    public Result searchRole(@RequestParam("roleCode") String roleCode){
+    public Result unicomSearchRole(@RequestParam("roleCode") String roleCode){
         List<Role> roles = roleService.searchRole(roleCode);
         return  ResultHelper.genResultWithSuccess(roles);
     }

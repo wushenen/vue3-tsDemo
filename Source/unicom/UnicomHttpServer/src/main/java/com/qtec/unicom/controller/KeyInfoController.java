@@ -42,7 +42,7 @@ public class KeyInfoController {
     @ApiOperation(value = "获取密钥",notes = "获取指定密钥")
     @RequestMapping(value = "/getKey",method = RequestMethod.POST)
     @ResponseBody
-    public Result generateKey(@RequestBody KeyInfoSDKRequest keyInfoRequest, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public Result unicomGenerateKey(@RequestBody KeyInfoSDKRequest keyInfoRequest, HttpServletResponse response, HttpServletRequest request) throws Exception {
         JSONObject object = new JSONObject();
         String token = keyInfoRequest.getToken();
         if (token != null){

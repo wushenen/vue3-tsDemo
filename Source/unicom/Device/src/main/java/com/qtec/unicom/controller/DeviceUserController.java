@@ -52,7 +52,7 @@ public class DeviceUserController {
     @ApiOperation(value = "获取所有终端用户信息" ,notes = "获取所有终端用户信息")
     @RequestMapping(value = "/getAllDevice/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
-    public Result getAllDevice(HttpServletRequest request, @RequestParam(value = "deviceName",required = false) String deviceName,
+    public Result unicomGetAllDevice(HttpServletRequest request, @RequestParam(value = "deviceName",required = false) String deviceName,
                                @PathVariable("offset") int offset,
                                @PathVariable("pageSize") int pageSize) throws Exception{
         request.setCharacterEncoding("UTF-8");
@@ -69,7 +69,7 @@ public class DeviceUserController {
     @ApiOperation(value = "获取所有终端用户信息(添加权限使用)",notes = "获取所有终端用户信息(添加权限使用)")
     @RequestMapping(value = "/getAllDeviceInfo",method = RequestMethod.GET)
     @ResponseBody
-    public Result getAllDeviceInfo(@RequestParam(value = "deviceName",required = false) String deviceName){
+    public Result unicomGetAllDeviceInfo(@RequestParam(value = "deviceName",required = false) String deviceName){
         List<DeviceUser> list = deviceUserService.listAllDeviceUser(deviceName);
         return ResultHelper.genResultWithSuccess(list);
     }
@@ -80,7 +80,7 @@ public class DeviceUserController {
     @ApiOperation(value = "获取指定终端用户信息" ,notes = "获取指定终端用户信息")
     @RequestMapping(value = "/getDeviceInfo",method = RequestMethod.POST)
     @ResponseBody
-    public Result getDeviceInfo(@RequestBody GetDeviceInfoRequest getDeviceInfoRequest){
+    public Result unicomGetDeviceInfo(@RequestBody GetDeviceInfoRequest getDeviceInfoRequest){
         DeviceUser deviceInfo = deviceUserService.getDeviceInfo(getDeviceInfoRequest.getDeviceId());
         return ResultHelper.genResultWithSuccess(deviceInfo);
     }
@@ -89,7 +89,7 @@ public class DeviceUserController {
     @ApiOperation(value = "添加终端用户信息",notes = "添加终端用户信息")
     @RequestMapping(value = "/addDeviceUser",method = RequestMethod.POST)
     @ResponseBody
-    public Result addDeviceUser(@RequestBody AddDeviceUserRequest addDeviceUserRequest) throws Exception {
+    public Result unicomAddDeviceUser(@RequestBody AddDeviceUserRequest addDeviceUserRequest) throws Exception {
         boolean exist = deviceUserService.userNameIsExist(addDeviceUserRequest.getDeviceName());
         if (!exist){
             DeviceUser deviceUser = new DeviceUser();
@@ -115,7 +115,7 @@ public class DeviceUserController {
     @ApiOperation(value = "批量导入终端",notes = "批量导入终端用户信息")
     @RequestMapping(value = "/importDeviceUser",method = RequestMethod.POST)
     @ResponseBody
-    public Result importDeviceUser(@RequestPart("excelFile") MultipartFile excelFile) throws Exception {
+    public Result unicomImportDeviceUser(@RequestPart("excelFile") MultipartFile excelFile) throws Exception {
         ImportParams importParams = new ImportParams();
         importParams.setHeadRows(1);
         List<DeviceUser> list = ExcelImportUtil.importExcel(excelFile.getInputStream(), DeviceUser.class, importParams);
@@ -144,7 +144,7 @@ public class DeviceUserController {
     @ApiOperation(value = "删除终端用户信息",notes = "删除终端用户信息")
     @RequestMapping(value = "/deleteDevice",method = RequestMethod.POST)
     @ResponseBody
-    public Result deleteDevice(@RequestBody DeleteDeviceRequest deleteDeviceRequest){
+    public Result unicomDeleteDevice(@RequestBody DeleteDeviceRequest deleteDeviceRequest){
         for (Integer id : deleteDeviceRequest.getDeviceId()) {
             deviceUserService.deleteDevice(id);
         }
@@ -155,7 +155,7 @@ public class DeviceUserController {
     @ApiOperation(value = "修改终端用户信息" ,notes = "修改终端用户信息")
     @RequestMapping(value = "/updateDevice",method = RequestMethod.POST)
     @ResponseBody
-    public Result updateDevice(@RequestBody UpdateUserInfoRequest updateUserInfoRequest){
+    public Result unicomUpdateDevice(@RequestBody UpdateUserInfoRequest updateUserInfoRequest){
 
         boolean userNameIsExist = deviceUserService.userNameIsExist(updateUserInfoRequest.getDeviceName());
         boolean equals = deviceUserService.getDeviceInfo(updateUserInfoRequest.getDeviceId()).getDeviceName().equals(updateUserInfoRequest.getDeviceName());
@@ -174,7 +174,7 @@ public class DeviceUserController {
     @ApiOperation(value = "终端用户导入模板下载",notes = "终端用户导入模板下载")
     @RequestMapping(value = "/getDeviceUserModel", method = {RequestMethod.POST,RequestMethod.GET})
     @ResponseBody
-    public void getDeviceUsersModel(HttpServletResponse response) throws IOException {
+    public void unicomGetDeviceUsersModel(HttpServletResponse response) throws IOException {
         String fileName = "终端用户信息模板.xls";
         response.setCharacterEncoding("UTF-8");
         List<DeviceUser> list = new ArrayList<>();
@@ -191,7 +191,7 @@ public class DeviceUserController {
     @ApiOperation(value = "模糊查询终端用户信息" ,notes = "模糊查询终端用户信息")
     @RequestMapping(value = "/queryDeviceUser",method = RequestMethod.GET)
     @ResponseBody
-    public Result queryDeviceUser(@RequestParam("deviceName") String deviceName){
+    public Result unicomQueryDeviceUser(@RequestParam("deviceName") String deviceName){
         List<DeviceUser> deviceUsers = deviceUserService.queryDeviceUser(deviceName);
         return ResultHelper.genResultWithSuccess(deviceUsers);
     }
@@ -200,7 +200,7 @@ public class DeviceUserController {
     @ApiOperation(value = "批量导出终端用户信息",notes = "导出选中的终端用户信息")
     @RequestMapping(value = "/exportDeviceUsers",method = RequestMethod.POST)
     @ResponseBody
-    public void exportDeviceUsers(HttpServletResponse response, @RequestBody ExportDeviceUserRequest exportDeviceUserRequest) throws IOException {
+    public void unicomExportDeviceUsers(HttpServletResponse response, @RequestBody ExportDeviceUserRequest exportDeviceUserRequest) throws IOException {
         List<ExportDeviceUserInfo> deviceUsers = deviceUserService.exportDeviceUserInfo(exportDeviceUserRequest.getDeviceIds());
         Object o = JSONObject.toJSON(deviceUsers);
         response.setCharacterEncoding("UTF-8");

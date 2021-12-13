@@ -28,7 +28,7 @@ public class GroupDeviceUserController {
     @ApiOperation(value = "添加分组终端用户",notes = "添加分组终端用户")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public Result addGroupDeviceUser(@RequestBody AddGroupDeviceUserRequest addGroupDeviceUserRequest){
+    public Result unicomAddGroupDeviceUser(@RequestBody AddGroupDeviceUserRequest addGroupDeviceUserRequest){
         groupDeviceUserService.addGroupDeviceUser(addGroupDeviceUserRequest.getDeviceId(),addGroupDeviceUserRequest.getGroupId());
         return ResultHelper.genResultWithSuccess();
     }
@@ -36,7 +36,7 @@ public class GroupDeviceUserController {
     @ApiOperation(value = "获取该分组所有终端用户",notes = "获取该分组所有终端用户")
     @RequestMapping(value = "/list/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
-    public Result groupDeviceUserList(HttpServletRequest request,
+    public Result unicomGroupDeviceUserList(HttpServletRequest request,
                                 @RequestParam("groupId") int groupId,
                                 @PathVariable("offset") int offset,
                                 @PathVariable("pageSize") int pageSize) throws Exception{
@@ -53,7 +53,7 @@ public class GroupDeviceUserController {
     @ApiOperation(value = "删除分组终端用户",notes = "删除分组终端用户")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody
-    public Result deleteGroupDeviceUser(@RequestBody CancelGroupUserRequest cancelGroupUserRequest){
+    public Result unicomDeleteGroupDeviceUser(@RequestBody CancelGroupUserRequest cancelGroupUserRequest){
         groupDeviceUserService.deleteGroupDeviceUser(cancelGroupUserRequest.getIds());
         return ResultHelper.genResultWithSuccess();
     }

@@ -28,7 +28,7 @@ public class GroupAppUserController {
     @ApiOperation(value = "添加分组应用用户",notes = "添加分组应用用户")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public Result addGroupAppUser(@RequestBody AddGroupAppUserRequest addGroupAppUserRequest){
+    public Result unicomAddGroupAppUser(@RequestBody AddGroupAppUserRequest addGroupAppUserRequest){
         groupAppUserService.addGroupAppUser(addGroupAppUserRequest.getAppUserId(),addGroupAppUserRequest.getGroupId());
         return ResultHelper.genResultWithSuccess();
     }
@@ -36,7 +36,7 @@ public class GroupAppUserController {
     @ApiOperation(value = "获取所有分组应用用户",notes = "获取所有分组应用用户")
     @RequestMapping(value = "/list/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
-    public Result groupAppUserList(HttpServletRequest request,
+    public Result unicomGroupAppUserList(HttpServletRequest request,
                                 @RequestParam("groupId") int groupId,
                                 @PathVariable("offset") int offset,
                                 @PathVariable("pageSize") int pageSize) throws Exception{
@@ -53,7 +53,7 @@ public class GroupAppUserController {
     @ApiOperation(value = "删除分组应用用户",notes = "删除分组应用用户")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody
-    public Result deleteGroupAppUser(@RequestBody CancelGroupUserRequest cancelGroupUserRequest){
+    public Result unicomDeleteGroupAppUser(@RequestBody CancelGroupUserRequest cancelGroupUserRequest){
         groupAppUserService.deleteGroupAppUser(cancelGroupUserRequest.getIds());
         return ResultHelper.genResultWithSuccess();
     }

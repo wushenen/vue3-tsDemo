@@ -7,7 +7,6 @@ import com.qtec.unicom.pojo.QkmVersion;
 import java.util.List;
 
 public interface SystemMangeService {
-//    QkmVersion getQkmVersion();
 
     String updateIpNetmaskAndGateway(LinuxServer linuxServer) throws Exception;
 

@@ -33,7 +33,7 @@ public class MailController {
     @ApiOperation("获取邮件告警日志")
     @RequestMapping(value = "getMailLogs/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
-    public Result listOperateLogs(HttpServletRequest request,
+    public Result unicomListOperateLogs(HttpServletRequest request,
                                   @PathVariable("offset") int offset,
                                   @PathVariable("pageSize") int pageSize) throws Exception {
         request.setCharacterEncoding("UTF-8");
@@ -49,7 +49,7 @@ public class MailController {
     @ApiOperation("获取邮件发件人信息")
     @RequestMapping(value = "getMailConfig",method = RequestMethod.GET)
     @ResponseBody
-    public Result getMailConfig() {
+    public Result unicomGetMailConfig() {
         MailConfigInfo mailSenderConfig = mailService.getMailSenderConfig();
         return ResultHelper.genResultWithSuccess(mailSenderConfig);
     }
@@ -57,7 +57,7 @@ public class MailController {
     @ApiOperation("修改邮件发件人配置信息")
     @RequestMapping(value = "updateMailConfig",method = RequestMethod.POST)
     @ResponseBody
-    public Result updateMailConfig(@RequestBody MailConfigRequest mailConfigRequest) {
+    public Result unicomUpdateMailConfig(@RequestBody MailConfigRequest mailConfigRequest) {
         MailConfigInfo mailConfigInfo = new MailConfigInfo();
         BeanUtils.copyProperties(mailConfigRequest,mailConfigInfo);
         System.out.println("mailConfigInfo = " + mailConfigInfo);

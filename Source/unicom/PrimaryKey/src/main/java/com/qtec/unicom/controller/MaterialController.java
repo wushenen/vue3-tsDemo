@@ -33,7 +33,7 @@ public class MaterialController {
     @ApiOperation(value = "获取主密钥材料",notes = "获取导入主密钥（CMK）材料")
     @RequestMapping(value = "/GetParametersForImport", method = RequestMethod.POST)
     @ResponseBody
-    public Result getParametersForImport(@RequestBody Material material) throws Exception {
+    public Result unicomGetParametersForImport(@RequestBody Material material) throws Exception {
         logger.info("获取导入主密钥（CMK）材料");
         MaterialDTO result = materialService.getParametersForImport(material);
         return ResultHelper.genResultWithSuccess(result);
@@ -48,7 +48,7 @@ public class MaterialController {
     @ApiOperation(value = "导入密钥材料",notes = "导入密钥材料")
     @RequestMapping(value = "/ImportKeyMaterial", method = RequestMethod.POST)
     @ResponseBody
-    public Result importKeyMaterial(@RequestBody Material material) throws Exception {
+    public Result unicomImportKeyMaterial(@RequestBody Material material) throws Exception {
         logger.info("导入密钥材料");
         Object result = materialService.importKeyMaterial(material);
         return ResultHelper.genResultWithSuccess();
@@ -63,7 +63,7 @@ public class MaterialController {
     @ApiOperation(value = "删除已导入的密钥材料",notes = "删除已导入的密钥材料")
     @RequestMapping(value = "/DeleteKeyMaterial", method = RequestMethod.POST)
     @ResponseBody
-    public Result deleteKeyMaterial(@RequestBody Material material) throws Exception {
+    public Result unicomDeleteKeyMaterial(@RequestBody Material material) throws Exception {
         logger.info("删除已导入的密钥材料");
         materialService.deleteKeyMaterial(material);
         return ResultHelper.genResultWithSuccess();
@@ -73,7 +73,7 @@ public class MaterialController {
     @ApiOperation(value = "密钥来源判断",notes = "获取密钥参数、导入密钥时密钥来源判断")
     @RequestMapping(value = "/isExternal", method = RequestMethod.GET)
     @ResponseBody
-    public Result isExternal(@RequestParam("keyId") String keyId) throws Exception{
+    public Result unicomIsExternal(@RequestParam("keyId") String keyId) throws Exception{
         logger.info("密钥来源判断");
         if (materialService.checkExternal(keyId))
             return ResultHelper.genResultWithSuccess();

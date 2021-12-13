@@ -46,7 +46,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "创建主密钥",notes = "创建主密钥")
     @RequestMapping(value = "/CreateKey", method = RequestMethod.POST)
     @ResponseBody
-    public Result createKey(HttpServletRequest request, @RequestBody PrimaryKey primaryKey) throws Exception {
+    public Result unicomCreateKey(HttpServletRequest request, @RequestBody PrimaryKey primaryKey) throws Exception {
             logger.info("创建一个主密钥");
             primaryKey.setCreator(UtilService.getCurrentUserName(request));
             primaryKey.setOwner(UtilService.getCurrentUserName(request));
@@ -71,7 +71,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "启用指定主密钥",notes = "将一个指定的 CMK 标记为启用状态")
     @RequestMapping(value = "/EnableKey", method = RequestMethod.POST)
     @ResponseBody
-    public Result enableKey(@RequestBody PrimaryKey primaryKey) throws Exception {
+    public Result unicomEnableKey(@RequestBody PrimaryKey primaryKey) throws Exception {
         logger.info("将一个指定的 CMK 标记为启用状态");
         primaryKeyService.enableKey(primaryKey);
         return ResultHelper.genResultWithSuccess();
@@ -86,7 +86,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "禁用指定主密钥",notes = "将一个指定的主密钥（CMK）标记为禁用状态")
     @RequestMapping(value = "/DisableKey", method = RequestMethod.POST)
     @ResponseBody
-    public Result disableKey(HttpServletRequest request, @RequestBody PrimaryKey primaryKey) throws Exception {
+    public Result unicomDisableKey(HttpServletRequest request, @RequestBody PrimaryKey primaryKey) throws Exception {
         logger.info("将一个指定的主密钥（CMK）标记为禁用状态");
         primaryKeyService.disableKey(primaryKey);
         return ResultHelper.genResultWithSuccess();
@@ -101,7 +101,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "申请删除一个指定的主密钥",notes = "申请删除一个指定的主密钥")
     @RequestMapping(value = "/ScheduleKeyDeletion", method = RequestMethod.POST)
     @ResponseBody
-    public Result scheduleKeyDeletion(@RequestBody PrimaryKey primaryKey) throws Exception {
+    public Result unicomScheduleKeyDeletion(@RequestBody PrimaryKey primaryKey) throws Exception {
         logger.info("申请删除一个指定的主密钥");
         Integer pendingWindowInDays = primaryKey.getPendingWindowInDays();
         if(pendingWindowInDays == null || pendingWindowInDays<7 || pendingWindowInDays>30){
@@ -120,7 +120,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "撤销密钥删除",notes = "撤销删除的密钥")
     @RequestMapping(value = "/CancelKeyDeletion", method = RequestMethod.POST)
     @ResponseBody
-    public Result cancelKeyDeletion(@RequestBody PrimaryKey primaryKey) throws Exception {
+    public Result unicomCancelKeyDeletion(@RequestBody PrimaryKey primaryKey) throws Exception {
         logger.info("撤销密钥删除");
         primaryKeyService.cancelKeyDeletion(primaryKey);
         return ResultHelper.genResultWithSuccess();
@@ -136,7 +136,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "获取指定主密钥相关信息",notes = "返回指定主密钥（CMK）的相关信息")
     @RequestMapping(value = "/DescribeKey", method = RequestMethod.POST)
     @ResponseBody
-    public Result describeKey(@RequestBody PrimaryKey primaryKey) throws Exception {
+    public Result unicomDescribeKey(@RequestBody PrimaryKey primaryKey) throws Exception {
         logger.info("返回指定主密钥（CMK）的相关信息");
         PrimaryKeyDTO dto = primaryKeyService.describeKey(primaryKey);
         if("Enabled".equalsIgnoreCase(dto.getAutomaticRotation())){
@@ -157,7 +157,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "SDK查询调用者所有主密钥ID",notes = "SDK查询调用者在调用区域的所有主密钥ID")
     @RequestMapping(value = "/ListKeys", method = RequestMethod.POST)
     @ResponseBody
-    public Result listKeys(HttpServletRequest request, @RequestBody PageVo pageVo) throws Exception {
+    public Result unicomListKeys(HttpServletRequest request, @RequestBody PageVo pageVo) throws Exception {
         logger.info("SDK查询调用者在调用区域的所有主密钥ID");
         String userName = UtilService.getCurrentUserName(request);
         Integer pageNumber = pageVo.getPageNumber()==null?0: pageVo.getPageNumber();
@@ -178,7 +178,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "查询调用者所有主密钥ID",notes = "查询调用者在调用区域的所有主密钥ID")
     @RequestMapping(value = "/ListKeys1", method = RequestMethod.POST)
     @ResponseBody
-    public Result listKeys1(HttpServletRequest request, @RequestBody JSONObject obj) throws Exception {
+    public Result unicomListKeys1(HttpServletRequest request, @RequestBody JSONObject obj) throws Exception {
 
         request.setCharacterEncoding("utf-8");
 
@@ -207,7 +207,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "更新描述信息",notes = "替换主密钥描述信息")
     @RequestMapping(value = "/UpdateKeyDescription", method = RequestMethod.POST)
     @ResponseBody
-    public Result updateKeyDescription(@RequestBody PrimaryKey primaryKey) throws Exception {
+    public Result unicomUpdateKeyDescription(@RequestBody PrimaryKey primaryKey) throws Exception {
         logger.info("替换主密钥描述信息");
         primaryKeyService.updateKeyDescription(primaryKey);
         return ResultHelper.genResultWithSuccess();
@@ -223,7 +223,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "查询版本信息",notes = "查询指定密钥版本信息")
     @RequestMapping(value = "/DescribeKeyVersion", method = RequestMethod.POST)
     @ResponseBody
-    public Result describeKeyVersion(@RequestBody KeyVersion kv) throws Exception {
+    public Result unicomDescribeKeyVersion(@RequestBody KeyVersion kv) throws Exception {
         logger.info("查询指定密钥版本信息");
         KeyVersion keyVersion = primaryKeyService.describeKeyVersion(kv);
         KeyVersionDTO dto = new KeyVersionDTO();
@@ -243,7 +243,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "列出所有密钥版本",notes = "列出主密钥的所有密钥版本")
     @RequestMapping(value = "/ListKeyVersions", method = RequestMethod.POST)
     @ResponseBody
-    public Result listKeyVersions(@RequestBody JSONObject obj) throws Exception {
+    public Result unicomListKeyVersions(@RequestBody JSONObject obj) throws Exception {
         PageVo pageVo = new PageVo();
         BeanUtils.copyProperties(pageVo, obj);
         KeyVersion kv = new KeyVersion();
@@ -268,7 +268,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "更新轮转策略",notes = "更新密钥轮转策略")
     @RequestMapping(value = "/UpdateRotationPolicy", method = RequestMethod.POST)
     @ResponseBody
-    public Result updateRotationPolicy(@RequestBody PrimaryKey primaryKey) throws Exception {
+    public Result unicomUpdateRotationPolicy(@RequestBody PrimaryKey primaryKey) throws Exception {
         logger.info("更新密钥轮转策略");
         primaryKeyService.updateRotationPolicy(primaryKey);
         return ResultHelper.genResultWithSuccess();
@@ -284,7 +284,7 @@ public class PrimaryKeyController {
     @ApiOperation(value = "创建新密钥版本",notes = "为非对称主密钥创建一个新的密钥版本")
     @RequestMapping(value = "/CreateKeyVersion", method = RequestMethod.POST)
     @ResponseBody
-    public Result createKeyVersion(HttpServletRequest request, @RequestBody PrimaryKey primaryKey) throws Exception {
+    public Result unicomCreateKeyVersion(HttpServletRequest request, @RequestBody PrimaryKey primaryKey) throws Exception {
         logger.info("为非对称主密钥创建一个新的密钥版本");
         primaryKey.setCreator(UtilService.getCurrentUserName(request));
         KeyVersion reKeyVersion = primaryKeyService.createKeyVersion(primaryKey);

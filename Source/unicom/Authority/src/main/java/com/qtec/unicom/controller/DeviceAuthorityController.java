@@ -23,7 +23,7 @@ public class DeviceAuthorityController {
     @ApiOperation(value = "添加终端用户权限", notes = "添加终端用户权限")
     @RequestMapping(value = "/addDeviceAuthority",method = RequestMethod.POST)
     @ResponseBody
-    public Result addDeviceAuthority(@RequestBody AddDeviceAuthorityRequest addDeviceAuthorityRequest){
+    public Result unicomAddDeviceAuthority(@RequestBody AddDeviceAuthorityRequest addDeviceAuthorityRequest){
         //先把全部的权限删除之后再添加
         deviceAuthorityService.delDeviceAuthByDeviceId(addDeviceAuthorityRequest.getDeviceId());
         for (Integer apiId : addDeviceAuthorityRequest.getApiId()) {
@@ -35,7 +35,7 @@ public class DeviceAuthorityController {
     @ApiOperation(value = "删除权限", notes = "删除权限")
     @RequestMapping(value = "/delDeviceAuthority",method = RequestMethod.GET)
     @ResponseBody
-    public Result delDeviceAuthority(@RequestParam("authId") int authId){
+    public Result unicomDelDeviceAuthority(@RequestParam("authId") int authId){
         int i = deviceAuthorityService.delDeviceAuthority(authId);
         if (i == 1)
             return ResultHelper.genResultWithSuccess();
@@ -46,7 +46,7 @@ public class DeviceAuthorityController {
     @ApiOperation(value = "删除指定终端用户所有权限", notes = "删除指定终端用户所有权限")
     @RequestMapping(value = "/delDeviceAllAuthority",method = RequestMethod.GET)
     @ResponseBody
-    public Result delDeviceAllAuthority(@RequestParam("deviceId") int deviceId){
+    public Result unicomDelDeviceAllAuthority(@RequestParam("deviceId") int deviceId){
         deviceAuthorityService.delDeviceAuthByDeviceId(deviceId);
         return ResultHelper.genResultWithSuccess();
     }
@@ -55,7 +55,7 @@ public class DeviceAuthorityController {
     @ApiOperation(value = "获取指定终端用户已添加权限信息", notes = "获取指定终端用户已添加权限信息")
     @RequestMapping(value = "/getDeviceAuthority",method = RequestMethod.GET)
     @ResponseBody
-    public Result getDeviceAuthority(@RequestParam("deviceId") int deviceId){
+    public Result unicomGetDeviceAuthority(@RequestParam("deviceId") int deviceId){
         List<AuthInfo> authInfos = deviceAuthorityService.getDeviceAuthority(deviceId);
         return ResultHelper.genResultWithSuccess(authInfos);
     }

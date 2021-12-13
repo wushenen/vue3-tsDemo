@@ -43,7 +43,7 @@ public class LoginController {
     @ApiOperation(value = "终端用户登录",notes = "终端用户登录")
     @RequestMapping(value = "/deviceLogin",method = RequestMethod.POST)
     @ResponseBody
-    public Result deviceLogin(@RequestBody DeviceUserLoginRequest deviceUserLoginRequest) {
+    public Result unicomDeviceLogin(@RequestBody DeviceUserLoginRequest deviceUserLoginRequest) {
         boolean tag = false;
         String deviceName = StringUtils.newStringUtf8(Base64.decodeBase64(deviceUserLoginRequest.getDeviceName()));
         byte[] hmac1 = Base64.decodeBase64(deviceUserLoginRequest.getPassword());
@@ -94,7 +94,7 @@ public class LoginController {
     @ApiOperation(value = "注销",notes = "用户注销登录")
     @ResponseBody
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public Result logout() {
+    public Result unicomLogout() {
         Subject subject = SecurityUtils.getSubject();
         if (subject != null){
             subject.logout();
@@ -106,7 +106,7 @@ public class LoginController {
     @ApiOperation(value = "无权限",notes = "无权限")
     @ResponseBody
     @RequestMapping(value = "/noPerm", method = RequestMethod.GET)
-    public Result noPerm() {
+    public Result unicomNoPerm() {
         return ResultHelper.genResult(403,"no perms");
     }
 

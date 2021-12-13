@@ -36,7 +36,7 @@ public class LoggerController {
     @ApiOperation(value = "获取日志信息",notes = "获取指定页和页面大小的日志信息")
     @RequestMapping(value = "listOperateLogs/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
-    public Result listOperateLogs(HttpServletRequest request,
+    public Result unicomListOperateLogs(HttpServletRequest request,
                                   @PathVariable("offset") int offset,
                                   @PathVariable("pageSize") int pageSize) throws ParseException {
         if (pageSize > 50) {
@@ -51,8 +51,6 @@ public class LoggerController {
         String ip = request.getParameter("Ip");
         String operatorName = request.getParameter("operatorName");
         String logInfo = request.getParameter("logInfo");
-//        String macAddr = request.getParameter("macAddr");
-//        String operateMicro = request.getParameter("operateMicro");
 
         Map<String, Object> paramas = new HashMap<>(16);
         if (startTime != null && !startTime.trim().equals("")) {
@@ -76,8 +74,6 @@ public class LoggerController {
         if (logInfo != null && !logInfo.trim().equals("")) {
             paramas.put("logInfo", logInfo);
         }
-//        paramas.put("macAddr", macAddr);
-//        paramas.put("operateMicro", operateMicro);
 
         paramas.put("offset", offset);
         paramas.put("pageSize", pageSize);
