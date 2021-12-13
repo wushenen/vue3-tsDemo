@@ -15,23 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    /*@ExceptionHandler(Exception.class)
-    @ResponseBody //在返回自定义相应类的情况下必须有，这是@ControllerAdvice注解的规定
-    public JSONObject exceptionHandler(Exception e, HttpServletResponse response) {
-
-        if(e instanceof PwspException){
-            PwspException pwspE = (PwspException)e;
-            logger.error(pwspE.getResult().toString());
-            JSONObject result = pwspE.getResult();
-            return result;
-        }
-//        e.printStackTrace();
-        logger.error(e.getMessage(),e);
-        return JSONResult.genFailResult(500,"InternalFailure",e.getMessage());
-    }*/
-
     @ExceptionHandler(Exception.class)
-    @ResponseBody //在返回自定义相应类的情况下必须有，这是@ControllerAdvice注解的规定
+    @ResponseBody
     public Result exceptionHandler(Exception e, HttpServletResponse response) {
         if(e instanceof PwspException){
             PwspException pwspE = (PwspException)e;
@@ -39,25 +24,19 @@ public class GlobalExceptionHandler {
             Result result = pwspE.getErrorResult();
             return result;
         }
-//        e.printStackTrace();
-        System.out.println("-----error-----------------");
         logger.error(e.getMessage(),e);
         return ResultHelper.genResult(500,"InternalFailure",e.getMessage());
     }
 
-    @ExceptionHandler(UnauthorizedException.class)//UnauthenticatedException
-    @ResponseBody //在返回自定义相应类的情况下必须有，这是@ControllerAdvice注解的规定
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseBody
     public Result UnauthorizedException(Exception e, HttpServletResponse response) {
-        // 记录日志
-//        e.printStackTrace();
         logger.error(e.getMessage(),e);
         return ResultHelper.genResult(403,"该用户没权限");
     }
     @ExceptionHandler(UnauthenticatedException.class)//
-    @ResponseBody //在返回自定义相应类的情况下必须有，这是@ControllerAdvice注解的规定
+    @ResponseBody
     public Result UnauthenticatedException(Exception e, HttpServletResponse response) {
-        // 记录日志
-//        e.printStackTrace();
         logger.error(e.getMessage(),e);
         return ResultHelper.genResult(401,"请重新登陆");
     }

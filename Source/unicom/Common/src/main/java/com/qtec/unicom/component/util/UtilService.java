@@ -5,8 +5,6 @@ import com.qtec.jni.KMSJNI;
 import com.qtec.jni.QR902JNI;
 import com.qtec.unicom.component.Exception.PwspException;
 import com.qtec.unicom.component.ResultHelper;
-import com.qtec.unicom.component.init.Init;
-import com.qtec.unicom.component.jni.Qr901JNI;
 import com.qtec.unicom.mapper.KeySourceConfigMapper;
 import com.qtec.unicom.pojo.KeySourceConfig;
 import org.slf4j.Logger;
@@ -51,42 +49,6 @@ public class UtilService {
      * @param length
      * @return
      */
-    public byte[] generateRandom(int length) throws Exception {
-        logger.info("随机数获取源：{}",rngSource);
-        byte[] random = new byte[length];
-        switch (rngSource){
-            case 1://qrng
-                random = QrngUtil.genrateRandom(length);
-                break;
-            case 2://密码卡
-                random = SwsdsTools.generateRandom(length);
-                break;
-            case 3://901
-                try {
-                    Qr901JNI t = new Qr901JNI();
-                    String ip = server901IP;
-                    String[] iparr = ip.split(".");
-                    long server_ip = (long)((Integer.parseInt(iparr[0]) << 24) + (Integer.parseInt(iparr[1]) << 16) + (Integer.parseInt(iparr[2]) << 8) + Integer.parseInt(iparr[3]));
-                    byte[] buffer = new byte[length];
-                    System.out.println("----------获取901随机数-------------");
-                    t.QRNG_getRandom(server_ip, buffer, (long)buffer.length);
-                    System.arraycopy(buffer, 0, random, 0, length);
-                } catch (Throwable var13) {
-                    throw new RuntimeException("Add provider failed:\n" + var13.getMessage());
-                }
-                break;
-            case 4:
-                QR902JNI qr902JNI = new QR902JNI();
-                byte[] bytes = qr902JNI.QRNG_read_random(server902IP, 8192);
-                System.arraycopy(bytes, 0, random, 0, length);
-                break;
-            default:
-                random = randomByte(length);
-        }
-        return random;
-    }
-
-
     public byte[] generateQuantumRandom(int length) throws Exception {
         List<KeySourceConfig> keySourceConfigs = keySourceConfigMapper.getKeySourceConfigs();
         byte[] random = new byte[length];
