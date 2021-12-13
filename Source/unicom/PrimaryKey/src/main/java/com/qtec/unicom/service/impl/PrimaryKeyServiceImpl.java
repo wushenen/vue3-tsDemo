@@ -472,20 +472,13 @@ public class PrimaryKeyServiceImpl implements PrimaryKeyService {
     }
 
     /**
-     * 用别名或keyId查询主密钥对象
+     * 用keyId查询主密钥对象
      * @param keyIdORalias
      * @return
      * @throws PwspException
      */
     @Override
     public PrimaryKey getPrimaryKeybyKeyIdORalias(String keyIdORalias) throws PwspException {
-        /*if(keyIdORalias.startsWith("alias/")){
-            Alias alias = aliasMapper.getAlias(keyIdORalias);
-            if(alias == null){
-                throw new PwspException(ResultHelper.genResult(404,"未找到指定密钥"));
-            }
-            keyIdORalias = alias.getKeyId();
-        }*/
         PrimaryKey primaryKey = primaryKeyMapper.getPrimaryKey(keyIdORalias);
         if(primaryKey == null){
             throw new PwspException(ResultHelper.genResult(404,"未找到指定密钥"));
