@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qtec.unicom.mapper.RoleAuthMapper">
+<mapper namespace="com.cucc.unicom.mapper.RoleAuthMapper">
 
     <insert id="addRoleAuth">
         insert into t_role_auth (role_id,api_id)
@@ -27,7 +27,7 @@
         where id = #{roleAuthId}
     </delete>
 
-    <select id="getRoleAuth" resultType="com.qtec.unicom.pojo.DTO.RoleAuthInfo">
+    <select id="getRoleAuth" resultType="com.cucc.unicom.pojo.DTO.RoleAuthInfo">
         SELECT a.id as roleAuthId,
         a.role_id as roleId,
         b.role_code as roleCode,

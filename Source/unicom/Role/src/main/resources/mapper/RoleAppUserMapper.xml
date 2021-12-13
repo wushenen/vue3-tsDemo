@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qtec.unicom.mapper.RoleAppUserMapper">
+<mapper namespace="com.cucc.unicom.mapper.RoleAppUserMapper">
 
     <!--添加角色授权用户-->
     <insert id="addRoleAppUser">
@@ -27,7 +27,7 @@
     </delete>
 
     <!--获取角色已授权用户-->
-    <select id="roleAppUserList" resultType="com.qtec.unicom.pojo.DTO.RoleAppUserInfo">
+    <select id="roleAppUserList" resultType="com.cucc.unicom.pojo.DTO.RoleAppUserInfo">
         select b.id,a.user_id,a.user_name,a.commit_info,b.create_time
         from t_app_user a ,t_role_app_user b
         where b.role_id = #{roleId}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qtec.unicom.mapper.GroupDeviceUserMapper">
+<mapper namespace="com.cucc.unicom.mapper.GroupDeviceUserMapper">
 
     <!--添加分组成员-->
     <insert id="addGroupDeviceUser">
@@ -27,7 +27,7 @@
     </delete>
 
     <!--展示该分组所有成员-->
-    <select id="groupDeviceUserList" resultType="com.qtec.unicom.pojo.DTO.GroupDeviceUserInfo">
+    <select id="groupDeviceUserList" resultType="com.cucc.unicom.pojo.DTO.GroupDeviceUserInfo">
         select b.id,a.device_id,a.device_name,a.comments,b.create_time
         from t_device_user a ,t_group_device_user b
         where b.group_id = #{groupId}

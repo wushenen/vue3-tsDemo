@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qtec.unicom.mapper.UserMapper">
+<mapper namespace="com.cucc.unicom.mapper.UserMapper">
 
-    <resultMap id="userInfo" type="com.qtec.unicom.pojo.User">
+    <resultMap id="userInfo" type="com.cucc.unicom.pojo.User">
         <id property="id" column="id"/>
         <result property="userName" column="user_name"/>
         <result property="password" column="password"/>
@@ -19,7 +19,7 @@
     </sql>
 
 
-    <insert id="addUser" parameterType="com.qtec.unicom.pojo.User">
+    <insert id="addUser" parameterType="com.cucc.unicom.pojo.User">
         insert into t_user (user_name,password,email,comments,account_type)
         values (#{userName},#{password},#{email},#{comments},#{accountType})
     </insert>
@@ -30,7 +30,7 @@
         where binary user_name = #{userName}
     </select>
 
-    <update id="updateUser" parameterType="com.qtec.unicom.pojo.User">
+    <update id="updateUser" parameterType="com.cucc.unicom.pojo.User">
         update t_user
         <set>
             <if test="userName != null and !&quot;&quot;.equals(userName.trim())">

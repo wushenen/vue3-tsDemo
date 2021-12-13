@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qtec.unicom.mapper.DeviceStatusMapper">
+<mapper namespace="com.cucc.unicom.mapper.DeviceStatusMapper">
 
     <!--添加终端状态信息-->
-    <insert id="addDeviceStatusInfo" parameterType="com.qtec.unicom.pojo.DeviceStatus">
+    <insert id="addDeviceStatusInfo" parameterType="com.cucc.unicom.pojo.DeviceStatus">
         insert into t_device_status (device_name,device_ip,work_status,online_time,key_num,enc_data,dec_data,enc_rate,dec_rate)
         values (#{deviceName},#{deviceIp},#{workStatus},#{onlineTime},#{keyNum},#{encData},#{decData},#{encRate},#{decRate})
     </insert>
@@ -17,7 +17,7 @@
     </select>
 
     <!--修改密钥云终端信息-->
-    <update id="updateDeviceStatusInfo" parameterType="com.qtec.unicom.pojo.DeviceStatus">
+    <update id="updateDeviceStatusInfo" parameterType="com.cucc.unicom.pojo.DeviceStatus">
         update t_device_status
         set
             work_status = #{workStatus},
@@ -33,19 +33,19 @@
     </update>
 
     <!--查看密钥云终端信息-->
-    <select id="listDeviceStatusInfo" resultType="com.qtec.unicom.pojo.DeviceStatus">
+    <select id="listDeviceStatusInfo" resultType="com.cucc.unicom.pojo.DeviceStatus">
         select * from t_device_status
         order by create_time desc
     </select>
 
-    <select id="getDeviceStatusInfoByDeviceName" resultType="com.qtec.unicom.pojo.DeviceStatus">
+    <select id="getDeviceStatusInfoByDeviceName" resultType="com.cucc.unicom.pojo.DeviceStatus">
         select * from t_device_status
         where device_name = #{deviceName}
     </select>
 
 
     <!--密码态势感知数据-->
-    <select id="getDeviceStatusInfo" resultType="com.qtec.unicom.pojo.DTO.DeviceStatusDataInfo">
+    <select id="getDeviceStatusInfo" resultType="com.cucc.unicom.pojo.DTO.DeviceStatusDataInfo">
         SELECT COUNT(1) as deviceNum,
         SUM(work_status) as onlineNum,
         SUM(key_num) as keyNum,
@@ -54,7 +54,7 @@
         FROM t_device_status
     </select>
 
-    <select id="getDeviceStatusInfo2" resultType="com.qtec.unicom.pojo.DTO.DeviceStatusDataInfo">
+    <select id="getDeviceStatusInfo2" resultType="com.cucc.unicom.pojo.DTO.DeviceStatusDataInfo">
         SELECT COUNT(1) as deviceNum,
         SUM(work_status) as onlineNum,
         SUM(key_num) as keyNum,
@@ -82,7 +82,7 @@
         between DATE_SUB(CURRENT_TIME,INTERVAL 5 day) and CURRENT_DATE
     </select>
 
-    <select id="everyDayKeyInfo" resultType="com.qtec.unicom.pojo.DTO.DeviceKeyInfo">
+    <select id="everyDayKeyInfo" resultType="com.cucc.unicom.pojo.DTO.DeviceKeyInfo">
         SELECT DATE_FORMAT(create_time,'%Y-%m-%d') as timeInfo , count(1) as keyNum from t_key_info
         WHERE create_time BETWEEN DATE_SUB(current_date ,INTERVAL 5 day) and CURRENT_DATE
         GROUP BY timeInfo

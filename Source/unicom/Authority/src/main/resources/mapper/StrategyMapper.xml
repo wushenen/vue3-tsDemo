@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qtec.unicom.mapper.StrategyMapper">
+<mapper namespace="com.cucc.unicom.mapper.StrategyMapper">
 
     <!--增加策略-->
     <insert id="addStrategy">
@@ -44,13 +44,13 @@
     </update>
 
     <!--获取所有策略信息-->
-    <select id="getStrategyList" resultType="com.qtec.unicom.pojo.Strategy">
+    <select id="getStrategyList" resultType="com.cucc.unicom.pojo.Strategy">
         select * from t_strategy
         order by create_time desc
     </select>
 
     <!--获取指定策略详细信息-->
-    <select id="getStrategyInfo" resultType="com.qtec.unicom.pojo.Strategy">
+    <select id="getStrategyInfo" resultType="com.cucc.unicom.pojo.Strategy">
         select *
         from t_strategy
         where strategy_id =#{strategyId}
@@ -76,7 +76,7 @@
     </delete>
 
     <!--查询当前策略包含的操作-->
-    <select id="getStrategyActionInfo" resultType="com.qtec.unicom.pojo.DTO.StrategyActionInfo">
+    <select id="getStrategyActionInfo" resultType="com.cucc.unicom.pojo.DTO.StrategyActionInfo">
         select strategy_action_id as strategyActionId,
         b.api_id as apiId,
         api_name as apiName,

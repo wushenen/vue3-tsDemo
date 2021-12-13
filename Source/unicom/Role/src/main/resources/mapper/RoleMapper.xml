@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qtec.unicom.mapper.RoleMapper">
+<mapper namespace="com.cucc.unicom.mapper.RoleMapper">
 
     <!--创建角色-->
     <insert id="addRole">
@@ -16,19 +16,19 @@
     </select>
 
     <!--获取角色信息列表-->
-    <select id="roleList" resultType="com.qtec.unicom.pojo.Role">
+    <select id="roleList" resultType="com.cucc.unicom.pojo.Role">
         select * from t_role
         order by create_time desc
     </select>
 
     <!--查看角色详情-->
-    <select id="roleInfo" resultType="com.qtec.unicom.pojo.Role">
+    <select id="roleInfo" resultType="com.cucc.unicom.pojo.Role">
         select *
         from t_role
         where BINARY role_code = #{roleCode};
     </select>
     <!--查看角色详情通过id-->
-    <select id="roleInfoById" resultType="com.qtec.unicom.pojo.Role">
+    <select id="roleInfoById" resultType="com.cucc.unicom.pojo.Role">
         select *
         from t_role
         where role_id = #{roleId};
@@ -66,7 +66,7 @@
 
 
     <!--模糊查询，通过roleCode获取角色信息-->
-    <select id="searchRole" resultType="com.qtec.unicom.pojo.Role">
+    <select id="searchRole" resultType="com.cucc.unicom.pojo.Role">
         select *
         from t_role
         where role_code like concat('%',#{roleCode},'%');

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qtec.unicom.mapper.KeyOfflineMapper">
+<mapper namespace="com.cucc.unicom.mapper.KeyOfflineMapper">
     
     <insert id="addOffKey">
         insert into t_key_offline (key_id,key_value)
@@ -9,7 +9,7 @@
     </insert>
     
     
-    <select id="getOffKey" resultType="com.qtec.unicom.pojo.KeyOffline">
+    <select id="getOffKey" resultType="com.cucc.unicom.pojo.KeyOffline">
         select * from t_key_offline
         where id between #{start} and #{end}
     </select>

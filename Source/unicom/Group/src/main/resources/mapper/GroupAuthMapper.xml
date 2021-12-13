@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.qtec.unicom.mapper.GroupAuthMapper">
+<mapper namespace="com.cucc.unicom.mapper.GroupAuthMapper">
 
     <insert id="addGroupAuth">
         insert into t_group_auth (group_id,api_id)
@@ -27,7 +27,7 @@
         where id = #{groupAuthId}
     </delete>
 
-    <select id="getGroupAuth" resultType="com.qtec.unicom.pojo.DTO.GroupAuthInfo">
+    <select id="getGroupAuth" resultType="com.cucc.unicom.pojo.DTO.GroupAuthInfo">
         SELECT a.id as groupAuthId,
         a.group_id as groupId,
         b.group_name as groupName,
