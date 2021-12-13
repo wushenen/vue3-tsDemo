@@ -9,8 +9,6 @@ import com.qtec.unicom.pojo.PageVo;
 import com.qtec.unicom.service.AppUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/v1/kms")
 public class AppUserController {
-    private static final Logger logger = LoggerFactory.getLogger(AppUserController.class);
+
     @Autowired
     private AppUserService appUserService;
 
