@@ -54,17 +54,6 @@
         FROM t_device_status
     </select>
 
-    <select id="getDeviceStatusInfo2" resultType="com.cucc.unicom.pojo.DTO.DeviceStatusDataInfo">
-        SELECT COUNT(1) as deviceNum,
-        SUM(work_status) as onlineNum,
-        SUM(key_num) as keyNum,
-        SUM(enc_data) as encDataNum,
-        SUM(dec_data) as decDataNum
-        FROM t_device_status
-        where create_time
-        between DATE_SUB(CURRENT_TIME,INTERVAL 5 day) and CURRENT_DATE
-    </select>
-
     <select id="keyGenNum" resultType="Long">
         SELECT COUNT(1)
         FROM t_key_info
@@ -73,13 +62,6 @@
         SELECT COUNT(1)
         FROM t_key_info
         where key_status = 2
-    </select>
-
-    <select id="keyGenNum2" resultType="Long">
-        SELECT COUNT(1)
-        FROM t_key_info
-        where update_time
-        between DATE_SUB(CURRENT_TIME,INTERVAL 5 day) and CURRENT_DATE
     </select>
 
     <select id="everyDayKeyInfo" resultType="com.cucc.unicom.pojo.DTO.DeviceKeyInfo">

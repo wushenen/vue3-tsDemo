@@ -14,7 +14,7 @@ public class AddUserRequest {
     @ApiModelProperty(value = "密码" ,required = true)
     private String password;
 
-    @ApiModelProperty(value = "密码" ,required = true)
+    @ApiModelProperty(value = "邮箱" ,required = true)
     private String email;
 
     @ApiModelProperty(value = "用户类型" ,required = true)

@@ -37,12 +37,10 @@ public class UserServiceImpl implements UserService {
         }
         User user = new User();
         user.setUserName(addUserRequest.getUserName())
-        .setPassword(utilService.encryptCBCWithPadding(addUserRequest.getPassword(),UtilService.SM4KEY))
-        .setEmail(addUserRequest.getEmail())
-        .setAccountType(addUserRequest.getAccountType())
-        .setComments(addUserRequest.getComments());
-        System.out.println(user.getPassword());
-        System.out.println(user.getPassword().length());
+            .setPassword(utilService.encryptCBCWithPadding(addUserRequest.getPassword(),UtilService.SM4KEY))
+            .setEmail(addUserRequest.getEmail())
+            .setAccountType(addUserRequest.getAccountType())
+            .setComments(addUserRequest.getComments());
         userMapper.addUser(user);
         return 0;
     }

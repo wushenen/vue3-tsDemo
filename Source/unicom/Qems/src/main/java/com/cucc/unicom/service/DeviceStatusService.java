@@ -9,8 +9,6 @@ public interface DeviceStatusService {
 
     int updateDeviceStatusInfo(DeviceStatus deviceStatus);
 
-    int addDeviceStatusInfo(DeviceStatus deviceStatus);
-
     List<DeviceStatus> listDeviceStatusInfo();
 
     DeviceStatusDataResponse getStatusShowInfo();

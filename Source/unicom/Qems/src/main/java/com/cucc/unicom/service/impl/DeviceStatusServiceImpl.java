@@ -40,14 +40,6 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
     }
 
     @Override
-    public int addDeviceStatusInfo(DeviceStatus deviceStatus) {
-        if (deviceStatusMapper.deviceStatusInfoExist(deviceStatus.getDeviceName())) {
-            return 1;
-        }
-        return deviceStatusMapper.addDeviceStatusInfo(deviceStatus);
-    }
-
-    @Override
     public List<DeviceStatus> listDeviceStatusInfo() {
         return deviceStatusMapper.listDeviceStatusInfo();
     }
