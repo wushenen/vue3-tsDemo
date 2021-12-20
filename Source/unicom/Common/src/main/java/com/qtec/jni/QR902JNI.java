@@ -1,4 +1,4 @@
-package com.cucc.jni;
+package com.qtec.jni;
 
 public class QR902JNI {
     static{

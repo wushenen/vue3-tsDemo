@@ -1,12 +1,12 @@
 package com.cucc.unicom.component.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cucc.jni.KMSJNI;
-import com.cucc.jni.QR902JNI;
 import com.cucc.unicom.component.Exception.PwspException;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.mapper.KeySourceConfigMapper;
 import com.cucc.unicom.pojo.KeySourceConfig;
+import com.qtec.jni.KMSJNI;
+import com.qtec.jni.QR902JNI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
