@@ -20,7 +20,7 @@ spring:
     port: 3306
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://192.168.93.197:${spring.datasource.port}/unicom?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
+      url: jdbc:mysql://localhost:${spring.datasource.port}/unicom?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
