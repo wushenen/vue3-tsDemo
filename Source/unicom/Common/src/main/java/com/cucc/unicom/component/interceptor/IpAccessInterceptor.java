@@ -1,11 +1,13 @@
 package com.cucc.unicom.component.interceptor;
 
 import com.cucc.unicom.component.init.Init;
+import com.cucc.unicom.component.util.IpWhiteCheckUtil;
 import com.cucc.unicom.mapper.IpMapper;
 import com.cucc.unicom.pojo.IpInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
@@ -39,17 +41,33 @@ public class IpAccessInterceptor implements HandlerInterceptor {
      * @param request
      * @return
      */
-
     private boolean ipAccessAble(@NotNull HttpServletRequest request){
+
+        if (Init.IP_WHITE_SET.contains("0.0.0.0"))
+            return true;
+
+        if (IpWhiteCheckUtil.isPermitted(request.getRemoteAddr(), Init.IP_WHITE_SET)) {
+            return true;
+        }
+        List<IpInfo> allIps = ipMapper.getAllIps();
+        for (IpInfo allIp : allIps) {
+            Init.IP_WHITE_SET.add(allIp.getIpInfo());
+        }
+        if (IpWhiteCheckUtil.isPermitted(request.getRemoteAddr(), Init.IP_WHITE_SET)) {
+            return true;
+        }
+        return false;
+    }
+    /*private boolean ipAccessAble(@NotNull HttpServletRequest request){
         if (Init.IP_WHITE_SET.contains(request.getRemoteAddr()))
             return true;
-        List<IpInfo> allIps = ipMapper.getAllIps();
+        Set<IpInfo> allIps = ipMapper.getAllIps();
         for (IpInfo allIp : allIps) {
             Init.IP_WHITE_SET.add(allIp.getIpInfo());
         }
         if (Init.IP_WHITE_SET.contains(request.getRemoteAddr()))
             return true;
         return false;
-    }
+    }*/
 }
 

@@ -2,11 +2,11 @@ package com.cucc.unicom.controller;
 
 import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
+import com.cucc.unicom.controller.vo.IpInfoRequest;
 import com.cucc.unicom.pojo.IpInfo;
 import com.cucc.unicom.service.IpService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.cucc.unicom.controller.vo.IpInfoRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,9 @@ public class IpController {
     public Result unicomAddIp(@RequestBody IpInfoRequest ipInfoRequest) throws Exception {
         int result = ipService.addIp(ipInfoRequest.getIpInfo());
         if(result ==2){
-            return ResultHelper.genResult(2,"该ip已添加，勿重复添加");
+            return ResultHelper.genResult(1,"该IP信息已添加，勿重复添加");
         }
+        if (result == 3) return ResultHelper.genResult(1,"请参照提示信息添加IP信息");
         return ResultHelper.genResultWithSuccess();
     }
 
