@@ -20,9 +20,6 @@ CREATE TABLE `t_api_resource`  (
 -- Records of t_api_resource
 -- ----------------------------
 INSERT INTO `t_api_resource` VALUES (1, '主密钥管理', '', 0, '用户主密钥相关', '2021-09-24 13:51:55', '2021-09-24 13:51:55');
-INSERT INTO `t_api_resource` VALUES (2, '密钥材料管理', NULL, 0, '用户密钥材料相关', '2021-09-24 13:52:11', '2021-09-24 13:52:11');
-INSERT INTO `t_api_resource` VALUES (3, '对称密钥管理', NULL, 0, '对称密钥相关', '2021-09-29 13:52:13', '2021-09-29 13:52:13');
-INSERT INTO `t_api_resource` VALUES (4, '非对称密钥管理', NULL, 0, '非对称密钥相关', '2021-10-11 10:51:47', '2021-10-11 10:51:47');
 INSERT INTO `t_api_resource` VALUES (7, '密码运算', NULL, 0, 'SM2、SM3、SM4等密码运算相关', '2021-10-13 17:00:09', '2021-10-13 17:00:09');
 INSERT INTO `t_api_resource` VALUES (8, '量子密钥管理', NULL, 0, '量子密钥相关', '2021-10-13 17:00:20', '2021-10-13 17:00:20');
 INSERT INTO `t_api_resource` VALUES (9, '创建主密钥', 'CreateKey', 1, '创建一个主密钥', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
@@ -37,30 +34,9 @@ INSERT INTO `t_api_resource` VALUES (17, '查询指定密钥版本信息', 'Desc
 INSERT INTO `t_api_resource` VALUES (18, '查询主密钥所有版本', 'ListKeyVersions', 1, '列出主密钥的所有密钥版本', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
 INSERT INTO `t_api_resource` VALUES (19, '更新密钥轮转策略', 'UpdateRotationPolicy', 1, '更新密钥轮转策略', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
 INSERT INTO `t_api_resource` VALUES (20, '创建非对称主密钥新版本', 'CreateKeyVersion', 1, '为非对称主密钥创建一个新的密钥版本', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (21, '查询导入主密钥材料', 'GetParametersForImport', 2, '获取导入主密钥（CMK）材料', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (22, '导入密钥材料', 'ImportKeyMaterial', 2, '导入密钥材料', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (23, '删除已导入密钥材料', 'DeleteKeyMaterial', 2, '删除已导入的密钥材料', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (24, '非对称密钥签名', 'AsymmetricSign', 4, '使用非对称密钥进行签名', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (25, '非对称密钥验签', 'AsymmetricVerify', 4, '使用非对称密钥进行验签', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (26, '非对称密钥加密', 'AsymmetricEncrypt', 4, '使用非对称密钥进行加密', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (27, '非对称密钥解密', 'AsymmetricDecrypt', 4, '使用非对称密钥进行解密', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (28, '查询非对称密钥公钥', 'GetPublicKey', 4, '获取非对称密钥的公钥', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (29, '对称主密钥明文加密', 'Encrypt', 3, '使用对称主密钥（Symmetric CMK）将明文加密', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (30, '解密CiphertextBlob密文', 'Decrypt', 3, '解密CiphertextBlob中的密文', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (31, '传入公钥加密导出数据密钥', 'ExportDataKey', 3, '使用传入的公钥加密导出数据密钥', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (32, '生成随机数据密钥1', 'GenerateAndExportDataKey', 3, '生成一个随机数据密钥.返回CMK加密数据密钥的密文和公钥加密数据密钥的密文', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (33, '生成随机数据密钥2', 'GenerateDataKey', 3, '生成一个随机数据密钥,返回数据密钥的密文和明文', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (34, '生成随机数据密钥3', 'GenerateDataKeyWithoutPlaintext', 3, '生成一个随机数据密钥,返回数据密钥的密文', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (35, '密文转加密', 'ReEncrypt', 3, '对密文进行转加密', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
 INSERT INTO `t_api_resource` VALUES (51, '在线算法验证SM2', 'arithmeticsm2', 7, '在线算法验证SM2', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
 INSERT INTO `t_api_resource` VALUES (52, '在线算法验证SM3', 'arithmeticsm3', 7, '在线算法验证SM3', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
 INSERT INTO `t_api_resource` VALUES (53, '在线算法验证SM4', 'arithmeticsm4', 7, '在线算法验证SM4', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (54, '在线算法验证SM9', 'arithmeticsm9', 7, 'sm9功能', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (55, 'SM9加密', 'SM9Encrypt', 7, 'SM9加密', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (56, 'SM9解密', 'SM9Decrypt', 7, 'SM9解密', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (57, 'SM9签名', 'SM9Sign', 7, 'SM9签名', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (58, 'SM9验签', 'SM9VeritySign', 7, 'SM9验签', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
-INSERT INTO `t_api_resource` VALUES (59, '获取SM9公开参数及用户私钥', 'SM9params', 7, '获取SM9公开参数及用户私钥', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
 INSERT INTO `t_api_resource` VALUES (60, '获取随机数', 'GenerateRandom', 8, '生成随机数', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
 INSERT INTO `t_api_resource` VALUES (61, '获取临时密钥', 'GenerateTempKey', 8, '产生临时密钥', '2021-10-13 17:25:22', '2021-10-13 17:25:22');
 
@@ -85,7 +61,7 @@ CREATE TABLE `t_app_secret`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键，自增',
   `user_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '应用用户标识',
   `app_key` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '应用key',
-  `app_secret` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '应用secret',
+  `app_secret` varchar(96) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '应用secret',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `app_key`(`app_key`) USING BTREE
@@ -270,7 +246,7 @@ CREATE TABLE `t_group_user`  (
 DROP TABLE IF EXISTS `t_ip`;
 CREATE TABLE `t_ip`  (
   `id` int(20) NOT NULL AUTO_INCREMENT,
-  `ip_info` varchar(15) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '白名单ip',
+  `ip_info` varchar(31) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '白名单ip',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'ip 白名单表' ROW_FORMAT = Compact;
