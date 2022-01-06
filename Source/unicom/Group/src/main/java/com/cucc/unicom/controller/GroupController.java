@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class GroupController {
     @Autowired
     private GroupService groupService;
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "创建分组",notes = "创建新分组")
     @RequestMapping(value = "/addGroup",method = RequestMethod.POST)
     @ResponseBody
@@ -69,7 +71,7 @@ public class GroupController {
         return ResultHelper.genResultWithSuccess(groupPageInfo);
     }
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "修改分组信息",notes = "修改分组信息")
     @RequestMapping(value = "/updateGroupInfo",method = RequestMethod.POST)
     @ResponseBody
@@ -93,7 +95,7 @@ public class GroupController {
     }
 
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除分组",notes = "删除分组")
     @RequestMapping(value = "/deleteGroup",method = RequestMethod.GET)
     @ResponseBody

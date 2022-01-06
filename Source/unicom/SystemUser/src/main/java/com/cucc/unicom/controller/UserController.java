@@ -70,6 +70,7 @@ public class UserController {
      * @param updateUserRequest
      * @return
      */
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "修改系统用户信息",notes = "修改系统用户信息（修改信息包括密码、备注）")
     @RequestMapping(value = "/updateUserInfo",method = RequestMethod.POST)
     @ResponseBody
@@ -79,7 +80,7 @@ public class UserController {
     }
 
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除系统用户",notes = "删除系统用户")
     @RequestMapping(value = "/deleteUserInfo",method = RequestMethod.GET)
     @ResponseBody
@@ -97,6 +98,7 @@ public class UserController {
      * @return
      * @throws UnsupportedEncodingException
      */
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "获取所有系统用户信息",notes = "获取所有系统用户信息")
     @RequestMapping(value = "/getAllUsers/{offset}/{pageSize}", method = RequestMethod.GET)
     @ResponseBody

@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import com.cucc.unicom.controller.vo.MailConfigRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -54,6 +55,7 @@ public class MailController {
         return ResultHelper.genResultWithSuccess(mailSenderConfig);
     }
 
+    @RequiresRoles("systemUser")
     @ApiOperation("修改邮件发件人配置信息")
     @RequestMapping(value = "updateMailConfig",method = RequestMethod.POST)
     @ResponseBody

@@ -17,6 +17,7 @@ import com.cucc.unicom.component.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -77,6 +78,7 @@ public class DeviceUserController {
 
 
     /*获取终端信息*/
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "获取指定终端用户信息" ,notes = "获取指定终端用户信息")
     @RequestMapping(value = "/getDeviceInfo",method = RequestMethod.POST)
     @ResponseBody
@@ -86,6 +88,7 @@ public class DeviceUserController {
     }
 
     /*添加终端信息*/
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "添加终端用户信息",notes = "添加终端用户信息")
     @RequestMapping(value = "/addDeviceUser",method = RequestMethod.POST)
     @ResponseBody
@@ -112,6 +115,7 @@ public class DeviceUserController {
     }
 
     /*批量添加终端信息*/
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "批量导入终端",notes = "批量导入终端用户信息")
     @RequestMapping(value = "/importDeviceUser",method = RequestMethod.POST)
     @ResponseBody
@@ -141,6 +145,7 @@ public class DeviceUserController {
 
 
     /*删除终端信息*/
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除终端用户信息",notes = "删除终端用户信息")
     @RequestMapping(value = "/deleteDevice",method = RequestMethod.POST)
     @ResponseBody
@@ -152,6 +157,7 @@ public class DeviceUserController {
     }
 
     /*修改终端用户信息*/
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "修改终端用户信息" ,notes = "修改终端用户信息")
     @RequestMapping(value = "/updateDevice",method = RequestMethod.POST)
     @ResponseBody
@@ -196,7 +202,7 @@ public class DeviceUserController {
         return ResultHelper.genResultWithSuccess(deviceUsers);
     }
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "批量导出终端用户信息",notes = "导出选中的终端用户信息")
     @RequestMapping(value = "/exportDeviceUsers",method = RequestMethod.POST)
     @ResponseBody

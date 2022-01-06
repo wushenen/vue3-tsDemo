@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ public class IpController {
     @Autowired
     private IpService ipService;
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "添加ip",notes = "向ip白名单中添加将被允许访问的ip")
     @RequestMapping(value = "/addIp", method = RequestMethod.POST)
     @ResponseBody
@@ -49,6 +51,7 @@ public class IpController {
         return ResultHelper.genResultWithSuccess(info);
     }
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除指定ip",notes = "移除白名单中指定ip")
     @RequestMapping(value = "/delIpById", method = RequestMethod.POST)
     @ResponseBody

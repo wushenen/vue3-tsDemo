@@ -7,6 +7,7 @@ import com.cucc.unicom.pojo.DTO.GroupAuthInfo;
 import com.cucc.unicom.service.GroupAuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class GroupAuthController {
     @Autowired
     private GroupAuthService groupAuthService;
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "添加分组权限",notes = "添加分组权限")
     @ResponseBody
     @PostMapping("/add")
@@ -30,6 +32,7 @@ public class GroupAuthController {
         return ResultHelper.genResultWithSuccess();
     }
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除分组部分权限",notes = "删除分组部分权限")
     @ResponseBody
     @GetMapping("/deletePart")
@@ -39,6 +42,7 @@ public class GroupAuthController {
     }
 
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除该分组所有权限",notes = "删除该分组所有权限")
     @ResponseBody
     @GetMapping("/deleteAll")

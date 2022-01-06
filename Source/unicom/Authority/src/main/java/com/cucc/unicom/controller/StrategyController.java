@@ -12,6 +12,7 @@ import com.cucc.unicom.controller.vo.AddStrategyRequest;
 import com.cucc.unicom.controller.vo.UpdateStrategyRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +27,7 @@ public class StrategyController {
     @Autowired
     private StrategyService strategyService;
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "添加策略", notes = "添加策略")
     @RequestMapping(value = "/addStrategy",method = RequestMethod.POST)
     @ResponseBody
@@ -40,7 +41,7 @@ public class StrategyController {
             return ResultHelper.genResult(1,"策略名称重复");
     }
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除策略", notes = "删除策略信息")
     @RequestMapping(value = "/deleteStrategy",method = RequestMethod.POST)
     @ResponseBody
@@ -52,7 +53,7 @@ public class StrategyController {
             return ResultHelper.genResult(1,"策略信息删除失败");
     }
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "修改策略", notes = "修改策略信息")
     @RequestMapping(value = "/updateStrategy",method = RequestMethod.POST)
     @ResponseBody
@@ -70,7 +71,7 @@ public class StrategyController {
             return ResultHelper.genResult(1,"策略名称重复");
     }
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "获取所有策略信息", notes = "获取所有策略信息")
     @RequestMapping(value = "/getStrategy/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
@@ -85,7 +86,7 @@ public class StrategyController {
         return ResultHelper.genResultWithSuccess(info);
     }
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "添加策略操作", notes = "添加策略操作")
     @RequestMapping(value = "/addAction",method = RequestMethod.POST)
     @ResponseBody
@@ -96,7 +97,7 @@ public class StrategyController {
         return ResultHelper.genResultWithSuccess();
     }
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除策略操作", notes = "删除策略操作")
     @RequestMapping(value = "/deleteAction",method = RequestMethod.POST)
     @ResponseBody
@@ -108,7 +109,7 @@ public class StrategyController {
             return ResultHelper.genResult(1,"策略操作删除失败");
     }
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "获取指定策略操作信息", notes = "获取指定策略操作信息")
     @RequestMapping(value = "/getActionInfo",method = RequestMethod.GET)
     @ResponseBody

@@ -9,6 +9,7 @@ import com.cucc.unicom.service.KeySourceConfigService;
 import com.cucc.unicom.controller.vo.KeySourceConfigRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +23,7 @@ public class KeySourceConfigController {
     @Autowired
     private KeySourceConfigService keySourceConfigService;
 
+    @RequiresRoles("systemUser")
     @ApiOperation("获取密钥源配置")
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     @ResponseBody
@@ -42,7 +44,7 @@ public class KeySourceConfigController {
         return ResultHelper.genResultWithSuccess(configs);
     }
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation("修改密钥源配置")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
@@ -56,6 +58,7 @@ public class KeySourceConfigController {
     }
 
 
+    @RequiresRoles("systemUser")
     @ApiOperation("修改QKD配置")
     @RequestMapping(value = "/updateQKD",method = RequestMethod.POST)
     @ResponseBody
@@ -65,6 +68,7 @@ public class KeySourceConfigController {
         return ResultHelper.genResultWithSuccess();
     }
 
+    @RequiresRoles("systemUser")
     @ApiOperation("修改密钥源优先级")
     @RequestMapping(value = "/updatePriority",method = RequestMethod.GET)
     @ResponseBody
@@ -73,6 +77,7 @@ public class KeySourceConfigController {
         return ResultHelper.genResultWithSuccess();
     }
 
+    @RequiresRoles("systemUser")
     @ApiOperation("禁用密钥源配置")
     @RequestMapping(value = "/delete",method = RequestMethod.GET)
     @ResponseBody
@@ -83,6 +88,7 @@ public class KeySourceConfigController {
         return ResultHelper.genResultWithSuccess();
     }
 
+    @RequiresRoles("systemUser")
     @ApiOperation("启用密钥源配置")
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     @ResponseBody

@@ -10,6 +10,7 @@ import com.github.pagehelper.PageInfo;
 import com.cucc.unicom.controller.vo.AddGroupDeviceUserRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,7 @@ public class GroupDeviceUserController {
     @Autowired
     private GroupDeviceUserService groupDeviceUserService;
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "添加分组终端用户",notes = "添加分组终端用户")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
@@ -50,6 +52,7 @@ public class GroupDeviceUserController {
         return ResultHelper.genResultWithSuccess(pageInfo);
     }
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除分组终端用户",notes = "删除分组终端用户")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody

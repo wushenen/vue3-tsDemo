@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +26,7 @@ public class GroupAppUserController {
     @Autowired
     private GroupAppUserService groupAppUserService;
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "添加分组应用用户",notes = "添加分组应用用户")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
@@ -50,6 +52,7 @@ public class GroupAppUserController {
         return ResultHelper.genResultWithSuccess(pageInfo);
     }
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除分组应用用户",notes = "删除分组应用用户")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody

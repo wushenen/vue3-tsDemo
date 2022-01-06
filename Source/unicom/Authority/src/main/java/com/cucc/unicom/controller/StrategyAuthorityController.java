@@ -13,6 +13,7 @@ import com.cucc.unicom.pojo.AppUser;
 import com.cucc.unicom.pojo.Group;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,6 +41,7 @@ public class StrategyAuthorityController {
     @Autowired
     private AppUserService appUserService;
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "添加策略授权信息", notes = "添加策略授权信息")
     @RequestMapping(value = "/addStrategyAuth",method = RequestMethod.POST)
     @ResponseBody
@@ -78,6 +80,7 @@ public class StrategyAuthorityController {
         return ResultHelper.genResultWithSuccess();
     }
 
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "删除策略授权信息", notes = "删除策略授权信息")
     @RequestMapping(value = "/delStrategyAuth",method = RequestMethod.POST)
     @ResponseBody
@@ -91,7 +94,7 @@ public class StrategyAuthorityController {
     }
 
 
-
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "获取策略授权信息", notes = "获取策略授权信息")
     @RequestMapping(value = "/getStrategyAuthInfo/{offset}/{pageSize}", method = RequestMethod.GET)
     @ResponseBody
