@@ -9,6 +9,7 @@ import com.cucc.unicom.pojo.MailLog;
 import com.cucc.unicom.component.MailProperties;
 import com.cucc.unicom.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
@@ -56,8 +57,13 @@ public class MailServiceImpl implements MailService {
             message.setSentDate(new Date());
             message.setText(mailInfo.getText());
             CompletableFuture.runAsync(()->{
-                sender.send(message);
-                mailLogMapper.insertMailLog(new MailLog(mailInfo.getDestination(),mailInfo.getSubject(),true));
+                try {
+                    sender.send(message);
+                    mailLogMapper.insertMailLog(new MailLog(mailInfo.getDestination(),mailInfo.getSubject(),true));
+                } catch (MailException e) {
+                    mailLogMapper.insertMailLog(new MailLog(mailInfo.getDestination(),mailInfo.getSubject(),false));
+                }
+
             });
         } catch (Exception e) {
             e.printStackTrace();
