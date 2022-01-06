@@ -14,7 +14,7 @@ public class NetworkUtil {
      * @return
      * @throws IOException
      */
-    public final static String getIpAddress(HttpServletRequest request) throws IOException {
+    public final static String getIpAddress(HttpServletRequest request) {
 
         String ip = request.getHeader("X-Forwarded-For");
 

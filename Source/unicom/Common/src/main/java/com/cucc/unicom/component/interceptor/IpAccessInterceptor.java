@@ -2,6 +2,7 @@ package com.cucc.unicom.component.interceptor;
 
 import com.cucc.unicom.component.init.Init;
 import com.cucc.unicom.component.util.IpWhiteCheckUtil;
+import com.cucc.unicom.component.util.NetworkUtil;
 import com.cucc.unicom.mapper.IpMapper;
 import com.cucc.unicom.pojo.IpInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class IpAccessInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         boolean ipAccessAble = ipAccessAble(request);
         if (!ipAccessAble) {
-            System.out.println("客户端ip：" + request.getRemoteAddr() + "不在ip列表中，不允许访问");
+            System.out.println("客户端ip：" + NetworkUtil.getIpAddress(request) + "不在ip列表中，不允许访问");
         }
         return ipAccessAble;
     }
@@ -39,14 +40,14 @@ public class IpAccessInterceptor implements HandlerInterceptor {
     private boolean ipAccessAble(@NotNull HttpServletRequest request){
         if (Init.IP_WHITE_SET.contains("0.0.0.0"))
             return true;
-        if (IpWhiteCheckUtil.isPermitted(request.getRemoteAddr(), Init.IP_WHITE_SET)) {
+        if (IpWhiteCheckUtil.isPermitted(NetworkUtil.getIpAddress(request), Init.IP_WHITE_SET)) {
             return true;
         }
         List<IpInfo> allIps = ipMapper.getAllIps();
         for (IpInfo allIp : allIps) {
             Init.IP_WHITE_SET.add(allIp.getIpInfo());
         }
-        if (IpWhiteCheckUtil.isPermitted(request.getRemoteAddr(), Init.IP_WHITE_SET)) {
+        if (IpWhiteCheckUtil.isPermitted(NetworkUtil.getIpAddress(request), Init.IP_WHITE_SET)) {
             return true;
         }
         return false;
