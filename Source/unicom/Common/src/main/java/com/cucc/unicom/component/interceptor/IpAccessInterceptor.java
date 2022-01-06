@@ -36,16 +36,9 @@ public class IpAccessInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
     }
 
-    /**
-     * 检查客户端ip是否在可访问ip列表中
-     * @param request
-     * @return
-     */
     private boolean ipAccessAble(@NotNull HttpServletRequest request){
-
         if (Init.IP_WHITE_SET.contains("0.0.0.0"))
             return true;
-
         if (IpWhiteCheckUtil.isPermitted(request.getRemoteAddr(), Init.IP_WHITE_SET)) {
             return true;
         }
@@ -58,16 +51,6 @@ public class IpAccessInterceptor implements HandlerInterceptor {
         }
         return false;
     }
-    /*private boolean ipAccessAble(@NotNull HttpServletRequest request){
-        if (Init.IP_WHITE_SET.contains(request.getRemoteAddr()))
-            return true;
-        Set<IpInfo> allIps = ipMapper.getAllIps();
-        for (IpInfo allIp : allIps) {
-            Init.IP_WHITE_SET.add(allIp.getIpInfo());
-        }
-        if (Init.IP_WHITE_SET.contains(request.getRemoteAddr()))
-            return true;
-        return false;
-    }*/
+
 }
 
