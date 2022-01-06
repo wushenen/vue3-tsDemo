@@ -285,7 +285,7 @@ public class KeyInfoController {
                 }else if (warn > 0.9 && warn < 1.0){
                     mailService.sendSimpleMail(new MailInfo("量子密钥告警",adminEmail,"用户"+deviceName+"量子密钥剩余可使用已不足10%，请立即充值"));
                 }else if (usedNum >= totalNum){
-                    if ((usedNum-totalNum)%(0.2*totalNum) == 0){
+                    if (Math.floor((usedNum-totalNum)%(0.2*totalNum)) == 0){
                         mailService.sendSimpleMail(new MailInfo("量子密钥告警",adminEmail,"用户"+deviceName+"量子密钥已超额使用，请立即充值"));
                     }
                 }
