@@ -53,7 +53,7 @@ public class UserController {
      * @param addUserRequest
      * @return
      */
-    @RequiresRoles("admin")
+    @RequiresRoles("systemUser")
     @ApiOperation(value = "添加用户信息",notes = "添加用户信息")
     @RequestMapping(value = "/addUserInfo",method = RequestMethod.POST)
     @ResponseBody
