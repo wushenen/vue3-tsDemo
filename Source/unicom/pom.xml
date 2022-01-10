@@ -13,7 +13,7 @@
         <module>AppUser</module>
         <module>Secret</module>
         <module>PrimaryKey</module>
-        <module>SM9</module>
+        <module>SM</module>
         <module>Encrypt</module>
         <module>SystemUser</module>
         <module>QuantumKey</module>

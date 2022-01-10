@@ -10,10 +10,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.cucc</groupId>
-    <artifactId>SM9</artifactId>
+    <artifactId>SM</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>SM9</name>
+    <name>SM</name>
 
 
 </project>
