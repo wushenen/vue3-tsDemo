@@ -1,6 +1,9 @@
 package com.cucc.unicom.service.impl;
 
-import com.cucc.src.SM9KeyGenerationCenter;
+import com.cucc.unicom.component.Exception.PwspException;
+import com.cucc.unicom.component.ResultHelper;
+import com.cucc.unicom.component.annotation.OperateLogAnno;
+import com.cucc.unicom.component.init.SelfExaminationParam;
 import com.cucc.unicom.component.util.*;
 import com.cucc.unicom.mapper.KeyVersionMapper;
 import com.cucc.unicom.mapper.MaterialMapper;
@@ -10,10 +13,6 @@ import com.cucc.unicom.pojo.Material;
 import com.cucc.unicom.pojo.PrimaryKey;
 import com.cucc.unicom.pojo.dto.PrimaryKeyDTO;
 import com.cucc.unicom.service.PrimaryKeyService;
-import com.cucc.unicom.component.ResultHelper;
-import com.cucc.unicom.component.Exception.PwspException;
-import com.cucc.unicom.component.annotation.OperateLogAnno;
-import com.cucc.unicom.component.init.SelfExaminationParam;
 import com.sansec.device.crypto.CryptoException;
 import com.sansec.device.crypto.MgrException;
 import com.sansec.jce.provider.JCESM2PrivateKey;
@@ -50,9 +49,9 @@ public class PrimaryKeyServiceImpl implements PrimaryKeyService {
     @Autowired
     private UtilService utilService;
 /*    @Autowired
-    private AliasMapper aliasMapper;*/
+    private AliasMapper aliasMapper;
     @Autowired
-    private com.cucc.unicom.service.SM9Service SM9Service;
+    private com.cucc.unicom.service.SM9Service SM9Service;*/
 
     @Value("${cmdPath}")
     private String cmdPath;
@@ -127,27 +126,6 @@ public class PrimaryKeyServiceImpl implements PrimaryKeyService {
                 byte[] priKeyCipher = SwsdsTools.SDF_Encrypt1(priHex.getBytes("UTF-8"),1);
                 keyVersion.setPriKeyData(priKeyCipher);
                 keyVersion.setPubKeyData(SwsdsTools.SDF_Encrypt1(pubHex.getBytes("UTF-8"),1));
-                break;
-            case "EC_SM9"://密码卡  kpType 1-加密；2-签名
-                enableAutomaticRotation(primaryKey);
-                primaryKey.setAutomaticRotation("Disabled");
-                primaryKey.setRotationInterval(null);
-                SM9KeyGenerationCenter kgc = SM9Service.getKGC();
-                String sm9PriKey;
-                String sm9PubKey;
-                if("ENCRYPT/DECRYPT".equalsIgnoreCase(primaryKey.getKeyUsage())){
-                    sm9PriKey = kgc.getKe().toString(16);
-                    sm9PubKey = HexUtils.bytesToHexString(kgc.getPpube().toBytes());
-                }else if("SIGN/VERIFY".equalsIgnoreCase(primaryKey.getKeyUsage())){
-                    sm9PriKey = kgc.getKs().toString(16);
-                    sm9PubKey = HexUtils.bytesToHexString(kgc.getPpubs().toBytes());
-                }else{
-                    throw new PwspException(ResultHelper.genResult(400,"<密钥用途>无效"));
-                }
-                //index为1的主密钥加密
-                priKeyCipher = SwsdsTools.SDF_Encrypt1(sm9PriKey.getBytes("UTF-8"),1);
-                keyVersion.setPriKeyData(priKeyCipher);
-                keyVersion.setPubKeyData(SwsdsTools.SDF_Encrypt1(sm9PubKey.getBytes("UTF-8"),1));
                 break;
             case "QTEC_SM4":
                 if("".equalsIgnoreCase(primaryKey.getKeyUsage())||primaryKey.getKeyUsage() ==null){
