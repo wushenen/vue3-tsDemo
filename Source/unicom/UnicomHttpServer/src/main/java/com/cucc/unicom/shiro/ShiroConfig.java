@@ -48,6 +48,7 @@ public class ShiroConfig {
 
         //放行用户导入模板
         filterChainDefinitionMap.put("/keyInfo/getKey","anon");
+        filterChainDefinitionMap.put("/keyInfo/batchGetKey","anon");
 
         //放行swagger
         filterChainDefinitionMap.put("/swagger-ui/**","anon");
