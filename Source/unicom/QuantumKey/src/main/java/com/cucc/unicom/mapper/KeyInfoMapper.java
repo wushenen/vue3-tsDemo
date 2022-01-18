@@ -14,13 +14,9 @@ public interface KeyInfoMapper {
     int updateKeyInfo(byte[] keyId,int keyStatus);
     void deleteKeyInfo(byte[] keyId);
     List<KeyInfo> getKeyInfos(String applicant, int keyStatus);
-
     List<KeyInfo> getKeyInfosNotInKeyStatus(String applicant, int keyStatus);
-
     Long getTotalNum(String applicant);
     Long getUsedNum(String applicant);
-
     String getAdminEmail();
-
     Long getDeviceStatusKeyNum(String deviceName);
 }

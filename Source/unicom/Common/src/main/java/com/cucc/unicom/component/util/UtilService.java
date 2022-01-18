@@ -5,6 +5,7 @@ import com.cucc.unicom.component.Exception.PwspException;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.mapper.KeySourceConfigMapper;
 import com.cucc.unicom.pojo.KeySourceConfig;
+import com.cucc.unicom.service.KeySourceInfoService;
 import com.qtec.jni.KMSJNI;
 import com.qtec.jni.QR902JNI;
 import org.slf4j.Logger;
@@ -25,6 +26,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -39,6 +41,8 @@ public class UtilService {
     private String server902IP;
     @Autowired
     private KeySourceConfigMapper keySourceConfigMapper;
+    @Autowired
+    private KeySourceInfoService keySourceInfoService;
 
     private final String SM4IV = "00000000000000000000000000000000";
     public static final String SM4KEY = "304C1673505BF98B894DC2C496D24B33";
@@ -51,20 +55,24 @@ public class UtilService {
      */
     public byte[] generateQuantumRandom(int length) throws Exception {
         List<KeySourceConfig> keySourceConfigs = keySourceConfigMapper.getKeySourceConfigs();
+        int keySource = 0;
         byte[] random = new byte[length];
         byte[] random2 = new byte[length];
         if (keySourceConfigs.size() != 0) {
             for (int i = 0; i < keySourceConfigs.size(); i++) {
+                long startTime = System.currentTimeMillis();
                 if(keySourceConfigs.get(i).getPriority() != 5){
                     logger.info("随机数获取源：{}",keySourceConfigs.get(i).getKeySource());
                     switch (keySourceConfigs.get(i).getKeySource()) {
                         case 1://qrng
                             System.out.println("---qrng---");
                             random = QrngUtil.genrateRandom(length);
+                            keySource = 1;
                             break;
                         case 2://密码卡
                             System.out.println("---密码卡---");
                             random = SwsdsTools.generateRandom(length);
+                            keySource = 2;
                             break;
                         case 3://902
                             System.out.println("---902---");
@@ -101,6 +109,7 @@ public class UtilService {
                                     }
                                 }
                             }
+                            keySource = 3;
                             break;
                         case 4: //QKD
                             System.out.println("-------qkd-------");
@@ -139,12 +148,19 @@ public class UtilService {
                             }
                             if (bytes != null)
                                 System.arraycopy(bytes, 0, random, 0, length);
+                            keySource = 4;
                             break;
                         default:
                             random = randomByte(length);
                     }
-                    if (!Arrays.equals(random,random2))
+                    if (!Arrays.equals(random,random2)) {
+                        int finalKeySource = keySource;
+                        CompletableFuture.runAsync(()->{
+                            String rate = CalculateUtil.calRate(Integer.toUnsignedLong(length), System.currentTimeMillis() - startTime);
+                            keySourceInfoService.updateKeySourceInfo(finalKeySource,rate,Integer.toUnsignedLong(length));
+                        });
                         return random;
+                    }
                 }
             }
         }

@@ -58,7 +58,7 @@ public class LoginController {
                 tag = utilService.decryptCBCWithPadding(deviceUser.getPassword(),UtilService.SM4KEY).equals(deviceUserLoginRequest.getPassword());
             //判断用户成功后，获取用户的权限信息
             if (tag){
-                String token = JWTUtil.generateToken(deviceUser.getDeviceName());
+                String token = JWTUtil.generateTokenWithId(Integer.toString(deviceUser.getDeviceId()),deviceUser.getDeviceName());
                 UsernamePasswordToken userToken = new UsernamePasswordToken(token, token);
                 Subject subject = SecurityUtils.getSubject();
                 try {

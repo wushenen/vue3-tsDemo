@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cucc.unicom.mapper.KeySourceInfoMapper">
+    <insert id="addKeySourceInfo">
+        insert into t_key_source_info (key_source,key_generate_rate,key_generate_num)
+        values (#{keySource},#{keyGenerateRate},#{keyGenerateNum})
+    </insert>
+
+    <select id="keySourceInfoExist" resultType="boolean">
+        select count(1) from t_key_source_info
+        where key_source =#{keySource}
+    </select>
+
+    <update id="updateKeySourceInfo">
+        update t_key_source_info
+        set key_generate_rate = #{keyGenerateRate},
+        key_generate_num = #{keyGenerateNum}
+        where key_source =#{keySource}
+    </update>
+
+</mapper>

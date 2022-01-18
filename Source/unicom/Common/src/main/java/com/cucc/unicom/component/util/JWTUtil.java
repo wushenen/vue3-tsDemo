@@ -48,6 +48,31 @@ public class JWTUtil {
             return null;
         }
     }
+
+    public static String generateTokenWithId(String id, String username) {
+        try {
+            // 设置过期时间
+            long now = System.currentTimeMillis();
+            Date exp = new Date(now + GRACE_TIME);
+            // 设置头部信息
+            Map<String, Object> header = new HashMap<>(2);
+            header.put("typ", "JWT");
+            header.put("alg", "SM3");
+            // 返回token字符串
+            return JWT.create()
+                    .withHeader(header)
+                    .withIssuer("qtec_R&D")
+                    .withAudience(id,username)             // 接收该JWT的一方
+                    .withSubject("cipher_server")      // 该JWT所面向的用户
+                    .withExpiresAt(exp)               // 指定token的生命周期
+                    .withIssuedAt(new Date(now))     // token创建时间
+//                    .withJWTId(password)            // 针对当前token的唯一标识
+                    .sign(ALGORITHM_SM3);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
     public static String generateToken(String username,long time) {
         try {
             // 设置过期时间
@@ -96,6 +121,11 @@ public class JWTUtil {
     public static String getUsername(String token) throws Exception{
             DecodedJWT jwt = JWT.decode(token);
             return jwt.getAudience().get(0);
+    }
+
+    public static String getUserId(String token){
+        DecodedJWT jwt = JWT.decode(token);
+        return jwt.getAudience().get(1);
     }
     /**
      * 获得token中的到期时间信息

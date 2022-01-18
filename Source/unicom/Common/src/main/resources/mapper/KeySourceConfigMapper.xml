@@ -31,8 +31,9 @@
         and priority != 5;
     </update>
 
-    <select id="getKeySourceConfigs" resultType="com.cucc.unicom.pojo.KeySourceConfig">
-        select * from t_key_source_config
+    <select id="getKeySourceConfigs" resultType="com.cucc.unicom.pojo.dto.KeySourceDetail">
+        select * from t_key_source_config a, t_key_source_info b
+        where a.key_source = b.key_source
         order by priority asc
     </select>
 

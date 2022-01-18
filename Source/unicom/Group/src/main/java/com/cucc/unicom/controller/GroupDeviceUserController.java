@@ -2,7 +2,7 @@ package com.cucc.unicom.controller;
 
 import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
-import com.cucc.unicom.controller.vo.CancelGroupUserRequest;
+import com.cucc.unicom.controller.vo.CancelGroupDeviceUserRequest;
 import com.cucc.unicom.pojo.DTO.GroupDeviceUserInfo;
 import com.cucc.unicom.service.GroupDeviceUserService;
 import com.github.pagehelper.PageHelper;
@@ -56,8 +56,8 @@ public class GroupDeviceUserController {
     @ApiOperation(value = "删除分组终端用户",notes = "删除分组终端用户")
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
     @ResponseBody
-    public Result unicomDeleteGroupDeviceUser(@RequestBody CancelGroupUserRequest cancelGroupUserRequest){
-        groupDeviceUserService.deleteGroupDeviceUser(cancelGroupUserRequest.getIds());
+    public Result unicomDeleteGroupDeviceUser(@RequestBody CancelGroupDeviceUserRequest cancelGroupDeviceUserRequest){
+        groupDeviceUserService.deleteGroupDeviceUser(cancelGroupDeviceUserRequest.getIds());
         return ResultHelper.genResultWithSuccess();
     }
 

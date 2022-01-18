@@ -3,20 +3,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
-        <module>Qems</module>
+        <module>DataCenter</module>
         <module>Common</module>
-        <module>UnicomManager</module>
         <module>Device</module>
-        <module>Role</module>
         <module>Group</module>
         <module>Authority</module>
-        <module>AppUser</module>
-        <module>Secret</module>
-        <module>PrimaryKey</module>
-        <module>SM</module>
-        <module>Encrypt</module>
+        <module>App</module>
         <module>SystemUser</module>
         <module>QuantumKey</module>
+        <module>UnicomManager</module>
         <module>UnicomServer</module>
         <module>UnicomHttpServer</module>
     </modules>
@@ -94,7 +89,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.18</version>
+            <version>1.18.22</version>
             <scope>provided</scope>
         </dependency>
 

@@ -3,10 +3,10 @@ package com.cucc.unicom.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
+import com.cucc.unicom.controller.vo.KeySourceConfigRequest;
 import com.cucc.unicom.controller.vo.UpdateQKDRequest;
 import com.cucc.unicom.pojo.KeySourceConfig;
 import com.cucc.unicom.service.KeySourceConfigService;
-import com.cucc.unicom.controller.vo.KeySourceConfigRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -38,9 +38,6 @@ public class KeySourceConfigController {
     public Result unicomGetQKD(){
         String qkdConfig = keySourceConfigService.getQKDConfig();
         JSONObject configs = JSONObject.parseObject(qkdConfig);
-//        JSONObject config = configs.getJSONObject("config");
-//        JSONObject config2 = configs.getJSONObject("config2");
-
         return ResultHelper.genResultWithSuccess(configs);
     }
 
@@ -95,7 +92,7 @@ public class KeySourceConfigController {
     public Result unicomAdd(@RequestParam("id") int id,@RequestParam("priority") int priority){
         int i = keySourceConfigService.enableKeySourceConfig(priority, id);
         if (i == 1)
-            return ResultHelper.genResult(1,"密钥源已启用，无需重复重启");
+            return ResultHelper.genResult(1,"密钥源已启用，无需重复启用");
         return ResultHelper.genResultWithSuccess();
     }
 }

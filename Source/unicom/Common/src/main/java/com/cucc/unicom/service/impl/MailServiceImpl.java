@@ -59,9 +59,9 @@ public class MailServiceImpl implements MailService {
             CompletableFuture.runAsync(()->{
                 try {
                     sender.send(message);
-                    mailLogMapper.insertMailLog(new MailLog(mailInfo.getDestination(),mailInfo.getSubject(),true));
+                    mailLogMapper.insertMailLog(new MailLog(mailInfo.getDestination(),mailInfo.getText(),true));
                 } catch (MailException e) {
-                    mailLogMapper.insertMailLog(new MailLog(mailInfo.getDestination(),mailInfo.getSubject(),false));
+                    mailLogMapper.insertMailLog(new MailLog(mailInfo.getDestination(),mailInfo.getText(),false));
                 }
 
             });

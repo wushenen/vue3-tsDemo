@@ -48,7 +48,7 @@
         </dependency>
         <dependency>
             <groupId>com.cucc</groupId>
-            <artifactId>AppUser</artifactId>
+            <artifactId>App</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
