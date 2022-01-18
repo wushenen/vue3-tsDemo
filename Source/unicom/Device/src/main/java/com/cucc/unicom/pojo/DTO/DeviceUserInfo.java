@@ -1,3 +1,4 @@
+/*
 package com.cucc.unicom.pojo.DTO;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -28,3 +29,4 @@ public class DeviceUserInfo implements Serializable {
 
     private Set<String> auth;
 }
+*/

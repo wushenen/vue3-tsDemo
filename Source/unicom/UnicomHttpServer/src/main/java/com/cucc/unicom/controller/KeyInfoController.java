@@ -1,15 +1,19 @@
 package com.cucc.unicom.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cucc.unicom.pojo.KeyInfo;
-import com.cucc.unicom.service.KeyInfoService;
 import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.component.util.JWTUtil;
+import com.cucc.unicom.component.util.NetworkUtil;
 import com.cucc.unicom.component.util.UtilService;
+import com.cucc.unicom.controller.vo.BatchKeyInfoSDKRequest;
 import com.cucc.unicom.controller.vo.KeyInfoSDKRequest;
+import com.cucc.unicom.pojo.IntercomStatus;
+import com.cucc.unicom.pojo.KeyInfo;
 import com.cucc.unicom.pojo.MailInfo;
 import com.cucc.unicom.service.DeviceUserService;
+import com.cucc.unicom.service.IntercomStatusService;
+import com.cucc.unicom.service.KeyInfoService;
 import com.cucc.unicom.service.MailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Api(value = "量子密钥接口",tags = {"量子密钥接口"})
 @RestController
@@ -32,6 +37,9 @@ public class KeyInfoController {
 
     @Autowired
     private DeviceUserService deviceUserService;
+
+    @Autowired
+    private IntercomStatusService intercomStatusService;
 
     @Autowired
     private UtilService utilService;
@@ -67,6 +75,7 @@ public class KeyInfoController {
                 keyInfoService.updateKeyInfo(keyId,2);
             }
             sendEmail(deviceName);
+            updateIntercomStatus(request,deviceName,1L);
             //使用请求者的加密密钥进行SM4加密
             byte[] encryptCBCKeyValue = utilService.encryptCBC(keyValue, encKey.substring(0,32));
             //返回终端的信息，需要Base64编码
@@ -76,6 +85,46 @@ public class KeyInfoController {
         return ResultHelper.genResult(401,"用户未登录");
     }
 
+
+    @ApiOperation(value = "获取密钥",notes = "获取指定密钥")
+    @RequestMapping(value = "/batchGetKey",method = RequestMethod.POST)
+    @ResponseBody
+    public Result unicomBatchGetKey(@RequestBody BatchKeyInfoSDKRequest batchKeyInfoSDKRequest, HttpServletResponse response, HttpServletRequest request) throws Exception {
+        JSONObject object = new JSONObject();
+        String token = batchKeyInfoSDKRequest.getToken();
+        if (token != null){
+            String deviceName = JWTUtil.getUsername(token);
+            String encKey = deviceUserService.getEncKey(deviceName);
+            if (encKey == null)
+                return ResultHelper.genResult(1,"用户加密密钥错误");
+            ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
+            for (String batchKeyId : batchKeyInfoSDKRequest.getKeyIds()) {
+                byte[] keyId = Base64.decodeBase64(batchKeyId);
+                KeyInfo key = keyInfoService.getKeyInfo(keyId);
+                if (key == null) {
+                    byte[] keyValue = utilService.generateQuantumRandom(32);
+                    //byte[] encryptKeyValue = UtilService.encryptMessage(keyValue);
+                    byte[] encryptKeyValue = utilService.encryptCBCWithPadding(keyValue,UtilService.SM4KEY);
+                    keyInfoService.addKeyInfo(keyId,encryptKeyValue,deviceName,2);
+                    byte[] encryptCBCKeyValue = utilService.encryptCBC(keyValue, encKey.substring(0,32));
+                    map.put(batchKeyId,Base64.encodeBase64String(encryptCBCKeyValue));
+                }else{
+                    if (key.getKeyStatus() == 1)
+                        map.put(batchKeyId,Base64.encodeBase64String("This keyId is not available".getBytes()));
+                    //keyValue = UtilService.decryptMessage(key.getKeyValue());
+                    byte[] keyValue = utilService.decryptCBCWithPadding(key.getKeyValue(), UtilService.SM4KEY);
+                    keyInfoService.updateKeyInfo(keyId,2);
+                    byte[] encryptCBCKeyValue = utilService.encryptCBC(keyValue, encKey.substring(0,32));
+                    map.put(batchKeyId,Base64.encodeBase64String(encryptCBCKeyValue));
+                }
+            }
+            sendEmail(deviceName);
+            updateIntercomStatus(request,deviceName,Long.valueOf(batchKeyInfoSDKRequest.getKeyIds().size()));
+            object.put("keyValues", map);
+            return ResultHelper.genResultWithSuccess(object);
+        }
+        return ResultHelper.genResult(401,"用户未登录");
+    }
 
     private void sendEmail(String deviceName){
         CompletableFuture.runAsync(()->{
@@ -95,6 +144,16 @@ public class KeyInfoController {
                     }
                 }
             }
+        });
+    }
+
+    private void updateIntercomStatus(HttpServletRequest request, String deviceName, Long keyNum){
+        CompletableFuture.runAsync(()->{
+            IntercomStatus intercomStatus = new IntercomStatus();
+            intercomStatus.setKeyNum(keyNum)
+                    .setDeviceIp(NetworkUtil.getIpAddress(request))
+                    .setDeviceName(deviceName);
+            intercomStatusService.updateIntercom(intercomStatus);
         });
     }
 
