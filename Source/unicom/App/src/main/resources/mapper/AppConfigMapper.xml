@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cucc.unicom.mapper.QemsConfigMapper">
+<mapper namespace="com.cucc.unicom.mapper.AppConfigConfigMapper">
 
-    <select id="getQemsConfig" resultType="com.cucc.unicom.pojo.QemsConfig">
-        select * from t_qems_config
+    <insert id="addAppConfig">
+        insert into t_app_config (app_id,enc_port,enc_type,enc_freq,start_index,end_index)
+        values (#{appId},#{encPort},#{encType},#{encFreq},#{startIndex},#{endIndex})
+    </insert>
+
+    <select id="appConfigExist">
+        select count(1) from t_app_config
+        where app_id = #{appId}
+    </select>
+    
+    <select id="getQemsConfig" resultType="com.cucc.unicom.pojo.AppConfig">
+        select * from t_app_config a, t_app_device b
+        where a.app_id = b.app_id
+        and b.device_id = #{deviceId}
     </select>
 
-    <update id="updateQemsConfig" parameterType="com.cucc.unicom.controller.vo.UpdateQemsConfigRequest">
-        update t_qems_config
+    <select id="getQemsConfigByAppId" resultType="com.cucc.unicom.pojo.AppConfig">
+        select * from t_app_config
+        where a.app_id = #{appId}
+    </select>
+
+    <update id="updateQemsConfig" parameterType="com.cucc.unicom.controller.vo.UpdateAppConfigRequest">
+        update t_app_config
         set config_name = #{configName},
         enc_port = #{encPort},
         enc_type = #{encType},
