@@ -3,7 +3,6 @@ package com.cucc.unicom.shiro;
 import com.cucc.unicom.component.util.JWTUtil;
 import com.cucc.unicom.pojo.ApiResource;
 import com.cucc.unicom.pojo.DTO.GroupAuthInfo;
-import com.cucc.unicom.pojo.DTO.RoleAuthInfo;
 import com.cucc.unicom.pojo.DeviceUser;
 import com.cucc.unicom.service.*;
 import org.apache.shiro.SecurityUtils;
@@ -26,8 +25,6 @@ public class CustomRealm extends AuthorizingRealm {
     private ShiroAuthService shiroAuthService;
 
     @Autowired
-    private RoleAuthService roleAuthService;
-    @Autowired
     private GroupAuthService groupAuthService;
 
     @Autowired
@@ -43,7 +40,6 @@ public class CustomRealm extends AuthorizingRealm {
         DeviceUser deviceUser = (DeviceUser) SecurityUtils.getSubject().getPrincipal();
         List<Integer> roleIds = null;
         List<Integer> groupIds = null;
-        List<RoleAuthInfo> roleAuth = null;
         List<GroupAuthInfo> groupAuth = null;
         HashSet<Integer> apiIdSet = new HashSet<>();
         info.addRole("deviceUser");
@@ -57,19 +53,7 @@ public class CustomRealm extends AuthorizingRealm {
                 apiIdSet.addAll(apiId);
             }
         }
-        if (roleIds != null && !roleIds.isEmpty()){
-            for (Integer roleId : roleIds) {
-                roleAuth = roleAuthService.getRoleAuth(roleId);
-                List<Integer> strategyIds = shiroAuthService.getStrategyIdByRoleId(roleId);
-                for (RoleAuthInfo roleAuthInfo : roleAuth) {
-                    apiIdSet.add(roleAuthInfo.getApiId());
-                }
-                for (Integer strategyId : strategyIds) {
-                    List<Integer> apiId = shiroAuthService.getApiIdByStrategyId(strategyId);
-                    apiIdSet.addAll(apiId);
-                }
-            }
-        }
+
         if (groupIds != null && !groupIds.isEmpty()){
             for (Integer groupId : groupIds) {
                 groupAuth = groupAuthService.getGroupAuth(groupId);

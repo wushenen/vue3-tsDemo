@@ -24,17 +24,12 @@
         </dependency>
         <dependency>
             <groupId>com.cucc</groupId>
-            <artifactId>Role</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cucc</groupId>
             <artifactId>Group</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>com.cucc</groupId>
-            <artifactId>AppUser</artifactId>
+            <artifactId>App</artifactId>
             <version>1.0</version>
         </dependency>
     </dependencies>

@@ -28,7 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.cucc</groupId>
-            <artifactId>Qems</artifactId>
+            <artifactId>DataCenter</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>

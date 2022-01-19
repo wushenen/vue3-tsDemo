@@ -19,7 +19,7 @@ public interface LoginMapper {
     @Select("select * from t_user where binary user_name = #{userName}")
     User systemUserLogin(String userName);
 
-    @Select("select * from t_app_secret where binary app_key = #{appKey}")
+    @Select("select * from t_app where binary app_key = #{appKey}")
     AppSecret appUserLogin(String appKey);
 
     @Select("select * from t_app_user where binary user_name = #{appUserName}")

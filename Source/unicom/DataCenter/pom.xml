@@ -10,8 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.cucc</groupId>
-    <artifactId>Qems</artifactId>
-    <name>Qems</name>
+    <artifactId>DataCenter</artifactId>
+    <name>DataCenter</name>
     <version>1.0</version>
     <packaging>jar</packaging>
 

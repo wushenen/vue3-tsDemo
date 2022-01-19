@@ -28,12 +28,7 @@
         </dependency>
         <dependency>
             <groupId>com.cucc</groupId>
-            <artifactId>Qems</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cucc</groupId>
-            <artifactId>Role</artifactId>
+            <artifactId>DataCenter</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
@@ -49,21 +44,6 @@
         <dependency>
             <groupId>com.cucc</groupId>
             <artifactId>App</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cucc</groupId>
-            <artifactId>PrimaryKey</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cucc</groupId>
-            <artifactId>Secret</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.cucc</groupId>
-            <artifactId>Encrypt</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
