@@ -5,7 +5,7 @@ import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.controller.vo.KeySourceConfigRequest;
 import com.cucc.unicom.controller.vo.UpdateQKDRequest;
-import com.cucc.unicom.pojo.KeySourceConfig;
+import com.cucc.unicom.pojo.dto.KeySourceDetail;
 import com.cucc.unicom.service.KeySourceConfigService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,7 +28,7 @@ public class KeySourceConfigController {
     @RequestMapping(value = "/get",method = RequestMethod.GET)
     @ResponseBody
     public Result unicomGet(){
-        List<KeySourceConfig> keySourceConfig = keySourceConfigService.getKeySourceConfig();
+        List<KeySourceDetail> keySourceConfig = keySourceConfigService.getKeySourceConfig();
         return ResultHelper.genResultWithSuccess(keySourceConfig);
     }
 

@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cucc.unicom.component.Exception.PwspException;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.mapper.KeySourceConfigMapper;
-import com.cucc.unicom.pojo.KeySourceConfig;
+import com.cucc.unicom.pojo.dto.KeySourceDetail;
 import com.cucc.unicom.service.KeySourceInfoService;
 import com.qtec.jni.KMSJNI;
 import com.qtec.jni.QR902JNI;
@@ -54,7 +54,7 @@ public class UtilService {
      * @return
      */
     public byte[] generateQuantumRandom(int length) throws Exception {
-        List<KeySourceConfig> keySourceConfigs = keySourceConfigMapper.getKeySourceConfigs();
+        List<KeySourceDetail> keySourceConfigs = keySourceConfigMapper.getKeySourceConfigs();
         int keySource = 0;
         byte[] random = new byte[length];
         byte[] random2 = new byte[length];
