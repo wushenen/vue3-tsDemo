@@ -4,7 +4,6 @@ import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.controller.vo.AddAppRequest;
 import com.cucc.unicom.pojo.App;
-import com.cucc.unicom.pojo.dto.AppBaseInfo;
 import com.cucc.unicom.service.AppService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -55,11 +54,4 @@ public class AppController {
         return ResultHelper.genResultWithSuccess(info);
     }
 
-    @ApiOperation(value = "获取应用基本信息",notes = "获取应用基本信息")
-    @RequestMapping(value = "/getAppBaseInfo",method = RequestMethod.GET)
-    @ResponseBody
-    public Result unicomGetAppBaseInfo() {
-        List<AppBaseInfo> appBaseInfos = appService.getAppBaseInfo();
-        return ResultHelper.genResultWithSuccess(appBaseInfos);
-    }
 }

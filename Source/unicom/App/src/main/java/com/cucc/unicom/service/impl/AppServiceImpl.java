@@ -3,7 +3,6 @@ package com.cucc.unicom.service.impl;
 import com.cucc.unicom.component.util.UtilService;
 import com.cucc.unicom.mapper.AppMapper;
 import com.cucc.unicom.pojo.App;
-import com.cucc.unicom.pojo.dto.AppBaseInfo;
 import com.cucc.unicom.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +22,9 @@ public class AppServiceImpl implements AppService {
     public int addApp(App app) {
         if (appMapper.appExist(app.getAppName())) {
             return 1;
-        }else {
+        } else {
             app.setAppKey(utilService.encryptCBCWithPadding(utilService.createRandomCharData(24), UtilService.SM4KEY));
-            app.setAppSecret(utilService.encryptCBCWithPadding(utilService.createRandomCharData(32),UtilService.SM4KEY));
+            app.setAppSecret(utilService.encryptCBCWithPadding(utilService.createRandomCharData(32), UtilService.SM4KEY));
             appMapper.addApp(app);
             return 0;
         }
@@ -41,14 +40,10 @@ public class AppServiceImpl implements AppService {
     public List<App> getApps() {
         List<App> list = appMapper.getApps();
         for (App app : list) {
-            app.setAppKey(utilService.decryptCBCWithPadding(app.getAppKey(),UtilService.SM4KEY));
-            app.setAppSecret(utilService.decryptCBCWithPadding(app.getAppSecret(),UtilService.SM4KEY));
+            app.setAppKey(utilService.decryptCBCWithPadding(app.getAppKey(), UtilService.SM4KEY));
+            app.setAppSecret(utilService.decryptCBCWithPadding(app.getAppSecret(), UtilService.SM4KEY));
         }
         return list;
     }
 
-    @Override
-    public List<AppBaseInfo> getAppBaseInfo() {
-        return appMapper.getAppBaseInfo();
-    }
 }

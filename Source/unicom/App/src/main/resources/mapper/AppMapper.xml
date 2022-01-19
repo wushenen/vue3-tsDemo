@@ -22,9 +22,5 @@
         select * from t_app
     </select>
 
-    <select id="getAppBaseInfo" resultType="com.cucc.unicom.pojo.dto.AppBaseInfo">
-        select * from t_app
-    </select>
-
 
 </mapper>

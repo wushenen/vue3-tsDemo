@@ -1,7 +1,6 @@
 package com.cucc.unicom.mapper;
 
 import com.cucc.unicom.pojo.App;
-import com.cucc.unicom.pojo.dto.AppBaseInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -14,5 +13,4 @@ public interface AppMapper {
     boolean appExist(String appName);
     int deleteApp(int appId);
     List<App> getApps();
-    List<AppBaseInfo> getAppBaseInfo();
 }
