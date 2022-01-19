@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cucc.unicom.mapper.AppStatusMapper">
+
+    <select id="listDeviceStatusInfo" resultType="com.cucc.unicom.pojo.DeviceStatus">
+        select * from t_device_status
+        where device_name in
+        <foreach collection="deviceNames" item="deviceName" open="(" index="index" close=")" separator=",">
+            #{deviceName}
+        </foreach>
+    </select>
+
+    <select id="getDeviceStatusInfo" resultType="com.cucc.unicom.pojo.DTO.DeviceStatusDataInfo">
+        SELECT COUNT(1) as deviceNum,
+        SUM(work_status) as onlineNum,
+        SUM(key_num) as keyNum,
+        SUM(enc_data) as encDataNum,
+        SUM(dec_data) as decDataNum
+        FROM t_device_status
+        where device_name in
+        <foreach collection="deviceNames" item="deviceName" open="(" index="index" close=")" separator=",">
+            #{deviceName}
+        </foreach>
+    </select>
+
+    <select id="currentAppDistributionNum" resultType="Long">
+        select COUNT(limit_num) from t_key_limit
+        where user_name in
+        <foreach collection="deviceNames" item="deviceName" open="(" index="index" close=")" separator=",">
+            #{deviceName}
+        </foreach>
+    </select>
+
+    <select id="currentAppOnlineKeyNum" resultType="Long">
+        select COUNT(1) from t_key_info
+        where applicant in
+        <foreach collection="deviceNames" item="deviceName" open="(" index="index" close=")" separator=",">
+            #{deviceName}
+        </foreach>
+    </select>
+
+</mapper>

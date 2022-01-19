@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class AppDeviceDTO implements Serializable {
     private int id;
     private int appId;
+    private int appType;
     private int deviceId;
     private String deviceName;
 }

@@ -12,6 +12,7 @@ import com.cucc.unicom.pojo.DeviceOperation;
 import com.cucc.unicom.pojo.DeviceStatus;
 import com.cucc.unicom.pojo.OperateLog;
 import com.cucc.unicom.service.AppConfigService;
+import com.cucc.unicom.service.AppStatusService;
 import com.cucc.unicom.service.DeviceStatusService;
 import com.cucc.unicom.service.OperateLogService;
 import com.github.pagehelper.PageHelper;
@@ -45,6 +46,8 @@ public class DeviceStatusController {
     @Autowired
     private OperateLogService operateLogService;
 
+    @Autowired
+    private AppStatusService appStatusService;
 
     @RequiresRoles("deviceUser")
     @ApiOperation(value = "上报数据",notes = "终端上报数据")
@@ -105,7 +108,6 @@ public class DeviceStatusController {
                 deviceStatus.setEncRate(null);
                 deviceStatus.setDecRate(null);
             }
-
         }
         PageInfo<DeviceStatus> pageInfo = new PageInfo<>(list);
         return ResultHelper.genResultWithSuccess(pageInfo);
@@ -124,5 +126,24 @@ public class DeviceStatusController {
         return ResultHelper.genResultWithSuccess(object);
     }
 
+
+    @ApiOperation(value = "获取当前应用数据信息",notes = "获取当前应用数据信息")
+    @RequestMapping(value = "/getCurrentAppStatusInfo",method = RequestMethod.GET)
+    @ResponseBody
+    public Result unicomGetCurrentAppStatusInfo(@RequestParam("appId") int appId){
+        DeviceStatusDataResponse currentAppStatus = appStatusService.getCurrentAppStatus(appId);
+        return ResultHelper.genResultWithSuccess(currentAppStatus);
+    }
+
+
+    @ApiOperation(value = "获取当前应用设备信息",notes = "获取当前应用绑定的设备信息")
+    @RequestMapping(value = "/getCurrentAppStatusInfo/{offset}/{pageSize}",method = RequestMethod.GET)
+    @ResponseBody
+    public Result unicomGetCurrentAppStatusInfo(@RequestParam("appId") int appId, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize){
+        PageHelper.startPage(offset,pageSize);
+        List<DeviceStatus> deviceStatuses = appStatusService.listDeviceStatusInfo(appId);
+        PageInfo<DeviceStatus> info = new PageInfo<>(deviceStatuses);
+        return ResultHelper.genResultWithSuccess(info);
+    }
 
 }
