@@ -56,12 +56,10 @@ public class AppController {
     }
 
     @ApiOperation(value = "获取应用基本信息",notes = "获取应用基本信息")
-    @RequestMapping(value = "/getAppBaseInfo/{offset}/{pageSize}",method = RequestMethod.GET)
+    @RequestMapping(value = "/getAppBaseInfo",method = RequestMethod.GET)
     @ResponseBody
-    public Result unicomGetAppBaseInfo(@PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) {
-        PageHelper.startPage(offset,pageSize);
+    public Result unicomGetAppBaseInfo() {
         List<AppBaseInfo> appBaseInfos = appService.getAppBaseInfo();
-        PageInfo<AppBaseInfo> info = new PageInfo<>(appBaseInfos);
-        return ResultHelper.genResultWithSuccess(info);
+        return ResultHelper.genResultWithSuccess(appBaseInfos);
     }
 }
