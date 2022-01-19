@@ -13,6 +13,7 @@ public interface UserAppMapper {
     int addUserApp(int appId,int userId);
     boolean userAppExist(int appId,int userId);
     int deleteUserApp(int appId,int userId);
+    int deleteUserByAppId(int appId);
     List<CurrentAppManager> getCurrentAppManager(int appId);
     List<CurrentManagerApp> getCurrentManagerApp(int userId);
 }

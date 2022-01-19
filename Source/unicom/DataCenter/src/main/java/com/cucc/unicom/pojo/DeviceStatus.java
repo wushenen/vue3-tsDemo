@@ -12,6 +12,7 @@ import java.util.Date;
 public class DeviceStatus implements Serializable {
 
     private int id;
+    private int deviceId;
     private String deviceName;
     private String deviceIp;
     private boolean workStatus;

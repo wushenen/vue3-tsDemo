@@ -4,8 +4,12 @@
 <mapper namespace="com.cucc.unicom.mapper.AppStatusMapper">
 
     <select id="listDeviceStatusInfo" resultType="com.cucc.unicom.pojo.DeviceStatus">
-        select * from t_device_status
-        where device_name in
+        select b.device_id as deviceId,
+        a.device_name as deviceName,
+        a.*
+        from t_device_status a, t_device_user b
+        where a.device_name = b.device_name
+         and a.device_name in
         <foreach collection="deviceNames" item="deviceName" open="(" index="index" close=")" separator=",">
             #{deviceName}
         </foreach>

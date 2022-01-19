@@ -3,6 +3,7 @@ package com.cucc.unicom.service.impl;
 import com.cucc.unicom.component.util.UtilService;
 import com.cucc.unicom.mapper.AppConfigConfigMapper;
 import com.cucc.unicom.mapper.AppMapper;
+import com.cucc.unicom.mapper.UserAppMapper;
 import com.cucc.unicom.pojo.App;
 import com.cucc.unicom.pojo.AppConfig;
 import com.cucc.unicom.service.AppService;
@@ -16,7 +17,8 @@ public class AppServiceImpl implements AppService {
 
     @Autowired
     private AppMapper appMapper;
-
+    @Autowired
+    private UserAppMapper userAppMapper;
     @Autowired
     private AppConfigConfigMapper appConfigConfigMapper;
     @Autowired
@@ -42,6 +44,7 @@ public class AppServiceImpl implements AppService {
     public int deleteApp(int appId) {
         appMapper.deleteApp(appId);
         appConfigConfigMapper.delAppConfig(appId);
+        userAppMapper.deleteUserByAppId(appId);
         return 0;
     }
 

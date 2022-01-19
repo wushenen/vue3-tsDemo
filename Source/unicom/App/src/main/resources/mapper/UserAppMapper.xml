@@ -31,4 +31,9 @@
         and a.app_id = b.app_id
     </select>
 
+    <delete id="deleteUserByAppId">
+        delete from t_user_app
+        where app_id = #{appId}
+    </delete>
+
 </mapper>
