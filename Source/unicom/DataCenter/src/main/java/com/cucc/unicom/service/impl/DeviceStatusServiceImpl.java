@@ -3,7 +3,6 @@ package com.cucc.unicom.service.impl;
 import com.cucc.unicom.component.util.CalculateUtil;
 import com.cucc.unicom.controller.vo.DeviceStatusDataResponse;
 import com.cucc.unicom.mapper.DeviceStatusMapper;
-import com.cucc.unicom.pojo.DTO.DeviceKeyInfo;
 import com.cucc.unicom.pojo.DTO.DeviceStatusDataInfo;
 import com.cucc.unicom.pojo.DeviceStatus;
 import com.cucc.unicom.service.DeviceStatusService;
@@ -49,25 +48,18 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
         DeviceStatusDataResponse response = new DeviceStatusDataResponse();
         //数据总量
         DeviceStatusDataInfo info = deviceStatusMapper.getDeviceStatusInfo();
-        Long onlineKeyNum = deviceStatusMapper.keyGenNum();
-        Long usedKeyNum = deviceStatusMapper.keyUsedNum();
+        Long onlineKeyNum = deviceStatusMapper.onlineKeyNum();
+        Long onlineEnableKeyNum = deviceStatusMapper.onlineEnableKeyNum();
+        Long keyDistributionNum = deviceStatusMapper.keyDistributionNum();
         //密钥信息获取
-        List<DeviceKeyInfo> everyDayKeyInfos = deviceStatusMapper.everyDayKeyInfo();
-        Long nearlyDayKeyNum = deviceStatusMapper.nearlyDayKeyNum();
-        Long offlineKeyNum = deviceStatusMapper.offlineKeyNum();
         response.setDeviceNum(info.getDeviceNum())
                 .setOnlineNum(info.getOnlineNum())
                 .setOfflineNum(info.getDeviceNum() - info.getOnlineNum())
-                .setKeyUseNum(usedKeyNum)
                 .setEncDataNum(info.getEncDataNum())
                 .setDecDataNum(info.getDecDataNum())
+                .setKeyDistributionNum(keyDistributionNum)
                 .setOnlineKeyNum(onlineKeyNum)
-                .setEveryDayKeyNum(everyDayKeyInfos)
-                .setOneDayKeyNum(nearlyDayKeyNum)
-                .setOfflineKeyNum(offlineKeyNum)
-                .setKeyGenNum(onlineKeyNum+offlineKeyNum);
-
-
+                .setOnlineEnableKeyNum(onlineEnableKeyNum);
         return response;
     }
 

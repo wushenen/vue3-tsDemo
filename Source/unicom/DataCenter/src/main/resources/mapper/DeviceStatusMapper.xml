@@ -54,32 +54,20 @@
         FROM t_device_status
     </select>
 
-    <select id="keyGenNum" resultType="Long">
+    <select id="keyDistributionNum" resultType="Long">
+        SELECT SUM(limit_num)
+        FROM t_key_limit
+    </select>
+
+    <select id="onlineKeyNum" resultType="Long">
         SELECT COUNT(1)
         FROM t_key_info
     </select>
-    <select id="keyUsedNum" resultType="Long">
+
+    <select id="onlineEnableKeyNum" resultType="Long">
         SELECT COUNT(1)
         FROM t_key_info
-        where key_status = 2
-    </select>
-
-    <select id="everyDayKeyInfo" resultType="com.cucc.unicom.pojo.DTO.DeviceKeyInfo">
-        SELECT DATE_FORMAT(create_time,'%Y-%m-%d') as timeInfo , count(1) as keyNum from t_key_info
-        WHERE create_time BETWEEN DATE_SUB(current_date ,INTERVAL 5 day) and CURRENT_DATE
-        GROUP BY timeInfo
-        ORDER BY timeInfo desc
-        LIMIT 5
-    </select>
-
-    <select id="nearlyDayKeyNum" resultType="Long">
-        select count(1) from t_key_info
-        where create_time between date_sub(current_time , interval 24 hour) and current_time
-    </select>
-
-    <select id="offlineKeyNum" resultType="Long">
-        SELECT COUNT(1)
-        FROM t_key_offline
+        where key_status != 1
     </select>
 
 </mapper>
