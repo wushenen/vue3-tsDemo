@@ -1,8 +1,10 @@
 package com.cucc.unicom.service.impl;
 
 import com.cucc.unicom.component.util.UtilService;
+import com.cucc.unicom.mapper.AppConfigConfigMapper;
 import com.cucc.unicom.mapper.AppMapper;
 import com.cucc.unicom.pojo.App;
+import com.cucc.unicom.pojo.AppConfig;
 import com.cucc.unicom.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,9 @@ public class AppServiceImpl implements AppService {
 
     @Autowired
     private AppMapper appMapper;
+
+    @Autowired
+    private AppConfigConfigMapper appConfigConfigMapper;
     @Autowired
     private UtilService utilService;
 
@@ -26,6 +31,9 @@ public class AppServiceImpl implements AppService {
             app.setAppKey(utilService.encryptCBCWithPadding(utilService.createRandomCharData(24), UtilService.SM4KEY));
             app.setAppSecret(utilService.encryptCBCWithPadding(utilService.createRandomCharData(32), UtilService.SM4KEY));
             appMapper.addApp(app);
+            AppConfig appConfig = new AppConfig();
+            appConfig.setAppId(app.getAppId());
+            appConfigConfigMapper.addAppConfig(appConfig);
             return 0;
         }
     }
@@ -33,6 +41,7 @@ public class AppServiceImpl implements AppService {
     @Override
     public int deleteApp(int appId) {
         appMapper.deleteApp(appId);
+        appConfigConfigMapper.delAppConfig(appId);
         return 0;
     }
 

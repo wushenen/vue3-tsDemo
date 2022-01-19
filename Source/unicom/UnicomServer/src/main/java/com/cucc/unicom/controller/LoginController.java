@@ -1,7 +1,6 @@
 package com.cucc.unicom.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cucc.unicom.service.LoginService;
 import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.component.util.JWTUtil;
@@ -9,6 +8,8 @@ import com.cucc.unicom.component.util.SM3Util;
 import com.cucc.unicom.component.util.UtilService;
 import com.cucc.unicom.controller.vo.DeviceUserLoginRequest;
 import com.cucc.unicom.pojo.DeviceUser;
+import com.cucc.unicom.service.LoginService;
+import com.cucc.unicom.shiro.MyUserNamePasswordToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.binary.Base64;
@@ -59,7 +60,7 @@ public class LoginController {
             //判断用户成功后，获取用户的权限信息
             if (tag){
                 String token = JWTUtil.generateTokenWithId(Integer.toString(deviceUser.getDeviceId()),deviceUser.getDeviceName());
-                UsernamePasswordToken userToken = new UsernamePasswordToken(token, token);
+                UsernamePasswordToken userToken = new MyUserNamePasswordToken(token, token,"deviceUser");
                 Subject subject = SecurityUtils.getSubject();
                 try {
                     subject.logout();

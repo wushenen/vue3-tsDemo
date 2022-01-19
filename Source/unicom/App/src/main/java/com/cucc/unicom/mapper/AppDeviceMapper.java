@@ -13,4 +13,9 @@ public interface AppDeviceMapper {
     boolean appDeviceExist(int appId, int deviceId);
     int deleteAppDevice(int appId, int deviceId);
     List<AppDeviceDTO> getAppDevice(int appId);
+
+    String getDeviceName(int deviceId);
+    int addDeviceToDeviceStatus(String deviceName);
+    boolean deviceStatusInfoExist(String deviceName);
+
 }

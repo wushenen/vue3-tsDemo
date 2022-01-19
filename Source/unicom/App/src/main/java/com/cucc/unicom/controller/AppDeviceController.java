@@ -28,7 +28,7 @@ public class AppDeviceController {
     public Result unicomAddAppDevice(@RequestBody AppDeviceRequest appDeviceRequest) {
         int i = appDeviceService.addAppDevice(appDeviceRequest);
         if (i == 1)
-            return ResultHelper.genResult(0,"部分终端已绑定其它应用，若想绑定至该应用请先解除其他应用绑定");
+            return ResultHelper.genResult(1,"部分终端已绑定其它应用，若想绑定至该应用请先解除其他应用绑定");
         return ResultHelper.genResultWithSuccess();
     }
 

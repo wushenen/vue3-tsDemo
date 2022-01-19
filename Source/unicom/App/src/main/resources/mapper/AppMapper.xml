@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cucc.unicom.mapper.AppMapper">
     
-    <insert id="addApp">
+    <insert id="addApp" useGeneratedKeys="true" keyProperty="appId" parameterType="com.cucc.unicom.pojo.App">
         insert into t_app (app_name,app_type,app_key,app_secret,comments)
         values (#{appName},#{appType},#{appKey},#{appSecret},#{comments});
     </insert>

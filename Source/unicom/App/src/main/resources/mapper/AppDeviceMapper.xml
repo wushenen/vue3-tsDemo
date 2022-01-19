@@ -20,5 +20,20 @@
         and a.app_id = #{appId}
     </select>
 
+    <select id="getDeviceName" resultType="String">
+        select device_name from t_device_user
+        where device_id = #{deviceId}
+    </select>
+
+    <insert id="addDeviceToDeviceStatus">
+        insert into t_device_status (device_name)
+        values (#{deviceName})
+    </insert>
+
+    <select id="deviceStatusInfoExist" resultType="boolean">
+        select count(1) from t_device_status
+        where device_name = #{deviceName}
+    </select>
+            
 
 </mapper>

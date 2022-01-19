@@ -49,17 +49,15 @@ public class AppStatusServiceImpl implements AppStatusService {
     @Override
     public List<DeviceStatus> listDeviceStatusInfo(int appId) {
         ArrayList<String> deviceNames = new ArrayList<>();
+        List<DeviceStatus> deviceStatuses = new ArrayList<>();
         List<AppDeviceDTO> appDevices = appDeviceMapper.getAppDevice(appId);
         if (appDevices.size() != 0) {
             for (AppDeviceDTO appDevice : appDevices) {
                 deviceNames.add(appDevice.getDeviceName());
             }
         }
-        if (deviceNames.size()!=0) {
-            List<DeviceStatus> deviceStatuses = appStatusMapper.listDeviceStatusInfo(deviceNames);
-            return deviceStatuses;
-        }else{
-            return null;
-        }
+        if (deviceNames.size()!=0)
+            deviceStatuses = appStatusMapper.listDeviceStatusInfo(deviceNames);
+        return deviceStatuses;
     }
 }

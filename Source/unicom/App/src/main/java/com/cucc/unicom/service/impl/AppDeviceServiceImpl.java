@@ -20,6 +20,10 @@ public class AppDeviceServiceImpl implements AppDeviceService {
         for (Integer deviceId : appDeviceRequest.getDeviceIds()) {
             if (!appDeviceMapper.appDeviceExist(appDeviceRequest.getAppId(),deviceId)) {
                 appDeviceMapper.addAppDevice(appDeviceRequest.getAppId(),deviceId);
+                String deviceName = appDeviceMapper.getDeviceName(deviceId);
+                if (!appDeviceMapper.deviceStatusInfoExist(deviceName)) {
+                    appDeviceMapper.addDeviceToDeviceStatus(deviceName);
+                }
             }else {
                 flag = true;
             }
@@ -40,4 +44,5 @@ public class AppDeviceServiceImpl implements AppDeviceService {
     public List<AppDeviceDTO> getAppDevice(int appId) {
         return appDeviceMapper.getAppDevice(appId);
     }
+
 }

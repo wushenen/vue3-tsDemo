@@ -8,23 +8,28 @@
         values (#{appId},#{encPort},#{encType},#{encFreq},#{startIndex},#{endIndex})
     </insert>
 
+    <delete id="delAppConfig">
+        delete from t_app_config
+        where app_id = #{appId}
+    </delete>
+
     <select id="appConfigExist">
         select count(1) from t_app_config
         where app_id = #{appId}
     </select>
     
-    <select id="getQemsConfig" resultType="com.cucc.unicom.pojo.AppConfig">
+    <select id="getAppConfig" resultType="com.cucc.unicom.pojo.AppConfig">
         select * from t_app_config a, t_app_device b
         where a.app_id = b.app_id
         and b.device_id = #{deviceId}
     </select>
 
-    <select id="getQemsConfigByAppId" resultType="com.cucc.unicom.pojo.AppConfig">
+    <select id="getAppConfigByAppId" resultType="com.cucc.unicom.pojo.AppConfig">
         select * from t_app_config
-        where a.app_id = #{appId}
+        where app_id = #{appId}
     </select>
 
-    <update id="updateQemsConfig" parameterType="com.cucc.unicom.controller.vo.UpdateAppConfigRequest">
+    <update id="updateAppConfig" parameterType="com.cucc.unicom.controller.vo.UpdateAppConfigRequest">
         update t_app_config
         set config_name = #{configName},
         enc_port = #{encPort},

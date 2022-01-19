@@ -13,6 +13,8 @@ public interface AppConfigConfigMapper {
 
     int addAppConfig(AppConfig appConfig);
 
+    int delAppConfig(int appId);
+
     boolean appConfigExist(int appId);
 
     /*终端获取配置信息*/
