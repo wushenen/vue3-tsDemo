@@ -64,6 +64,7 @@ public class LoginController {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("token", jwtToken);
                 jsonObject.put("accountType", userInfo.getAccountType());
+                jsonObject.put("userId", userInfo.getId());
                 jsonObject.put("user", systemUserLoginRequest.getUserName());
                 subject.getSession().setAttribute("loginedUser", systemUserLoginRequest.getUserName());
                 return ResultHelper.genResultWithSuccess(jsonObject);
