@@ -1,13 +1,10 @@
 package com.cucc.unicom.service;
 
-import com.cucc.unicom.controller.vo.AddAppConfigRequest;
 import com.cucc.unicom.controller.vo.UpdateAppConfigRequest;
 import com.cucc.unicom.pojo.AppConfig;
 import com.cucc.unicom.pojo.DeviceOperation;
 
 public interface AppConfigService {
-
-    int addAppConfig(AddAppConfigRequest addAppConfigRequest);
 
     AppConfig getAppConfig(int deviceId);
 

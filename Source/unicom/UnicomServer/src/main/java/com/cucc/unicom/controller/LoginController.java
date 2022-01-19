@@ -6,7 +6,9 @@ import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.component.util.JWTUtil;
 import com.cucc.unicom.component.util.SM3Util;
 import com.cucc.unicom.component.util.UtilService;
+import com.cucc.unicom.controller.vo.AppLoginRequest;
 import com.cucc.unicom.controller.vo.DeviceUserLoginRequest;
+import com.cucc.unicom.pojo.App;
 import com.cucc.unicom.pojo.DeviceUser;
 import com.cucc.unicom.service.LoginService;
 import com.cucc.unicom.shiro.MyUserNamePasswordToken;
@@ -87,9 +89,46 @@ public class LoginController {
                 return ResultHelper.genResult(1,"用户名或密码错误");
         }else
             return ResultHelper.genResult(1,"用户不存在");
-
     }
 
+    @ApiOperation(value = "应用登录",notes = "应用登录")
+    @RequestMapping(value = "/appLogin",method = RequestMethod.POST)
+    @ResponseBody
+    public Result unicomAppLogin(@RequestBody AppLoginRequest appLoginRequest) {
+        String appKey = StringUtils.newStringUtf8(Base64.decodeBase64(appLoginRequest.getAppKey()));
+        App appLogin = loginService.appLogin(utilService.decryptCBCWithPadding(appKey,UtilService.SM4KEY));
+        if (appLogin !=null){
+            String appSecret = utilService.decryptCBCWithPadding(appLogin.getAppSecret(), UtilService.SM4KEY);
+            if (appSecret.equals(StringUtils.newStringUtf8(Base64.decodeBase64(appLoginRequest.getAppKey())))) {
+                String token = JWTUtil.generateToken(appLogin.getAppName());
+                UsernamePasswordToken userToken = new MyUserNamePasswordToken(token, token,"deviceUser");
+                Subject subject = SecurityUtils.getSubject();
+                try {
+                    subject.logout();
+                    subject.login(userToken);
+                    Collection<Session> sessions = sessionDAO.getActiveSessions();
+                    for (Session session : sessions) {
+                        if (appLogin.getAppName().equals(session.getAttribute("loginedUser"))) {
+                            session.setTimeout(0);
+                        }
+                    }
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("token", token);
+                    subject.getSession().setAttribute("loginedUser", appLogin.getAppName());
+                    return ResultHelper.genResultWithSuccess(jsonObject);
+                } catch (UnknownAccountException e){
+                    return ResultHelper.genResult(1,"用户名不存在");
+                } catch (IncorrectCredentialsException e) {
+                    return ResultHelper.genResult(1, "密码错误");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return ResultHelper.genResult(1, e.getMessage());
+                }
+            }else
+                return ResultHelper.genResult(1,"用户名或密码错误");
+        }else
+            return ResultHelper.genResult(1,"用户不存在");
+    }
 
 
     @ApiOperation(value = "注销",notes = "用户注销登录")

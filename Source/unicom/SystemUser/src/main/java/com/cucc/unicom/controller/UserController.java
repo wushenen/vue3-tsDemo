@@ -113,4 +113,14 @@ public class UserController {
         return ResultHelper.genResultWithSuccess(pageInfo);
     }
 
+
+    @RequiresRoles("systemUser")
+    @ApiOperation(value = "获取应用管理员信息",notes = "获取应用管理员信息")
+    @RequestMapping(value = "/getAppManager", method = RequestMethod.GET)
+    @ResponseBody
+    public Result unicomGetAppManager() {
+        List<User> appManager = userService.getAppManager();
+        return ResultHelper.genResultWithSuccess(appManager);
+    }
+
 }

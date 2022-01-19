@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.component.util.JWTUtil;
-import com.cucc.unicom.controller.vo.AddAppConfigRequest;
 import com.cucc.unicom.controller.vo.QemsOperateRequest;
 import com.cucc.unicom.controller.vo.UpdateAppConfigRequest;
 import com.cucc.unicom.pojo.AppConfig;
@@ -28,16 +27,6 @@ public class AppConfigController {
     @Autowired
     private AppConfigService appConfigService;
 
-    @ApiOperation(value = "添加应用配置",notes = "修改qems配置")
-    @RequestMapping(value = "/addConfig",method = RequestMethod.POST)
-    @ResponseBody
-    public Result unicomAddConfig(@RequestBody AddAppConfigRequest addAppConfigRequest){
-        if (addAppConfigRequest.getEndIndex() - addAppConfigRequest.getStartIndex() > 2000)
-            return ResultHelper.genResult(1,"充注密钥数不得大于2000");
-        appConfigService.addAppConfig(addAppConfigRequest);
-        return ResultHelper.genResultWithSuccess();
-    }
-
     @ApiOperation(value = "修改应用配置",notes = "修改应用配置")
     @RequiresPermissions(value = {"/updateConfig","/**"},logical = Logical.OR)
     @RequestMapping(value = "/updateConfig",method = RequestMethod.POST)
@@ -48,7 +37,6 @@ public class AppConfigController {
         appConfigService.updateAppConfig(updateAppConfigRequest);
         return ResultHelper.genResultWithSuccess();
     }
-
 
     @RequiresPermissions(value = {"/getConfig","/**"},logical = Logical.OR)
     @ApiOperation(value = "获取应用配置信息",notes = "管理员获取应用配置信息")
@@ -74,7 +62,6 @@ public class AppConfigController {
         object.put("qemsConfig",configInfo);
         return ResultHelper.genResultWithSuccess(object);
     }
-
 
     @ApiOperation(value = "设备控制置零或重启",notes ="设备控制置零或重启")
     @RequestMapping(value = "/operation",method = RequestMethod.POST)

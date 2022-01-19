@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 /**
- * 系统用户|应用用户|终端用户 登录
+ * 应用用户|终端用户 登录
  * */
 @Mapper
 @Repository

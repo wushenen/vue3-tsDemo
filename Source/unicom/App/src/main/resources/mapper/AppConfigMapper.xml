@@ -13,7 +13,7 @@
         where app_id = #{appId}
     </delete>
 
-    <select id="appConfigExist">
+    <select id="appConfigExist" resultType="boolean">
         select count(1) from t_app_config
         where app_id = #{appId}
     </select>
@@ -31,15 +31,14 @@
 
     <update id="updateAppConfig" parameterType="com.cucc.unicom.controller.vo.UpdateAppConfigRequest">
         update t_app_config
-        set config_name = #{configName},
-        enc_port = #{encPort},
+        set enc_port = #{encPort},
         enc_type = #{encType},
         enc_freq = #{encFreq},
         start_index = #{startIndex},
         end_index = #{endIndex},
         version = version+1,
         update_time = now()
-        where id = #{id}
+        where app_id = #{appId}
     </update>
 
 

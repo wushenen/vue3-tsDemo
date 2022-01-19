@@ -8,10 +8,10 @@ import lombok.Data;
 @Data
 public class UpdateAppConfigRequest {
 
-    @ApiModelProperty("配置id")
+    @ApiModelProperty("配置ID")
     private int id;
-    @ApiModelProperty("配置名称")
-    private String configName;
+    @ApiModelProperty("应用ID")
+    private int appId;
     @ApiModelProperty("加密端口")
     private String encPort;
     @ApiModelProperty("加密方式（0-不加密，1-AES，2-AES强制加密，6-SM4，7-SM4强制加密）")

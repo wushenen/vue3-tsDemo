@@ -13,6 +13,12 @@
         and device_id = #{deviceId}
     </select>
 
+    <delete id="deleteAppDevice">
+        delete from t_app_device
+        where app_id = #{appId}
+        and device_id = #{deviceId}
+    </delete>
+
     <select id="getAppDevice" resultType="com.cucc.unicom.pojo.dto.AppDeviceDTO">
         select *
         from t_app_device a, t_device_user b

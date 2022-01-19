@@ -1,7 +1,6 @@
 package com.cucc.unicom.service.impl;
 
 import com.cucc.unicom.component.annotation.OperateLogAnno;
-import com.cucc.unicom.controller.vo.AddAppConfigRequest;
 import com.cucc.unicom.controller.vo.UpdateAppConfigRequest;
 import com.cucc.unicom.mapper.AppConfigConfigMapper;
 import com.cucc.unicom.pojo.AppConfig;
@@ -20,18 +19,6 @@ public class AppConfigServiceImpl implements AppConfigService {
     private AppConfigConfigMapper appConfigConfigMapper;
 
     @Override
-    public int addAppConfig(AddAppConfigRequest addAppConfigRequest) {
-        if (appConfigConfigMapper.appConfigExist(addAppConfigRequest.getAppId())) {
-            return 1;
-        }else{
-            AppConfig appConfig = new AppConfig();
-            BeanUtils.copyProperties(addAppConfigRequest,appConfig);
-            appConfigConfigMapper.addAppConfig(appConfig);
-            return 0;
-        }
-    }
-
-    @Override
     public AppConfig getAppConfig(int deviceId) {
         return appConfigConfigMapper.getAppConfig(deviceId);
     }
@@ -46,7 +33,15 @@ public class AppConfigServiceImpl implements AppConfigService {
     @Override
     public int updateAppConfig(UpdateAppConfigRequest updateAppConfigRequest) {
         //如果没有改动则不用更新时间，后续可以作为优化点
-        appConfigConfigMapper.updateAppConfig(updateAppConfigRequest);
+        if (appConfigConfigMapper.appConfigExist(updateAppConfigRequest.getAppId())) {
+            appConfigConfigMapper.updateAppConfig(updateAppConfigRequest);
+        }else {
+            AppConfig appConfig = new AppConfig();
+            BeanUtils.copyProperties(updateAppConfigRequest,appConfig);
+            appConfig.setVersion(0);
+            appConfigConfigMapper.addAppConfig(appConfig);
+        }
+
         return 0;
     }
 

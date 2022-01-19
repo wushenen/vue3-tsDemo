@@ -24,4 +24,6 @@ public interface UserService {
 
     List<User> getUserInfos(String userName);
 
+    List<User> getAppManager();
+
 }

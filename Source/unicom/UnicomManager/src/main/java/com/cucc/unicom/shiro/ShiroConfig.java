@@ -44,9 +44,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/js/**", "anon");
         filterChainDefinitionMap.put("/img/**", "anon");
         filterChainDefinitionMap.put("/fonts/**", "anon");
-//        filterChainDefinitionMap.put("/firstLoginCheck", "anon");
-//        filterChainDefinitionMap.put("/nextLoginCheck", "anon");
-//        filterChainDefinitionMap.put("/loginCheck", "anon");
         filterChainDefinitionMap.put("/login/**", "anon");
 
         //放行用户导入模板

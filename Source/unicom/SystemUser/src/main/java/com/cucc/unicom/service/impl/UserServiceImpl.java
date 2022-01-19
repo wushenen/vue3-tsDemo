@@ -75,4 +75,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.getUserInfos(userName);
     }
 
+    @Override
+    public List<User> getAppManager() {
+        return userMapper.getAppManager();
+    }
 }

@@ -20,4 +20,6 @@ public interface UserMapper {
 
     List<User> getUserInfos(String userName);
 
+    List<User> getAppManager();
+
 }

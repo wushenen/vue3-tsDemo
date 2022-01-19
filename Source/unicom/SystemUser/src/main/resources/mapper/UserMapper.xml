@@ -65,5 +65,10 @@
         order by create_time desc
     </select>
 
+    <select id="getUserManager" resultType="com.cucc.unicom.pojo.User">
+        select id,user_name
+        from t_user
+        where account_type = 1
+    </select>
 
 </mapper>
