@@ -5,7 +5,6 @@ import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.controller.vo.UserAppRequest;
 import com.cucc.unicom.pojo.App;
 import com.cucc.unicom.pojo.dto.CurrentAppManager;
-import com.cucc.unicom.pojo.dto.CurrentManagerApp;
 import com.cucc.unicom.service.UserAppService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
