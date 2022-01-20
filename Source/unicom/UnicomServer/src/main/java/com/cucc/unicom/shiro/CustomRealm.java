@@ -44,38 +44,32 @@ public class CustomRealm extends AuthorizingRealm {
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        DeviceUser deviceUser = (DeviceUser) SecurityUtils.getSubject().getPrincipal();
-        List<Integer> groupIds = null;
-        List<GroupAuthInfo> groupAuth = null;
-        HashSet<Integer> apiIdSet = new HashSet<>();
-        info.addRole("deviceUser");
-        int deviceId = deviceUser.getDeviceId();
-        groupIds = shiroAuthService.getGroupInfosByDeviceId(deviceId);
-        List<Integer> strategyIdByDeviceId = shiroAuthService.getStrategyIdByDeviceId(deviceId);
-        if (strategyIdByDeviceId != null && !strategyIdByDeviceId.isEmpty()){
-            for (Integer strategyId : strategyIdByDeviceId) {
-                List<Integer> apiId = shiroAuthService.getApiIdByStrategyId(strategyId);
-                apiIdSet.addAll(apiId);
-            }
-        }
-
-        if (groupIds != null && !groupIds.isEmpty()){
-            for (Integer groupId : groupIds) {
-                groupAuth = groupAuthService.getGroupAuth(groupId);
-                List<Integer> strategyIds = shiroAuthService.getStrategyIdByGroupId(groupId);
-                for (GroupAuthInfo groupAuthInfo : groupAuth) {
-                    apiIdSet.add(groupAuthInfo.getApiId());
-                }
-                for (Integer strategyId : strategyIds) {
-                    List<Integer> apiId = shiroAuthService.getApiIdByStrategyId(strategyId);
-                    apiIdSet.addAll(apiId);
+        ShiroUser userInfo = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        if (UserType.APP_USER.getUserType().equals(userInfo.getUserType())) {
+            info.addRole("appUser");
+        }else if (UserType.DEVICE_USER.getUserType().equals(userInfo.getUserType())) {
+            info.addRole("deviceUser");
+            DeviceUser deviceUser = (DeviceUser) userInfo.getUser();
+            List<Integer> groups = null;
+            List<GroupAuthInfo> groupAuth = null;
+            HashSet<Integer> apiIdSet = new HashSet<>();
+            int deviceId = deviceUser.getDeviceId();
+            groups = shiroAuthService.getGroupInfosByDeviceId(deviceId);
+            if (groups != null && !groups.isEmpty()){
+                for (Integer groupInfo : groups) {
+                    groupAuth = groupAuthService.getGroupAuth(groupInfo);
+                    for (GroupAuthInfo groupAuthInfo : groupAuth) {
+                        //此处可将api信息放置内存中获取
+                        ApiResource resourceInfo = apiResourceService.getResourceInfo(groupAuthInfo.getApiId());
+                        info.addStringPermission(resourceInfo.getApiURL());
+                    }
                 }
             }
-        }
-        if (apiIdSet.size() > 0){
-            for (Integer apiId : apiIdSet) {
-                ApiResource resourceInfo = apiResourceService.getResourceInfo(apiId);
-                info.addStringPermission(resourceInfo.getApiURL());
+            if (apiIdSet.size() > 0) {
+                for (Integer apiId : apiIdSet) {
+                    ApiResource resourceInfo = apiResourceService.getResourceInfo(apiId);
+                    info.addStringPermission(resourceInfo.getApiURL());
+                }
             }
         }
         return info;
