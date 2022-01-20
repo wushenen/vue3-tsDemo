@@ -66,7 +66,11 @@ public class UserServiceImpl implements UserService {
     @OperateLogAnno(operateDesc = "删除系统用户", operateModel = OPERATE_MODEL)
     @Override
     public int deleteUser(int id) {
-        return userMapper.deleteUser(id);
+        User user = userMapper.getUserInfoById(id);
+        if (user.getAccountType() == 1)
+            userMapper.deleteUserApp(id);
+        userMapper.deleteUser(id);
+        return 0;
     }
 
     @OperateLogAnno(operateDesc = "获取系统用户信息", operateModel = OPERATE_MODEL)

@@ -17,9 +17,12 @@ public interface UserMapper {
     int updateUser(User user);
 
     int deleteUser(int id);
+    int deleteUserApp(int id);
 
     List<User> getUserInfos(String userName);
 
     List<User> getAppManager();
+
+    User getUserInfoById(int id);
 
 }

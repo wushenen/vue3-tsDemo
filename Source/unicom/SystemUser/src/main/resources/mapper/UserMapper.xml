@@ -55,6 +55,12 @@
         where id = #{id};
     </delete>
 
+    <delete id="deleteUserApp">
+        delete from t_user_app
+        where user_id = #{id};
+    </delete>
+
+
     <select id="getUserInfos" resultMap="userInfo">
         select *
         from t_user
@@ -69,6 +75,12 @@
         select id,user_name
         from t_user
         where account_type = 1
+    </select>
+
+    <select id="getUserInfoById" resultType="com.cucc.unicom.pojo.User">
+        select *
+        from t_user
+        where id = #{id}
     </select>
 
 </mapper>
