@@ -21,14 +21,14 @@
         update t_key_source_config
         set priority = priority + 1
         where priority >= #{priority}
-        and priority != 5;
+        and priority != 4;
     </update>
 
     <update id="disablePriority">
         update t_key_source_config
         set priority = priority - 1
         where priority > #{priority}
-        and priority != 5;
+        and priority != 4;
     </update>
 
     <select id="getKeySourceConfigs" resultType="com.cucc.unicom.pojo.dto.KeySourceDetail">
@@ -39,7 +39,7 @@
 
     <select id="getEnableKeySourceConfigs" resultType="com.cucc.unicom.pojo.KeySourceConfig">
         select * from t_key_source_config
-        where priority != 5
+        where priority != 4
         order by priority asc
     </select>
 
@@ -75,16 +75,7 @@
     <select id="getQKDConfig" resultType="java.lang.String">
         select config_info
         from t_key_source_config
-        where key_source = 4 ;
+        where key_source = 3 ;
     </select>
-
-<!--
-    <select id="getKeySourceConfigId" resultType="int">
-        select id from t_key_source_config
-        where priority = #{priority}
-    </select>
--->
-
-
 
 </mapper>

@@ -11,6 +11,6 @@ public class KeySourceDetail implements Serializable {
     private String SourceIp2;
     private String configInfo;
     private int priority;
-    private String key_generate_rate;
-    private Long key_generate_num;
+    private String keyGenerateRate;
+    private Long keyGenerateNum;
 }
