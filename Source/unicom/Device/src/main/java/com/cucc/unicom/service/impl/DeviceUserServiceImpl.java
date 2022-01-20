@@ -70,12 +70,11 @@ public class DeviceUserServiceImpl implements DeviceUserService {
     @Override
     public int deleteDevice(int deviceId) {
         deviceUserMapper.deleteDeviceAuthByDeviceId(deviceId);
-        deviceUserMapper.deleteRoleUserByDeviceId(deviceId);
         deviceUserMapper.deleteGroupUserByDeviceId(deviceId);
-        deviceUserMapper.deleteStrategyAuthByDeviceId(deviceId);
         DeviceUser deviceInfo = deviceUserMapper.getDeviceInfo(deviceId);
         deviceUserMapper.deleteKeyInfoByDeviceName(deviceInfo.getDeviceName());
         deviceUserMapper.deleteKeyLimitByDeviceName(deviceInfo.getDeviceName());
+        deviceUserMapper.deleteAppDevice(deviceId);
         return deviceUserMapper.deleteDevice(deviceId);
     }
 

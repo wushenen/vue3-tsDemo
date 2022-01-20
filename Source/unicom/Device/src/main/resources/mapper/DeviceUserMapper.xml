@@ -39,19 +39,9 @@
         delete from t_device_user
         where device_id = #{deviceId}
     </delete>
-    <!--删除终端被赋予的角色信息-->
-    <delete id="deleteRoleUserByDeviceId">
-        delete from t_role_user
-        where device_id = #{deviceId}
-    </delete>
     <!--删除终端被赋予的分组信息-->
     <delete id="deleteGroupUserByDeviceId">
         delete from t_group_user
-        where device_id = #{deviceId}
-    </delete>
-    <!--删除终端被赋予的策略授权信息-->
-    <delete id="deleteStrategyAuthByDeviceId">
-        delete from t_strategy_auth
         where device_id = #{deviceId}
     </delete>
     <!--删除终端授权信息-->
@@ -67,6 +57,10 @@
     <delete id="deleteKeyLimitByDeviceName">
         delete from t_key_limit
         where binary user_name = #{userName}
+    </delete>
+    <delete id="deleteAppDevice">
+        delete from t_app_device
+        where device_id = #{deviceId}
     </delete>
 
     <!--获取所有终端用户信息-->

@@ -23,14 +23,14 @@ public interface DeviceUserMapper {
 
     /*删除终端用户信息*/
     int deleteDevice(@Param("deviceId") int deviceId);
-    /*删除终端的同时删除权限表中关于改终端的信息*/
-    int deleteRoleUserByDeviceId(@Param("deviceId") int deviceId);
+    /*删除终端的同时删除权限表中关于该终端的信息*/
     int deleteGroupUserByDeviceId(@Param("deviceId") int deviceId);
-    int deleteStrategyAuthByDeviceId(@Param("deviceId") int deviceId);
     int deleteDeviceAuthByDeviceId(@Param("deviceId") int deviceId);
     //删除密钥信息
     int deleteKeyInfoByDeviceName(String userName);
     int deleteKeyLimitByDeviceName(String userName);
+    //删除已绑定的应用信息
+    int deleteAppDevice(@Param("deviceId") int deviceId);
 
 
     /*获取所有终端用户信息*/
