@@ -1,8 +1,6 @@
 package com.cucc.unicom.component.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.cucc.unicom.component.Exception.PwspException;
-import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.mapper.KeySourceConfigMapper;
 import com.cucc.unicom.pojo.dto.KeySourceDetail;
 import com.cucc.unicom.service.KeySourceInfoService;
@@ -16,13 +14,10 @@ import org.springframework.stereotype.Component;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
@@ -193,41 +188,6 @@ public class UtilService {
         logger.info("生成的随机数兑换码为{}",result);
         return result;
     }
-
-    /**
-     * 获取当前用户
-     * jwt 或 secretKey
-     * @param request
-     * @return
-     */
-    public static String getCurrentUserName(HttpServletRequest request) throws PwspException {
-        String token = request.getHeader("Token");//Authorization
-        String userName = null;
-        if(token != null){
-            try {
-                userName = JWTUtil.getUsername(token);
-                return userName;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        throw new PwspException(ResultHelper.genResult(403,"用户ID无效"));
-    }
-
-    /**
-     * 将普通字符串的base64 转为 16进制字符串的Base64
-     * @param base64Str
-     * @return
-     * @throws PwspException
-     * @throws UnsupportedEncodingException
-     */
-    public static String stringToHexStr(String base64Str) throws PwspException, UnsupportedEncodingException {
-        byte[]a = Base64.getDecoder().decode(base64Str);
-        String hexStr = new String(a,"UTF-8");
-        byte[] hexByte = HexUtils.hexStringToBytes(hexStr);
-        return Base64.getEncoder().encodeToString(hexByte);
-    }
-
 
     /**
      * SM4 加密
