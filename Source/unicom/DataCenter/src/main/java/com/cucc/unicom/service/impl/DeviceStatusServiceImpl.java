@@ -1,5 +1,6 @@
 package com.cucc.unicom.service.impl;
 
+import com.cucc.unicom.component.annotation.OperateLogAnno;
 import com.cucc.unicom.component.util.CalculateUtil;
 import com.cucc.unicom.controller.vo.DeviceStatusDataResponse;
 import com.cucc.unicom.mapper.DeviceStatusMapper;
@@ -13,6 +14,8 @@ import java.util.Date;
 import java.util.List;
 @Service
 public class DeviceStatusServiceImpl implements DeviceStatusService {
+
+    private final String OPERATE_MODEL = "应用数据监测";
 
     @Autowired
     private DeviceStatusMapper deviceStatusMapper;
@@ -38,11 +41,13 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
         return 0;
     }
 
+    @OperateLogAnno(operateDesc = "查看所有终端状态数据", operateModel = OPERATE_MODEL)
     @Override
     public List<DeviceStatus> listDeviceStatusInfo() {
         return deviceStatusMapper.listDeviceStatusInfo();
     }
 
+    @OperateLogAnno(operateDesc = "查看系统所有终端汇总状态数据", operateModel = OPERATE_MODEL)
     @Override
     public DeviceStatusDataResponse getStatusShowInfo() {
         DeviceStatusDataResponse response = new DeviceStatusDataResponse();

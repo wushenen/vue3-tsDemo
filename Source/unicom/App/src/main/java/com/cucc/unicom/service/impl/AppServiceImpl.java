@@ -1,5 +1,6 @@
 package com.cucc.unicom.service.impl;
 
+import com.cucc.unicom.component.annotation.OperateLogAnno;
 import com.cucc.unicom.component.util.UtilService;
 import com.cucc.unicom.mapper.AppConfigConfigMapper;
 import com.cucc.unicom.mapper.AppDeviceMapper;
@@ -17,6 +18,8 @@ import java.util.List;
 @Service
 public class AppServiceImpl implements AppService {
 
+    private final String OPERATE_MODEL = "应用模块";
+
     @Autowired
     private AppMapper appMapper;
     @Autowired
@@ -28,7 +31,7 @@ public class AppServiceImpl implements AppService {
     @Autowired
     private UtilService utilService;
 
-
+    @OperateLogAnno(operateDesc = "创建新应用", operateModel = OPERATE_MODEL)
     @Override
     public int addApp(App app) {
         if (appMapper.appExist(app.getAppName())) {
@@ -41,6 +44,7 @@ public class AppServiceImpl implements AppService {
         }
     }
 
+    @OperateLogAnno(operateDesc = "删除应用", operateModel = OPERATE_MODEL)
     @Override
     public int deleteApp(int appId) {
         appMapper.deleteApp(appId);
@@ -57,6 +61,7 @@ public class AppServiceImpl implements AppService {
         return 0;
     }
 
+    @OperateLogAnno(operateDesc = "获取应用信息", operateModel = OPERATE_MODEL)
     @Override
     public List<App> getApps() {
         List<App> list = appMapper.getApps();

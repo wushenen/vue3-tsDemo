@@ -1,8 +1,8 @@
 package com.cucc.unicom.service.impl;
 
+import com.cucc.unicom.component.annotation.OperateLogAnno;
 import com.cucc.unicom.mapper.KeyInfoMapper;
 import com.cucc.unicom.mapper.KeyLimitMapper;
-import com.cucc.unicom.mapper.KeyOfflineMapper;
 import com.cucc.unicom.pojo.KeyInfo;
 import com.cucc.unicom.service.KeyInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,20 +15,20 @@ import java.util.Map;
 @Service
 public class KeyInfoServiceImpl implements KeyInfoService {
 
+    private final String OPERATE_MODEL = "量子密钥模块";
+
     @Autowired
     private KeyInfoMapper keyInfoMapper;
 
     @Autowired
     private KeyLimitMapper keyLimitMapper;
 
-    @Autowired
-    private KeyOfflineMapper keyOfflineMapper;
-
     @Override
     public void addKeyInfo(byte[] keyId,byte[] keyValue,String applicant, int keyStatus) {
         keyInfoMapper.addKeyInfo(keyId, keyValue, applicant,keyStatus);
     }
 
+    @OperateLogAnno(operateDesc = "获取量子密钥", operateModel = OPERATE_MODEL)
     @Override
     public KeyInfo getKeyInfo(byte[] keyId) {
         KeyInfo keyInfo = keyInfoMapper.getKeyInfo(keyId);
@@ -41,6 +41,7 @@ public class KeyInfoServiceImpl implements KeyInfoService {
         return 0;
     }
 
+    @OperateLogAnno(operateDesc = "销毁量子密钥", operateModel = OPERATE_MODEL)
     @Override
     public void deleteKeyInfo(byte[] keyId) {
         keyInfoMapper.deleteKeyInfo(keyId);

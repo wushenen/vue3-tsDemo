@@ -1,10 +1,11 @@
 package com.cucc.unicom.service.impl;
 
+import com.cucc.unicom.component.annotation.OperateLogAnno;
 import com.cucc.unicom.mapper.OperateLogMapper;
 import com.cucc.unicom.pojo.OperateLog;
+import com.cucc.unicom.service.OperateLogService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.cucc.unicom.service.OperateLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class OperateLogServiceImpl implements OperateLogService {
         return operateLogMapper.insertOperateLog(log);
     }
 
-//    @OperateLogAnno(operateDesc = "日志管理", operateModel = "分页查询日志")
+    @OperateLogAnno(operateDesc = "分页查询日志", operateModel = "日志管理")
 	@Override
 	public PageInfo<OperateLog> getOperateLogs1(Map pamars) {
 		int offset = Integer.parseInt(pamars.get("offset")+"");

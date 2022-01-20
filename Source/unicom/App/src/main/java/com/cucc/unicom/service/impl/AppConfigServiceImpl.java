@@ -29,7 +29,7 @@ public class AppConfigServiceImpl implements AppConfigService {
     }
 
 
-    @OperateLogAnno(operateDesc = "修改QEMS配置", operateModel = OPERATE_MODEL)
+    @OperateLogAnno(operateDesc = "修改应用配置", operateModel = OPERATE_MODEL)
     @Override
     public int updateAppConfig(UpdateAppConfigRequest updateAppConfigRequest) {
         //如果没有改动则不用更新时间，后续可以作为优化点
@@ -45,7 +45,7 @@ public class AppConfigServiceImpl implements AppConfigService {
         return 0;
     }
 
-    @OperateLogAnno(operateDesc = "设备指令控制", operateModel = OPERATE_MODEL)
+    @OperateLogAnno(operateDesc = "控制设备重启或置零", operateModel = OPERATE_MODEL)
     @Override
     public int addQemsOperation(String deviceName, int operation) {
         if (appConfigConfigMapper.countQemsOperation(deviceName) != 0)

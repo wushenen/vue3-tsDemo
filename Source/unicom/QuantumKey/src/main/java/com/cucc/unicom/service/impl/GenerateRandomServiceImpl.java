@@ -21,7 +21,7 @@ public class GenerateRandomServiceImpl implements GenerateRandomService {
     @Autowired
     private UtilService utilService;
 
-    @OperateLogAnno(operateDesc = "生成", operateModel = "密钥管理模块")
+    @OperateLogAnno(operateDesc = "生成临时量子密钥", operateModel = "密钥管理模块")
     @Override
     public TempKeyDTO generateTempKey(Random random) throws Exception {
         Integer keyLen = random.getKeyLen();
@@ -36,7 +36,7 @@ public class GenerateRandomServiceImpl implements GenerateRandomService {
             random.setKeyId(keyId);
             tempKeyMapper.addAppSecret(random);
         } else {
-            throw new PwspException(ResultHelper.genResult(400, "InvalidParameter", "口令字节数长度应为8~128"));
+            throw new PwspException(ResultHelper.genResult(1, "InvalidParameter", "口令字节数长度应为8~128"));
         }
         return dto;
     }

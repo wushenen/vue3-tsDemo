@@ -73,12 +73,13 @@ public class UserServiceImpl implements UserService {
         return 0;
     }
 
-    @OperateLogAnno(operateDesc = "获取系统用户信息", operateModel = OPERATE_MODEL)
+    @OperateLogAnno(operateDesc = "查看系统用户信息", operateModel = OPERATE_MODEL)
     @Override
     public List<User> getUserInfos(String userName) {
         return userMapper.getUserInfos(userName);
     }
 
+    @OperateLogAnno(operateDesc = "查看应用管理员信息", operateModel = OPERATE_MODEL)
     @Override
     public List<User> getAppManager() {
         return userMapper.getAppManager();

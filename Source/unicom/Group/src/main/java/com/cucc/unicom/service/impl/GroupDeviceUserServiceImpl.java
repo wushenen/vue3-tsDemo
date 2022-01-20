@@ -27,7 +27,7 @@ public class GroupDeviceUserServiceImpl implements GroupDeviceUserService {
         return 0;
     }
 
-    @OperateLogAnno(operateDesc = "获取分组终端用户", operateModel = OPERATE_MODEL)
+    @OperateLogAnno(operateDesc = "查看分组终端用户", operateModel = OPERATE_MODEL)
     @Override
     public List<GroupDeviceUserInfo> groupDeviceUserList(int groupId) {
         return groupDeviceUserMapper.groupDeviceUserList(groupId);

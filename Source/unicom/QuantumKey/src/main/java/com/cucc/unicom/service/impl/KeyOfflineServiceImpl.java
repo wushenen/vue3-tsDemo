@@ -1,5 +1,6 @@
 package com.cucc.unicom.service.impl;
 
+import com.cucc.unicom.component.annotation.OperateLogAnno;
 import com.cucc.unicom.component.util.UtilService;
 import com.cucc.unicom.mapper.KeyOfflineMapper;
 import com.cucc.unicom.pojo.DTO.KeyOfflineDTO;
@@ -14,6 +15,8 @@ import java.util.List;
 
 @Service
 public class KeyOfflineServiceImpl implements KeyOfflineService {
+
+    private final String OPERATE_MODEL = "量子密钥模块";
 
     @Autowired
     private KeyOfflineMapper keyOfflineMapper;
@@ -37,6 +40,7 @@ public class KeyOfflineServiceImpl implements KeyOfflineService {
         }
     }
 
+    @OperateLogAnno(operateDesc = "量子密钥充注", operateModel = OPERATE_MODEL)
     @Override
     public List<KeyOfflineDTO> getOffKey(Long start, Long end) throws Exception {
         ArrayList<KeyOfflineDTO> list = new ArrayList<>();

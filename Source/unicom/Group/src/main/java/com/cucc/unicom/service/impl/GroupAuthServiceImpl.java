@@ -37,13 +37,13 @@ public class GroupAuthServiceImpl implements GroupAuthService {
         return groupAuthMapper.deleteGroupAuthByGroupId(groupId);
     }
 
-    @OperateLogAnno(operateDesc = "撤销该分组部分权限", operateModel = OPERATE_MODEL)
+    @OperateLogAnno(operateDesc = "撤销分组部分权限", operateModel = OPERATE_MODEL)
     @Override
     public int deleteGroupAuthById(Integer groupAuthId) {
         return groupAuthMapper.deleteGroupAuthById(groupAuthId);
     }
 
-
+    @OperateLogAnno(operateDesc = "查看分组权限", operateModel = OPERATE_MODEL)
     @Override
     public List<GroupAuthInfo> getGroupAuth(Integer groupId) {
         return groupAuthMapper.getGroupAuth(groupId);

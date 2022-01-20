@@ -24,7 +24,7 @@ public class DeviceUserServiceImpl implements DeviceUserService {
     @Autowired
     private UtilService utilService;
 
-    @OperateLogAnno(operateDesc = "获取所有终端用户信息", operateModel = OPERATE_MODEL)
+    @OperateLogAnno(operateDesc = "查看所有终端用户信息", operateModel = OPERATE_MODEL)
     @Override
     public List<DeviceUser> listAllDeviceUser(String deviceName) {
         List<DeviceUser> deviceUsers = deviceUserMapper.listAllDeviceUser(deviceName);
@@ -35,7 +35,7 @@ public class DeviceUserServiceImpl implements DeviceUserService {
         return deviceUsers;
     }
 
-    @OperateLogAnno(operateDesc = "获取特定终端用户信息", operateModel = OPERATE_MODEL)
+    @OperateLogAnno(operateDesc = "查看特定终端用户信息", operateModel = OPERATE_MODEL)
     @Override
     public DeviceUser getDeviceInfo(int deviceId) {
         DeviceUser deviceInfo = deviceUserMapper.getDeviceInfo(deviceId);
@@ -79,7 +79,7 @@ public class DeviceUserServiceImpl implements DeviceUserService {
         return deviceUserMapper.deleteDevice(deviceId);
     }
 
-    @OperateLogAnno(operateDesc = "模糊查询终端用户信息", operateModel = OPERATE_MODEL)
+    @OperateLogAnno(operateDesc = "查看终端用户信息", operateModel = OPERATE_MODEL)
     @Override
     public List<DeviceUser> queryDeviceUser(String deviceName) {
         return deviceUserMapper.queryDeviceUser(deviceName);

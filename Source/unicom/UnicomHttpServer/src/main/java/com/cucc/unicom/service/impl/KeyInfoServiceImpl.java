@@ -1,14 +1,13 @@
 package com.cucc.unicom.service.impl;
 
+import com.cucc.unicom.mapper.KeyInfoMapper;
 import com.cucc.unicom.mapper.KeyLimitMapper;
 import com.cucc.unicom.pojo.KeyInfo;
 import com.cucc.unicom.service.KeyInfoService;
-import com.cucc.unicom.mapper.KeyInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -37,20 +36,6 @@ public class KeyInfoServiceImpl implements KeyInfoService {
         return 0;
     }
 
-    @Override
-    public void deleteKeyInfo(byte[] keyId) {
-        keyInfoMapper.deleteKeyInfo(keyId);
-    }
-
-    @Override
-    public List<KeyInfo> getKeyInfos(String applicant,int keyStatus) {
-        return keyInfoMapper.getKeyInfos(applicant,keyStatus);
-    }
-
-    @Override
-    public List<KeyInfo> getKeyInfosNotInKeyStatus(String applicant, int keyStatus) {
-        return keyInfoMapper.getKeyInfosNotInKeyStatus(applicant,keyStatus);
-    }
 
     @Override
     public Map<String, Long> keyInfoStatistics(String applicant) {
@@ -72,9 +57,4 @@ public class KeyInfoServiceImpl implements KeyInfoService {
         return adminEmail;
     }
 
-    @Override
-    public Long getApplicantKeyNum(String applicant) {
-        Long totalNum = keyInfoMapper.getTotalNum(applicant);
-        return totalNum;
-    }
 }

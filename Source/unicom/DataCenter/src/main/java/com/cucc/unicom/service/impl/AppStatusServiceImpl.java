@@ -1,5 +1,6 @@
 package com.cucc.unicom.service.impl;
 
+import com.cucc.unicom.component.annotation.OperateLogAnno;
 import com.cucc.unicom.controller.vo.DeviceStatusDataResponse;
 import com.cucc.unicom.mapper.AppDeviceMapper;
 import com.cucc.unicom.mapper.AppStatusMapper;
@@ -16,12 +17,15 @@ import java.util.List;
 @Service
 public class AppStatusServiceImpl implements AppStatusService {
 
+    private final String OPERATE_MODEL = "应用数据监测";
+
     @Autowired
     private AppStatusMapper appStatusMapper;
 
     @Autowired
     private AppDeviceMapper appDeviceMapper;
 
+    @OperateLogAnno(operateDesc = "查看指定应用汇总状态数据", operateModel = OPERATE_MODEL)
     @Override
     public DeviceStatusDataResponse getCurrentAppStatus(int appId) {
         ArrayList<String> deviceNames = new ArrayList<>();
@@ -46,6 +50,7 @@ public class AppStatusServiceImpl implements AppStatusService {
         return response;
     }
 
+    @OperateLogAnno(operateDesc = "查看特定应用绑定终端状态数据", operateModel = OPERATE_MODEL)
     @Override
     public List<DeviceStatus> listDeviceStatusInfo(int appId) {
         ArrayList<String> deviceNames = new ArrayList<>();
