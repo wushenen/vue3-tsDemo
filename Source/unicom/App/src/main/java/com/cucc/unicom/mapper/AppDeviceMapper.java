@@ -17,5 +17,6 @@ public interface AppDeviceMapper {
     String getDeviceName(int deviceId);
     int addDeviceToDeviceStatus(String deviceName);
     boolean deviceStatusInfoExist(String deviceName);
+    boolean deleteDeviceStatusInfo(List<String> deviceNames);
 
 }

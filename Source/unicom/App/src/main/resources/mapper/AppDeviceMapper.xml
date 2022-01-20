@@ -40,6 +40,14 @@
         select count(1) from t_device_status
         where device_name = #{deviceName}
     </select>
+
+    <delete id="deleteDeviceStatusInfo">
+        delete from t_device_status
+        where device_name in
+        <foreach collection="deviceNames" item="deviceName" open="(" index="index" close=")" separator=",">
+        #{deviceName}
+        </foreach>
+    </delete>
             
 
 </mapper>

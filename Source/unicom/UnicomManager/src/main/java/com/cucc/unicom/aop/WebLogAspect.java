@@ -1,12 +1,12 @@
 package com.cucc.unicom.aop;
 
+import com.cucc.unicom.component.annotation.OperateLogAnno;
 import com.cucc.unicom.component.util.NetworkUtil;
+import com.cucc.unicom.pojo.App;
 import com.cucc.unicom.pojo.DeviceUser;
 import com.cucc.unicom.pojo.OperateLog;
 import com.cucc.unicom.pojo.User;
 import com.cucc.unicom.service.OperateLogService;
-import com.cucc.unicom.pojo.AppUser;
-import com.cucc.unicom.component.annotation.OperateLogAnno;
 import com.cucc.unicom.shiro.ShiroUser;
 import com.cucc.unicom.shiro.UserType;
 import org.apache.shiro.SecurityUtils;
@@ -112,9 +112,9 @@ public class WebLogAspect {
             if(userInfo != null)
                 operateLog.setOperator(userInfo.getUserName());
         }else if (UserType.APP_USER.getUserType().equals(user.getUserType())){
-            AppUser userInfo = (AppUser) user.getUser();
+            App userInfo = (App) user.getUser();
             if(userInfo != null)
-                operateLog.setOperator(userInfo.getUserName());
+                operateLog.setOperator(userInfo.getAppName());
         }else if (UserType.DEVICE_USER.getUserType().equals(user.getUserType())){
             DeviceUser userInfo = (DeviceUser) user.getUser();
             if(userInfo != null)
