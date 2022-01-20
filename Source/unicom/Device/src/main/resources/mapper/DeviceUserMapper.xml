@@ -52,16 +52,22 @@
 
     <delete id="deleteKeyInfoByDeviceName">
         delete from t_key_info
-        where binary applicant = #{userName}
+        where binary applicant = #{deviceName}
     </delete>
     <delete id="deleteKeyLimitByDeviceName">
         delete from t_key_limit
-        where binary user_name = #{userName}
+        where binary user_name = #{deviceName}
     </delete>
     <delete id="deleteAppDevice">
         delete from t_app_device
         where device_id = #{deviceId}
     </delete>
+    <delete id="deleteDeviceStatus">
+        delete from t_device_status
+        where device_name = #{deviceName}
+    </delete>
+
+
 
     <!--获取所有终端用户信息-->
     <select id="listAllDeviceUser" resultType="com.cucc.unicom.pojo.DeviceUser">
