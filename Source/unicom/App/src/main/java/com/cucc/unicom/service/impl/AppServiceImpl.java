@@ -6,7 +6,6 @@ import com.cucc.unicom.mapper.AppDeviceMapper;
 import com.cucc.unicom.mapper.AppMapper;
 import com.cucc.unicom.mapper.UserAppMapper;
 import com.cucc.unicom.pojo.App;
-import com.cucc.unicom.pojo.AppConfig;
 import com.cucc.unicom.pojo.dto.AppDeviceDTO;
 import com.cucc.unicom.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +36,6 @@ public class AppServiceImpl implements AppService {
         } else {
             app.setAppKey(utilService.encryptCBCWithPadding(utilService.createRandomCharData(24), UtilService.SM4KEY));
             app.setAppSecret(utilService.encryptCBCWithPadding(utilService.createRandomCharData(32), UtilService.SM4KEY));
-            if (app.getAppType()==2) {
-                AppConfig appConfig = new AppConfig();
-                appConfig.setAppId(app.getAppId());
-                appConfigConfigMapper.addAppConfig(appConfig);
-            }
             appMapper.addApp(app);
             return 0;
         }
