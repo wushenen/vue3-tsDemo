@@ -132,7 +132,9 @@ public class DeviceStatusController {
     @ResponseBody
     public Result unicomGetCurrentAppStatusInfo(@RequestParam("appId") int appId){
         DeviceStatusDataResponse currentAppStatus = appStatusService.getCurrentAppStatus(appId);
-        return ResultHelper.genResultWithSuccess(currentAppStatus);
+        JSONObject object = new JSONObject();
+        object.put("deviceStatusInfo",currentAppStatus);
+        return ResultHelper.genResultWithSuccess(object);
     }
 
 
