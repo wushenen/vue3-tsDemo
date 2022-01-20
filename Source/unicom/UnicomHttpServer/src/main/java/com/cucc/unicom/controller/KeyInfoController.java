@@ -4,15 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.component.util.JWTUtil;
-import com.cucc.unicom.component.util.NetworkUtil;
 import com.cucc.unicom.component.util.UtilService;
 import com.cucc.unicom.controller.vo.BatchKeyInfoSDKRequest;
 import com.cucc.unicom.controller.vo.KeyInfoSDKRequest;
-import com.cucc.unicom.pojo.IntercomStatus;
 import com.cucc.unicom.pojo.KeyInfo;
 import com.cucc.unicom.pojo.MailInfo;
 import com.cucc.unicom.service.DeviceUserService;
-import com.cucc.unicom.service.IntercomStatusService;
 import com.cucc.unicom.service.KeyInfoService;
 import com.cucc.unicom.service.MailService;
 import io.swagger.annotations.Api;
@@ -37,9 +34,6 @@ public class KeyInfoController {
 
     @Autowired
     private DeviceUserService deviceUserService;
-
-    @Autowired
-    private IntercomStatusService intercomStatusService;
 
     @Autowired
     private UtilService utilService;
@@ -75,7 +69,6 @@ public class KeyInfoController {
                 keyInfoService.updateKeyInfo(keyId,2);
             }
             sendEmail(deviceName);
-            updateIntercomStatus(request,deviceName,1L);
             //使用请求者的加密密钥进行SM4加密
             byte[] encryptCBCKeyValue = utilService.encryptCBC(keyValue, encKey.substring(0,32));
             //返回终端的信息，需要Base64编码
@@ -119,7 +112,6 @@ public class KeyInfoController {
                 }
             }
             sendEmail(deviceName);
-            updateIntercomStatus(request,deviceName,Long.valueOf(batchKeyInfoSDKRequest.getKeyIds().size()));
             object.put("keyValues", map);
             return ResultHelper.genResultWithSuccess(object);
         }
@@ -144,16 +136,6 @@ public class KeyInfoController {
                     }
                 }
             }
-        });
-    }
-
-    private void updateIntercomStatus(HttpServletRequest request, String deviceName, Long keyNum){
-        CompletableFuture.runAsync(()->{
-            IntercomStatus intercomStatus = new IntercomStatus();
-            intercomStatus.setKeyNum(keyNum)
-                    .setDeviceIp(NetworkUtil.getIpAddress(request))
-                    .setDeviceName(deviceName);
-            intercomStatusService.updateIntercom(intercomStatus);
         });
     }
 
