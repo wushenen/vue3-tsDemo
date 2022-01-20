@@ -11,7 +11,6 @@ import com.qtec.jni.QR902JNI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.BadPaddingException;
@@ -33,8 +32,6 @@ import java.util.concurrent.ThreadLocalRandom;
 public class UtilService {
     private static final Logger logger = LoggerFactory.getLogger(UtilService.class);
 
-    @Value("${rngSource}")
-    public int rngSource;
     @Autowired
     private KeySourceConfigMapper keySourceConfigMapper;
     @Autowired

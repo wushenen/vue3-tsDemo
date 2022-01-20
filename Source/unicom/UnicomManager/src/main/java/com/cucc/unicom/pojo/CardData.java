@@ -8,13 +8,10 @@ import java.util.Date;
 public class CardData implements Serializable {
     private int cardVersion;
     private byte[] cardData;
-
-    private String sqlData;
-
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
     private String macAddr;
     private String backPass;
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    private Date createTime;
 
     public String getBackPass() {
         return backPass;
@@ -37,14 +34,6 @@ public class CardData implements Serializable {
 
     public void setCardData(byte[] cardData) {
         this.cardData = cardData;
-    }
-
-    public String getSqlData() {
-        return sqlData;
-    }
-
-    public void setSqlData(String sqlData) {
-        this.sqlData = sqlData;
     }
 
     public Date getCreateTime() {

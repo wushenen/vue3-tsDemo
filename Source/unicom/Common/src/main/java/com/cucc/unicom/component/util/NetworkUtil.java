@@ -48,7 +48,7 @@ public class NetworkUtil {
     }
 
     public static String getLinuxMACAddress() {
-        String mac = null;
+        String mac = "unknown";
         BufferedReader bufferedReader = null;
         Process process = null;
         try {

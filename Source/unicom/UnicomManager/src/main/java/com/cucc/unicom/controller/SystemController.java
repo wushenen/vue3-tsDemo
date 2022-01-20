@@ -5,7 +5,7 @@ import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.pojo.CardData;
 import com.cucc.unicom.pojo.LinuxServer;
 import com.cucc.unicom.pojo.QkmVersion;
-import com.cucc.unicom.service.SystemMangeService;
+import com.cucc.unicom.service.SystemManageService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -13,9 +13,11 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,18 +30,33 @@ public class SystemController {
     private static final Logger logger = LoggerFactory.getLogger(SystemController.class);
 
     @Autowired
-    private SystemMangeService systemMangeService;
+    private SystemManageService systemManageService;
 
-    /**
-     * 修改本机ip,网关,掩码
-     * @param linuxServer
-     * @return
-     */
+    @Value("${systemVersion}")
+    private String systemVersion;
+
+    @ApiOperation(value = "查看系统信息",notes = "查看系统版本信息")
+    @GetMapping("/getVersion")
+    @ResponseBody
+    public Result unicomGetVersion(){
+        QkmVersion qkmVersion = systemManageService.getQkmVersion();
+        HashMap<String, String> map = new HashMap<>();
+        map.put("systemVersion",systemVersion);
+        map.put("mysqlVersion","mysql-"+qkmVersion.getVersion());
+        if (qkmVersion.getState() == 0) {
+            map.put("systemStatus","初始");
+        }else if (qkmVersion.getState() == 1){
+            map.put("systemStatus","就绪");
+        }else
+            map.put("systemStatus","异常");
+        return ResultHelper.genResultWithSuccess(map);
+    }
+
     @ApiOperation(value = "修改本机ip,网关,掩码",notes = "修改本机ip,网关,掩码")
     @PostMapping("/updateIpNetmaskAndGateway")
     @ResponseBody
-    public Result unicomUpdateIpNetmarkAndGateway(@RequestBody @Valid LinuxServer linuxServer) throws Exception{
-        String result = systemMangeService.updateIpNetmaskAndGateway(linuxServer);
+    public Result unicomUpdateIpNetmaskAndGateway(@RequestBody @Valid LinuxServer linuxServer) throws Exception{
+        String result = systemManageService.updateIpNetmaskAndGateway(linuxServer);
         System.out.println(result);
         if (result.equals("0")) {
             return ResultHelper.genResultWithSuccess();
@@ -48,62 +65,35 @@ public class SystemController {
         }
         return ResultHelper.genResult(-1);
     }
-    /**
-     *获取系统版本信息
-     * @return
-     */
-    @ApiOperation(value = "获取系统版本信息",notes = "获取系统版本信息")
-    @GetMapping("/qkmVersion")
-    @ResponseBody
-    public Result unicomGetQkmVersion()  throws Exception{
-        QkmVersion qkmVersions = systemMangeService.getQkmVersion();
-        return ResultHelper.genResultWithSuccess(qkmVersions);
-    }
 
-    /**
-     * 初始化
-     * @param
-     * @return
-     * @throws Exception
-     */
+
     @ApiOperation(value = "系统初始化",notes = "系统初始化")
     @PostMapping("/init")
     @ResponseBody
     public Result unicomInit() throws Exception{
-        String result = systemMangeService.init();
+        String result = systemManageService.init();
         if (result.equals("0")) {
             return ResultHelper.genResultWithSuccess();
         } else if (result.equals("1")) {
             return ResultHelper.genResult(1, "系统已经初始化");
-        }
-        return ResultHelper.genResult(-1);
+        }else
+            return ResultHelper.genResult(1,"系统异常，请稍后再试");
     }
 
-    /**
-     * 密码卡备份
-     * @param cardData
-     * @return
-     * @throws Exception
-     */
+
     @ApiOperation(value = "密码卡备份",notes = "密码卡备份")
     @PostMapping("/backUp")
     @ResponseBody
     public Result unicomBackUp(@RequestBody CardData cardData) throws Exception{
-        systemMangeService.backUp(cardData.getBackPass());
+        systemManageService.backUp(cardData.getBackPass());
         return ResultHelper.genResultWithSuccess();
     }
 
-    /**
-     * 密码卡还原
-     * @param cardData
-     * @return
-     * @throws Exception
-     */
     @ApiOperation(value = "密码卡还原",notes = "密码卡还原")
     @PostMapping("/restore")
     @ResponseBody
     public Result unicomRestore(@RequestBody CardData cardData) throws Exception{
-        String result = systemMangeService.restore(cardData);
+        String result = systemManageService.restore(cardData);
         System.out.println(result);
         if (result.equals("0")) {
             return ResultHelper.genResultWithSuccess();
@@ -111,12 +101,7 @@ public class SystemController {
             return ResultHelper.genResult(1, result);
         }
     }
-    /**
-     * 列出所有密码卡备份信息
-     * @param cardData
-     * @return
-     * @throws Exception
-     */
+
     @ApiOperation(value = "列出所有密码卡备份信息",notes = "列出所有密码卡备份信息")
     @PostMapping("/listCardData/{offset}/{pageSize}")
     @ResponseBody
@@ -127,7 +112,7 @@ public class SystemController {
             return ResultHelper.genResult(1, "pageSize过大");
         }
         PageHelper.startPage(offset,pageSize);
-        List<CardData> result = systemMangeService.listCardData(cardData);
+        List<CardData> result = systemManageService.listCardData(cardData);
         PageInfo<CardData> pageInfo = new PageInfo<>(result);
         return ResultHelper.genResultWithSuccess(pageInfo);
     }

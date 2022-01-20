@@ -17,10 +17,9 @@ spring:
   application:
     name: UnicomManager
   datasource:
-    port: 3306
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://192.168.93.197:${spring.datasource.port}/unicom2?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
+      url: jdbc:mysql://192.168.93.197:3306/unicom2?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -51,13 +50,6 @@ spring:
       web-stat-filter:
         exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
 
-  #shiro配置
-  redis :
-    shiro :
-      host: localhost
-      port: 6379
-      timeout: 2000
-      password: 123456
 # 开启mybatis小驼峰式命名规则自动转换
 mybatis:
   type-aliases-package: com.cucc.unicom.pojo
@@ -77,14 +69,8 @@ logging:
     com.cucc.unicom.*: debug
 #获取随机数的方式，1-随机数发生器，2-密码卡，3-901, 4-902
 rngSource: 4
-server901IP : 192.168.90.7   #当使用901获取随机数时，设置的901服务ip地址
-server902IP : 192.168.92.100
 cmdPath: /usr/local/unicom/config/
-managerPath: /usr/local/unicom/UnicomManager-1.0.war
-serverPath: /usr/local/unicom/UnicomManager-1.0.war
 
 
 # 系统信息
 systemVersion: V 1.0
-mysqlVersion: mysql-5.7.36
-systemStatus: 就绪

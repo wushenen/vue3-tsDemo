@@ -20,11 +20,8 @@ public interface CardDataMapper {
             "</script>"})
     List<CardData> listCardData(@Param("macAddr") String macAddr);
 
-    @Select("select card_version,card_data,sql_data,mac_addr,create_time from t_card_data " +
+    @Select("select card_version,card_data,mac_addr,create_time from t_card_data " +
             "where mac_addr = #{cardData.macAddr} and card_version=#{cardData.cardVersion}")
     CardData getCardData(@Param("cardData") CardData cardData);
 
-    //初始化系统时删除对应表中的所有数据
-    @Delete("DELETE t_primary_key,t_key_version,t_operate_log from t_primary_key,t_key_version,t_operate_log")
-    void initSql();
 }

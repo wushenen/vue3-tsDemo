@@ -6,11 +6,11 @@ import com.cucc.unicom.pojo.QkmVersion;
 
 import java.util.List;
 
-public interface SystemMangeService {
+public interface SystemManageService {
 
     String updateIpNetmaskAndGateway(LinuxServer linuxServer) throws Exception;
 
-    QkmVersion getQkmVersion() throws Exception;
+    QkmVersion getQkmVersion();
 
     String init()throws Exception;
 
