@@ -35,10 +35,6 @@ public class UtilService {
 
     @Value("${rngSource}")
     public int rngSource;
-    @Value("${server901IP}")
-    private String server901IP;
-    @Value("${server902IP}")
-    private String server902IP;
     @Autowired
     private KeySourceConfigMapper keySourceConfigMapper;
     @Autowired
@@ -69,12 +65,7 @@ public class UtilService {
                             random = QrngUtil.genrateRandom(length);
                             keySource = 1;
                             break;
-                        case 2://密码卡
-                            System.out.println("---密码卡---");
-                            random = SwsdsTools.generateRandom(length);
-                            keySource = 2;
-                            break;
-                        case 3://902
+                        case 2://902
                             System.out.println("---902---");
                             QR902JNI qr902JNI = new QR902JNI();
                             String sourceIp = keySourceConfigs.get(i).getSourceIp();
@@ -109,9 +100,9 @@ public class UtilService {
                                     }
                                 }
                             }
-                            keySource = 3;
+                            keySource = 2;
                             break;
-                        case 4: //QKD
+                        case 3: //QKD
                             System.out.println("-------qkd-------");
                             KMSJNI kmsjni = new KMSJNI();
                             String qkdConfig = keySourceConfigs.get(i).getConfigInfo();
@@ -148,7 +139,7 @@ public class UtilService {
                             }
                             if (bytes != null)
                                 System.arraycopy(bytes, 0, random, 0, length);
-                            keySource = 4;
+                            keySource = 3;
                             break;
                         default:
                             random = randomByte(length);
