@@ -2,6 +2,7 @@ package com.cucc.unicom.service.impl;
 
 import com.cucc.unicom.controller.vo.UserAppRequest;
 import com.cucc.unicom.mapper.UserAppMapper;
+import com.cucc.unicom.pojo.App;
 import com.cucc.unicom.pojo.dto.CurrentAppManager;
 import com.cucc.unicom.pojo.dto.CurrentManagerApp;
 import com.cucc.unicom.service.UserAppService;
@@ -40,7 +41,7 @@ public class UserAppServiceImpl implements UserAppService {
     }
 
     @Override
-    public List<CurrentManagerApp> getCurrentManagerApp(int userId) {
+    public List<App> getCurrentManagerApp(int userId) {
         return userAppMapper.getCurrentManagerApp(userId);
     }
 }

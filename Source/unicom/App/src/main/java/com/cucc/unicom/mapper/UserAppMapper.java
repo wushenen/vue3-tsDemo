@@ -1,5 +1,6 @@
 package com.cucc.unicom.mapper;
 
+import com.cucc.unicom.pojo.App;
 import com.cucc.unicom.pojo.dto.CurrentAppManager;
 import com.cucc.unicom.pojo.dto.CurrentManagerApp;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,5 +16,5 @@ public interface UserAppMapper {
     int deleteUserApp(int appId,int userId);
     int deleteUserByAppId(int appId);
     List<CurrentAppManager> getCurrentAppManager(int appId);
-    List<CurrentManagerApp> getCurrentManagerApp(int userId);
+    List<App> getCurrentManagerApp(int userId);
 }

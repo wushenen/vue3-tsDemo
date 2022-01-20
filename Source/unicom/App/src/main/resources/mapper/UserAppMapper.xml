@@ -25,7 +25,7 @@
         and a.user_id = b.id
     </select>
 
-    <select id="getCurrentManagerApp" resultType="com.cucc.unicom.pojo.dto.CurrentAppManager">
+    <select id="getCurrentManagerApp" resultType="com.cucc.unicom.pojo.App">
         select * from t_user_app a, t_app b
         where a.user_id = #{userId}
         and a.app_id = b.app_id

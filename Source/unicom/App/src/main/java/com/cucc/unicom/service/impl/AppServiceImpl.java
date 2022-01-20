@@ -37,10 +37,12 @@ public class AppServiceImpl implements AppService {
         } else {
             app.setAppKey(utilService.encryptCBCWithPadding(utilService.createRandomCharData(24), UtilService.SM4KEY));
             app.setAppSecret(utilService.encryptCBCWithPadding(utilService.createRandomCharData(32), UtilService.SM4KEY));
+            if (app.getAppType()==2) {
+                AppConfig appConfig = new AppConfig();
+                appConfig.setAppId(app.getAppId());
+                appConfigConfigMapper.addAppConfig(appConfig);
+            }
             appMapper.addApp(app);
-            AppConfig appConfig = new AppConfig();
-            appConfig.setAppId(app.getAppId());
-            appConfigConfigMapper.addAppConfig(appConfig);
             return 0;
         }
     }

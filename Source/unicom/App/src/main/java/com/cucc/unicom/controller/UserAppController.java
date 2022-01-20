@@ -3,6 +3,7 @@ package com.cucc.unicom.controller;
 import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
 import com.cucc.unicom.controller.vo.UserAppRequest;
+import com.cucc.unicom.pojo.App;
 import com.cucc.unicom.pojo.dto.CurrentAppManager;
 import com.cucc.unicom.pojo.dto.CurrentManagerApp;
 import com.cucc.unicom.service.UserAppService;
@@ -54,8 +55,8 @@ public class UserAppController {
     @ResponseBody
     public Result unicomGetManagerApps(@RequestParam("userId") int userId, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) {
         PageHelper.startPage(offset,pageSize);
-        List<CurrentManagerApp> currentManagerApp = userAppService.getCurrentManagerApp(userId);
-        PageInfo<CurrentManagerApp> info = new PageInfo<>(currentManagerApp);
+        List<App> currentManagerApp = userAppService.getCurrentManagerApp(userId);
+        PageInfo<App> info = new PageInfo<>(currentManagerApp);
         return ResultHelper.genResultWithSuccess(info);
     }
 }
