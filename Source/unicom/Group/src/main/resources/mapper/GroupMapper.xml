@@ -55,10 +55,6 @@
         delete from t_group_user
         where group_id = #{groupId}
     </delete>
-    <delete id="deleteStrategyAuthByGroupId">
-        delete from t_strategy_auth
-        where group_id = #{groupId}
-    </delete>
 
 
     <!--模糊查询分组信息-->

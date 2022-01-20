@@ -34,8 +34,6 @@ public interface GroupMapper {
     int deleteGroup(@Param("groupId") int groupId);
     /*同时删除该分组下的所有用户*/
     int deleteGroupUser(@Param("groupId") int groupId);
-    /*同时删除被策略授权的分组信息*/
-    int deleteStrategyAuthByGroupId(@Param("groupId") int groupId);
 
     /*模糊查询分组信息*/
     List<Group> queryGroupInfo(String groupName);

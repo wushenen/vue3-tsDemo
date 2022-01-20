@@ -1,6 +1,7 @@
 package com.cucc.unicom.service.impl;
 
 import com.cucc.unicom.component.annotation.OperateLogAnno;
+import com.cucc.unicom.mapper.GroupAuthMapper;
 import com.cucc.unicom.mapper.GroupMapper;
 import com.cucc.unicom.pojo.Group;
 import com.cucc.unicom.service.GroupService;
@@ -16,6 +17,8 @@ public class GroupServiceImpl implements GroupService {
 
     @Autowired
     private GroupMapper groupMapper;
+    @Autowired
+    private GroupAuthMapper groupAuthMapper;
 
     @Override
     @OperateLogAnno(operateDesc = "创建分组", operateModel = OPERATE_MODEL)
@@ -54,7 +57,7 @@ public class GroupServiceImpl implements GroupService {
     @OperateLogAnno(operateDesc = "删除分组", operateModel = OPERATE_MODEL)
     public int deleteGroup(int groupId) {
         groupMapper.deleteGroupUser(groupId);
-        groupMapper.deleteStrategyAuthByGroupId(groupId);
+        groupAuthMapper.deleteGroupAuthByGroupId(groupId);
         return groupMapper.deleteGroup(groupId);
     }
 
