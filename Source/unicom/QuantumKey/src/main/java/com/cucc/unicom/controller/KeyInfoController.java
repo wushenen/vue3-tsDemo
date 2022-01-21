@@ -161,27 +161,6 @@ public class KeyInfoController {
         keyLimit.setUserName(applicant);
         keyLimit.setUserType(1);
         keyLimitService.updateKeyLimit(keyLimit);
-        CompletableFuture.runAsync(()->{
-            Long applicantKeyNum = keyInfoService.getApplicantKeyNum(applicant);
-            if (applicantKeyNum < keyNum){
-                int generateNum = keyNum - applicantKeyNum.intValue();
-                byte[] random = new byte[48*generateNum];
-                try {
-                    random = utilService.generateQuantumRandom(48 * generateNum);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                byte[] keyId = new byte[16];
-                byte[] keyValue = new byte[32];
-                KeyInfo keyInfo = new KeyInfo();
-                for (int i = 0; i < generateNum; i++) {
-                    System.arraycopy(random,i*48,keyId,0,16);
-                    System.arraycopy(random,i*48+16,keyValue,0,32);
-                    keyInfo.setKeyValue(utilService.encryptCBCWithPadding(keyValue,UtilService.SM4KEY));
-                    keyInfoService.addKeyInfo(keyId,keyValue,applicant,0);
-                }
-            }
-        });
         return ResultHelper.genResultWithSuccess();
     }
 
