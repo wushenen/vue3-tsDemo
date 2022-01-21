@@ -6,7 +6,7 @@ server:
     key-store: classpath:certificate/unicom.keystore
     key-store-password: unicom
     key-store-type: PKCS12
-    enabled: true #开启HTTPS
+    enabled: true
     key-alias: unicom
     key-password: unicom
 
@@ -19,7 +19,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://192.168.93.197:3306/unicom2?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
+      url: jdbc:mysql://localhost:3306/unicom2?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -67,10 +67,7 @@ pagehelper:
 logging:
   level:
     com.cucc.unicom.*: debug
-#获取随机数的方式，1-随机数发生器，2-密码卡，3-901, 4-902
-rngSource: 4
+
 cmdPath: /usr/local/unicom/config/
 
-
-# 系统信息
 systemVersion: V 1.0
