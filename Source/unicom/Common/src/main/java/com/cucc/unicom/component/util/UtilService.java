@@ -37,7 +37,7 @@ public class UtilService {
 
 
     /**
-     * 读取配置文件随机数来源，来获取随机数
+     * 获取量子随机数
      * @param length
      * @return
      */
@@ -53,12 +53,12 @@ public class UtilService {
                     logger.info("随机数获取源：{}",keySourceConfigs.get(i).getKeySource());
                     switch (keySourceConfigs.get(i).getKeySource()) {
                         case 1://qrng
-                            System.out.println("---qrng---");
+                            logger.info("QRNG获取量子随机数");
                             random = QrngUtil.genrateRandom(length);
                             keySource = 1;
                             break;
                         case 2://902
-                            System.out.println("---902---");
+                            logger.info("高速QRNG获取量子随机数");
                             QR902JNI qr902JNI = new QR902JNI();
                             String sourceIp = keySourceConfigs.get(i).getSourceIp();
                             String sourceIp2 = keySourceConfigs.get(i).getSourceIp2();
@@ -95,7 +95,7 @@ public class UtilService {
                             keySource = 2;
                             break;
                         case 3: //QKD
-                            System.out.println("-------qkd-------");
+                            logger.info("QKD获取量子随机数");
                             KMSJNI kmsjni = new KMSJNI();
                             String qkdConfig = keySourceConfigs.get(i).getConfigInfo();
                             JSONObject configInfo = JSONObject.parseObject(qkdConfig);
