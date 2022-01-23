@@ -10,7 +10,6 @@ import com.cucc.unicom.controller.vo.UploadDataRequest;
 import com.cucc.unicom.pojo.AppConfig;
 import com.cucc.unicom.pojo.DeviceOperation;
 import com.cucc.unicom.pojo.DeviceStatus;
-import com.cucc.unicom.pojo.OperateLog;
 import com.cucc.unicom.service.AppConfigService;
 import com.cucc.unicom.service.AppStatusService;
 import com.cucc.unicom.service.DeviceStatusService;
@@ -119,10 +118,10 @@ public class DeviceStatusController {
     @ResponseBody
     public Result unicomGetDeviceStatusInfo(){
         DeviceStatusDataResponse deviceStatusInfo = deviceStatusService.getStatusShowInfo();
-        List<OperateLog> operateLogs = operateLogService.getOperateLogsForDeviceInfoShow();
+//        List<OperateLog> operateLogs = operateLogService.getOperateLogsForDeviceInfoShow();
         JSONObject object = new JSONObject();
         object.put("deviceStatusInfo",deviceStatusInfo);
-        object.put("logs",operateLogs);
+//        object.put("logs",operateLogs);
         return ResultHelper.genResultWithSuccess(object);
     }
 

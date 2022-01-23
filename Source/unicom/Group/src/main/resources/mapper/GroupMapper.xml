@@ -51,8 +51,8 @@
         delete from t_group
         where group_id = #{groupId}
     </delete>
-    <delete id="deleteGroupUser">
-        delete from t_group_user
+    <delete id="deleteGroupDeviceUser">
+        delete from t_group_device_user
         where group_id = #{groupId}
     </delete>
 

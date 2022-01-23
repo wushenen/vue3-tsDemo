@@ -41,7 +41,7 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
         return 0;
     }
 
-    @OperateLogAnno(operateDesc = "查看所有终端状态数据", operateModel = OPERATE_MODEL)
+
     @Override
     public List<DeviceStatus> listDeviceStatusInfo() {
         return deviceStatusMapper.listDeviceStatusInfo();

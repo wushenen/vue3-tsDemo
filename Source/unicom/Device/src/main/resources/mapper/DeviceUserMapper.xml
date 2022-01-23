@@ -41,7 +41,7 @@
     </delete>
     <!--删除终端被赋予的分组信息-->
     <delete id="deleteGroupUserByDeviceId">
-        delete from t_group_user
+        delete from t_group_device_user
         where device_id = #{deviceId}
     </delete>
     <!--删除终端授权信息-->

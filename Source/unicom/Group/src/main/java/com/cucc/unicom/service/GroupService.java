@@ -23,7 +23,7 @@ public interface GroupService {
     /*获取当前分组信息*/
     Group getGroupInfo(int groupId);
 
-    /*删除分组同时删除该分组下的所有用户和策略授权信息*/
+    /*删除分组同时删除该分组下的所有用户和授权信息*/
     int deleteGroup(int groupId);
 
     /*模糊查询分组信息*/

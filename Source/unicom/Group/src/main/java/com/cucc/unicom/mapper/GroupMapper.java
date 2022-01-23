@@ -33,7 +33,7 @@ public interface GroupMapper {
     /*删除分组*/
     int deleteGroup(@Param("groupId") int groupId);
     /*同时删除该分组下的所有用户*/
-    int deleteGroupUser(@Param("groupId") int groupId);
+    int deleteGroupDeviceUser(@Param("groupId") int groupId);
 
     /*模糊查询分组信息*/
     List<Group> queryGroupInfo(String groupName);

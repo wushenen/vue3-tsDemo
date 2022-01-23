@@ -56,7 +56,7 @@ public class GroupServiceImpl implements GroupService {
     @Override
     @OperateLogAnno(operateDesc = "删除分组", operateModel = OPERATE_MODEL)
     public int deleteGroup(int groupId) {
-        groupMapper.deleteGroupUser(groupId);
+        groupMapper.deleteGroupDeviceUser(groupId);
         groupAuthMapper.deleteGroupAuthByGroupId(groupId);
         return groupMapper.deleteGroup(groupId);
     }
