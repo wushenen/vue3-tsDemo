@@ -1,7 +1,6 @@
 package com.cucc.unicom.shiro;
 
 import com.cucc.unicom.component.util.JWTUtil;
-import com.cucc.unicom.pojo.DeviceUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
@@ -46,8 +45,8 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
                     re.getWriter().write("{\"code\":401}");
                     return false;
                 }
-                DeviceUser deviceUser = (DeviceUser) SecurityUtils.getSubject().getPrincipal();
-                if(deviceUser == null){
+                ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+                if(shiroUser == null){
                     HttpServletResponse re = (HttpServletResponse)response;
                     logger.info("user is null......");
                     re.getWriter().write("{\"code\":401}");
@@ -61,8 +60,8 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             }
         }
         //判断是否登陆
-        DeviceUser deviceUser = (DeviceUser) SecurityUtils.getSubject().getPrincipal();
-        if(deviceUser != null){
+        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        if(shiroUser != null){
             HttpServletRequest req = (HttpServletRequest) request;
             String s = req.getServletPath();
 //            System.out.println(s);

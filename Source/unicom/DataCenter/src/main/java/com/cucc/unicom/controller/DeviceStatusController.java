@@ -75,7 +75,7 @@ public class DeviceStatusController {
             return ResultHelper.genResultWithSuccess(object);
         }
 
-        AppConfig appConfig = appConfigService.getAppConfig(Integer.valueOf(JWTUtil.getUserId(request.getHeader("Token"))));
+        AppConfig appConfig = appConfigService.getAppConfig(JWTUtil.getUserId(request.getHeader("Token")));
         if (appConfig.getVersion() != uploadDataRequest.getVersion()) {
             object.put("qemsConfig", appConfig);
             return ResultHelper.genResultWithSuccess(object);

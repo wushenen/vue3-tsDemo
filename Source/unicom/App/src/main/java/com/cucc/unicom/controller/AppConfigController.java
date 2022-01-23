@@ -57,8 +57,8 @@ public class AppConfigController {
             object.put("Token",response.getHeader("Token"));
         }
         String token = request.getHeader("Token");
-        String userId = JWTUtil.getUserId(token);
-        AppConfig configInfo = appConfigService.getAppConfig(Integer.valueOf(userId));
+        int userId = JWTUtil.getUserId(token);
+        AppConfig configInfo = appConfigService.getAppConfig(userId);
         object.put("qemsConfig",configInfo);
         return ResultHelper.genResultWithSuccess(object);
     }

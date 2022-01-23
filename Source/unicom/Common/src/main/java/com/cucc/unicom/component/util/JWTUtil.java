@@ -3,6 +3,7 @@ package com.cucc.unicom.component.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.cucc.unicom.component.HMACSM3Algorithm;
 
@@ -49,7 +50,7 @@ public class JWTUtil {
         }
     }
 
-    public static String generateTokenWithId(String id, String username) {
+    public static String generateTokenWithId(Integer id, String username) {
         try {
             // 设置过期时间
             long now = System.currentTimeMillis();
@@ -62,7 +63,8 @@ public class JWTUtil {
             return JWT.create()
                     .withHeader(header)
                     .withIssuer("qtec_R&D")
-                    .withAudience(id,username)             // 接收该JWT的一方
+                    .withAudience(username)// 接收该JWT的一方
+                    .withClaim("userId",id)
                     .withSubject("cipher_server")      // 该JWT所面向的用户
                     .withExpiresAt(exp)               // 指定token的生命周期
                     .withIssuedAt(new Date(now))     // token创建时间
@@ -123,9 +125,10 @@ public class JWTUtil {
             return jwt.getAudience().get(0);
     }
 
-    public static String getUserId(String token){
+    public static int getUserId(String token){
         DecodedJWT jwt = JWT.decode(token);
-        return jwt.getAudience().get(1);
+        Claim userId = jwt.getClaim("userId");
+        return userId.asInt();
     }
     /**
      * 获得token中的到期时间信息
