@@ -23,7 +23,7 @@ public class KeySourceConfigServiceImpl implements KeySourceConfigService {
     @Override
     public int updateKeySourceConfig(KeySourceConfigRequest keySourceConfigRequest) {
         KeySourceConfig keySourceConfig = keySourceConfigMapper.getKeySourceConfig(keySourceConfigRequest.getId());
-        if (keySourceConfig.getPriority()==5) {
+        if (keySourceConfig.getPriority()==4) {
             return 2;
         }
         if (keySourceConfigRequest.getSourceIp2() != null && keySourceConfigRequest.getSourceIp()==null){
@@ -55,7 +55,7 @@ public class KeySourceConfigServiceImpl implements KeySourceConfigService {
     @Override
     public int enableKeySourceConfig(int priority, int id) {
         KeySourceConfig keySourceConfig = keySourceConfigMapper.getKeySourceConfig(id);
-        if (keySourceConfig.getPriority() != 5)
+        if (keySourceConfig.getPriority() != 4)
             return 1;
         keySourceConfigMapper.enablePriority(priority);
         keySourceConfigMapper.updateKeySourcePriorityById(priority, id);
@@ -69,7 +69,7 @@ public class KeySourceConfigServiceImpl implements KeySourceConfigService {
         if (enableKeySourceConfigs.size() == 1)
             return 1;
         keySourceConfigMapper.disablePriority(priority);
-        keySourceConfigMapper.updateKeySourcePriorityById(5, id);
+        keySourceConfigMapper.updateKeySourcePriorityById(4, id);
         return 0;
     }
 
