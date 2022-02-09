@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface GroupAuthService {
 
-    int addGroupAuth(Integer groupId, List<Integer> apiId);
+    String addGroupAuth(Integer groupId, List<Integer> apiId);
 
     int deleteGroupAuthByGroupId(Integer groupId);
 

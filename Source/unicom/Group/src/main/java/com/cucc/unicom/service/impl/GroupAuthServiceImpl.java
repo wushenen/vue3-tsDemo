@@ -19,16 +19,15 @@ public class GroupAuthServiceImpl implements GroupAuthService {
 
     @OperateLogAnno(operateDesc = "添加分组资源权限", operateModel = OPERATE_MODEL)
     @Override
-    public int addGroupAuth(Integer groupId, List<Integer> apiId) {
-        for (int i = 0; i < apiId.size(); i++) {
-            if (groupAuthMapper.existGroupAuth(groupId,apiId.get(i)))
-                return apiId.indexOf(i);
+    public String addGroupAuth(Integer groupId, List<Integer> apiId) {
+        for (Integer api : apiId) {
+            if (groupAuthMapper.existGroupAuth(groupId,api))
+                return groupAuthMapper.getApiName(api);
         }
         for (Integer api : apiId) {
             groupAuthMapper.addGroupAuth(groupId,api);
         }
-
-        return 0;
+        return "0";
     }
 
     @OperateLogAnno(operateDesc = "撤销分组所有权限", operateModel = OPERATE_MODEL)

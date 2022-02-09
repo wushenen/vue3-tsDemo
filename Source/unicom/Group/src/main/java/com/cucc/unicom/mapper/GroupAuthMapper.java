@@ -20,4 +20,6 @@ public interface GroupAuthMapper {
 
     List<GroupAuthInfo> getGroupAuth(Integer groupId);
 
+    String getApiName(Integer apiId);
+
 }

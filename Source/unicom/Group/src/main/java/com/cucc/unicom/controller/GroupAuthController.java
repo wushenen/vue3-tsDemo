@@ -26,9 +26,9 @@ public class GroupAuthController {
     @ResponseBody
     @PostMapping("/add")
     public Result unicomAddGroupAuth(@RequestBody AddGroupAuthRequest addGroupAuthRequest){
-        int res = groupAuthService.addGroupAuth(addGroupAuthRequest.getGroupId(), addGroupAuthRequest.getApiId());
-        if (res != 0)
-            return ResultHelper.genResult(1,"资源"+res+"权限已重复添加");
+        String res = groupAuthService.addGroupAuth(addGroupAuthRequest.getGroupId(), addGroupAuthRequest.getApiId());
+        if (!"0".equals(res))
+            return ResultHelper.genResult(1,res+"  权限重复添加");
         return ResultHelper.genResultWithSuccess();
     }
 

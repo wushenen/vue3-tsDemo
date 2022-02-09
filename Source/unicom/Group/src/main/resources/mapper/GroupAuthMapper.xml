@@ -44,4 +44,9 @@
         where a.group_id = #{groupId}
     </select>
 
+    <select id="getApiName" resultType="String">
+        select api_name from t_api_resource
+        where api_id = #{apiId}
+    </select>
+
 </mapper>
