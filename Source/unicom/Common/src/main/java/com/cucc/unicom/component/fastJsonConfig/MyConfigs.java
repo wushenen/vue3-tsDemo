@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 import java.nio.charset.Charset;
@@ -62,9 +63,17 @@ public class MyConfigs extends WebMvcConfigurationSupport {
                 "classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("index.html","/","/**")
                 .addResourceLocations("classpath:/");
+        registry.addResourceHandler("/swagger-ui/**").addResourceLocations("classpath:/META-INF/resources/webjars/springfox-swagger-ui/")
+                .resourceChain(false);
         super.addResourceHandlers(registry);
     }
 
+    @Override
+    protected void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/swagger-ui/")
+                .setViewName("forward:/swagger-ui/index.html");
+        super.addViewControllers(registry);
+    }
 
     @Bean
     public IpAccessInterceptor ipAccessInterceptor(){
