@@ -25,10 +25,21 @@ public class OperateLogServiceImpl implements OperateLogService {
     @OperateLogAnno(operateDesc = "查看日志", operateModel = "日志管理")
 	@Override
 	public List<OperateLog> getOperateLogs(OperateLogRequest operateLogRequest) {
-
-        List<OperateLog> operateLogs = operateLogMapper.getOperateLogs(operateLogRequest);
-
-        return operateLogs;
+        return operateLogMapper.getOperateLogs(operateLogRequest);
     }
 
+    @Override
+    public List<String> getOperator() {
+        return operateLogMapper.getOperator();
+    }
+
+    @Override
+    public List<String> getOperateModel(String operator) {
+        return operateLogMapper.getOperateModel(operator);
+    }
+
+    @Override
+    public List<String> getOperateDetail(String operator, String operateModel) {
+        return operateLogMapper.getOperateDetail(operator,operateModel);
+    }
 }

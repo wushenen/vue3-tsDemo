@@ -26,7 +26,7 @@
         FROM t_operate_log
         <where>
             <if test="operator != null and operator != ''">
-                AND operator= #{operator}
+                operator= #{operator}
             </if>
             <if test="operateModel != null and operateModel != ''">
                 AND operate_model= #{operateModel}
@@ -38,10 +38,38 @@
                 AND update_time <![CDATA[>=]]> #{startTime}
             </if>
             <if test="endTime != null">
-            AND update_time <![CDATA[<= ]]> #{endTime}
+                AND update_time <![CDATA[<= ]]> #{endTime}
             </if>
         </where>
-        order by update_time desc
+        order by id desc
+    </select>
+
+    <select id="getOperator" resultType="String">
+        select distinct operator
+        from t_operate_log
+    </select>
+
+    <select id="getOperateModel" resultType="String">
+        select distinct operate_model
+        from t_operate_log
+        <where>
+            <if test="operator != null and operator != ''">
+                operator= #{operator}
+            </if>
+        </where>
+    </select>
+
+    <select id="getOperateDetail" resultType="String">
+        select distinct detail
+        from t_operate_log
+        <where>
+            <if test="operator != null and operator != ''">
+                operator= #{operator}
+            </if>
+            <if test="operateModel != null and operateModel != ''">
+                AND operate_model= #{operateModel}
+            </if>
+        </where>
     </select>
 
 </mapper>

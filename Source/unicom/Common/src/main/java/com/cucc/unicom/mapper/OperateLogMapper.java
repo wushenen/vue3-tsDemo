@@ -12,4 +12,7 @@ import java.util.List;
 public interface OperateLogMapper {
     void insertOperateLog(OperateLog log);
     List<OperateLog> getOperateLogs(OperateLogRequest operateLogRequest);
+    List<String> getOperator();
+    List<String> getOperateModel(String operator);
+    List<String> getOperateDetail(String operator, String operateModel);
 }
