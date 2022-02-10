@@ -56,6 +56,7 @@ mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml
   configuration:
     map-underscore-to-camel-case: true
+    cache-enabled: true
 
 # 分页配置
 pagehelper:

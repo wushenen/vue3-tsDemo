@@ -3,10 +3,11 @@ package com.cucc.unicom.pojo;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class OperateLog {
+public class OperateLog implements Serializable {
     private int id;
     private String operator;
     private String operateModel;

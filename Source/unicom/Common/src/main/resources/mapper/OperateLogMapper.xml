@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cucc.unicom.mapper.OperateLogMapper">
+    <cache/>
     <resultMap id="OperateLogResult" type="com.cucc.unicom.pojo.OperateLog">
         <id property="id" column="id"/>
         <result property="updateTime" column="update_time"/>
@@ -41,7 +42,7 @@
                 AND update_time <![CDATA[<= ]]> #{endTime}
             </if>
         </where>
-        order by id desc
+        order by update_time desc
     </select>
 
     <select id="getOperator" resultType="String">
