@@ -197,7 +197,7 @@ public class DeviceUserController {
     @ApiOperation(value = "模糊查询终端用户信息" ,notes = "模糊查询终端用户信息")
     @RequestMapping(value = "/queryDeviceUser",method = RequestMethod.GET)
     @ResponseBody
-    public Result unicomQueryDeviceUser(@RequestParam("deviceName") String deviceName){
+    public Result unicomQueryDeviceUser(@RequestParam(value = "deviceName",required = false) String deviceName){
         List<DeviceUser> deviceUsers = deviceUserService.queryDeviceUser(deviceName);
         return ResultHelper.genResultWithSuccess(deviceUsers);
     }

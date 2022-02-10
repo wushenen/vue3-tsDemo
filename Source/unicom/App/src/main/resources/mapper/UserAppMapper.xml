@@ -20,7 +20,8 @@
     </delete>
 
     <select id="getCurrentAppManager" resultType="com.cucc.unicom.pojo.dto.CurrentAppManager">
-        select * from t_user_app a, t_user b
+        select a.user_id,b.user_name,b.comments,a.create_time
+        from t_user_app a, t_user b
         where a.app_id = #{appId}
         and a.user_id = b.id
     </select>
