@@ -3,13 +3,12 @@ package com.cucc.unicom.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.cucc.unicom.component.Result;
 import com.cucc.unicom.component.ResultHelper;
-import com.cucc.unicom.component.util.JWTUtil;
-import com.cucc.unicom.component.util.UtilService;
+import com.cucc.unicom.component.util.*;
+import com.cucc.unicom.controller.vo.SystemUserLoginRequest;
 import com.cucc.unicom.pojo.User;
 import com.cucc.unicom.service.LoginService;
 import com.cucc.unicom.shiro.MyUserNamePasswordToken;
 import com.cucc.unicom.shiro.ShiroUser;
-import com.cucc.unicom.controller.vo.SystemUserLoginRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
@@ -46,7 +45,8 @@ public class LoginController {
         User login = loginService.systemUserLogin(systemUserLoginRequest.getUserName());
         if (login == null)
             return ResultHelper.genResult(1,"用户不存在");
-        if (utilService.decryptCBCWithPadding(login.getPassword(),UtilService.SM4KEY).equals(systemUserLoginRequest.getPassword())){
+        String s = HexUtils.bytesToHexString(SM3Util.hash(SM4Util.byteMerger(utilService.decryptCBCWithPadding(login.getPassword(), UtilService.SM4KEY).getBytes(),systemUserLoginRequest.getUserName().getBytes())));
+        if (systemUserLoginRequest.getPassword().equalsIgnoreCase(s)){
             String jwtToken = JWTUtil.generateToken(systemUserLoginRequest.getUserName());
             UsernamePasswordToken token = new MyUserNamePasswordToken(jwtToken,jwtToken,"systemUser");
             Subject subject = SecurityUtils.getSubject();
