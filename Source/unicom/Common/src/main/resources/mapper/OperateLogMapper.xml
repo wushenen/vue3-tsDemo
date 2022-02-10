@@ -18,19 +18,21 @@
 
     <insert id="insertOperateLog" parameterType="OperateLog">
         insert into t_operate_log (operator,operate_model,detail,operate_ip,operate_status,exec_time)
-             values(#{operateLog.operator},#{operateLog.operateModel},#{operateLog.detail},#{operateLog.operateIp},#{operateLog.operateStatus}
-             ,#{operateLog.execTime})
+        values(#{operator},#{operateModel},#{detail}, #{operateIp},#{operateStatus},#{execTime})
     </insert>
-    <select id="getOperateLogs" parameterType="Map" resultMap="OperateLogResult">
+    <select id="getOperateLogs" parameterType="com.cucc.unicom.controller.vo.OperateLogRequest" resultType="com.cucc.unicom.pojo.OperateLog">
         SELECT
         <include refid="OPERATE_LOG_COLUMN"/>
         FROM t_operate_log
         <where>
-            <if test="ip != null">
-                operate_ip = #{ip}
+            <if test="operator != null and operator != ''">
+                AND operator= #{operator}
             </if>
-            <if test="operatorName != null and operatorName != ''">
-                AND operator= #{operatorName}
+            <if test="operateModel != null and operateModel != ''">
+                AND operate_model= #{operateModel}
+            </if>
+            <if test="detail != null and detail != ''">
+                AND detail = #{detail}
             </if>
             <if test="startTime != null">
                 AND update_time <![CDATA[>=]]> #{startTime}
@@ -38,16 +40,8 @@
             <if test="endTime != null">
             AND update_time <![CDATA[<= ]]> #{endTime}
             </if>
-        </where> order by update_time desc
-    </select>
-
-    <select id="getOperateLogsForDeviceInfoShow" resultMap="OperateLogResult">
-        SELECT
-        <include refid="OPERATE_LOG_COLUMN"/>
-        FROM t_operate_log
-        where operate_model = '实时密钥模块'
+        </where>
         order by update_time desc
-        limit 6;
     </select>
 
 </mapper>

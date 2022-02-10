@@ -8,12 +8,12 @@ import java.util.Date;
 @Data
 public class OperateLog {
     private int id;
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
-    public String operator;
-    public String operateModel;
-    public String detail;
-    public String operateIp;
+    private String operator;
+    private String operateModel;
+    private String detail;
+    private String operateIp;
     private Object operateStatus;
     public long execTime;
+    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
+    private Date updateTime;
 }
