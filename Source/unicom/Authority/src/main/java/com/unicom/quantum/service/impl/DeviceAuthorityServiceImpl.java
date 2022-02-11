@@ -1,5 +1,7 @@
 package com.unicom.quantum.service.impl;
 
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.mapper.DeviceAuthorityMapper;
 import com.unicom.quantum.pojo.DTO.AuthInfo;
 import com.unicom.quantum.service.DeviceAuthorityService;
@@ -30,8 +32,12 @@ public class DeviceAuthorityServiceImpl implements DeviceAuthorityService {
 
     @OperateLogAnno(operateDesc = "删除终端权限", operateModel = OPERATE_MODEL)
     @Override
-    public int delDeviceAuthority(int authId) {
-        return deviceAuthorityMapper.delDeviceAuthority(authId);
+    public int delDeviceAuthority(int authId) throws QuantumException {
+        int res = deviceAuthorityMapper.delDeviceAuthority(authId);
+        if (res!=1) {
+            throw new QuantumException(ResultHelper.genResult(1,"删除权限失败"));
+        }
+        return 0;
     }
 
     @OperateLogAnno(operateDesc = "删除指定终端所有权限", operateModel = OPERATE_MODEL)

@@ -1,5 +1,6 @@
 package com.unicom.quantum.controller;
 
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.pojo.User;
 import com.unicom.quantum.service.UserService;
 import com.github.pagehelper.PageHelper;
@@ -57,10 +58,8 @@ public class UserController {
     @ApiOperation(value = "添加用户信息",notes = "添加用户信息")
     @RequestMapping(value = "/addUserInfo",method = RequestMethod.POST)
     @ResponseBody
-    public Result unicomAddUserInfo(@RequestBody AddUserRequest addUserRequest) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
-        int i = userService.addUser(addUserRequest);
-        if (i == 1)
-            return ResultHelper.genResult(1,"用户名已被占用");
+    public Result unicomAddUserInfo(@RequestBody AddUserRequest addUserRequest) throws QuantumException {
+        userService.addUser(addUserRequest);
         return ResultHelper.genResultWithSuccess();
     }
 

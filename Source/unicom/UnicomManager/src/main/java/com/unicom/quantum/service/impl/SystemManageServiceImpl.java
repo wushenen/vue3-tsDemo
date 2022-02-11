@@ -1,6 +1,8 @@
 package com.unicom.quantum.service.impl;
 
 
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.component.util.CmdUtil;
 import com.unicom.quantum.component.util.NetworkUtil;
@@ -114,7 +116,7 @@ public class SystemManageServiceImpl implements SystemManageService {
             qkmVersionMapper.updateStateOk(kv.getMacAddr());
             return "0";
         }else {
-            return "1";
+            throw new QuantumException(ResultHelper.genResult(1, "系统已经初始化"));
         }
     }
 
@@ -143,7 +145,7 @@ public class SystemManageServiceImpl implements SystemManageService {
         try{
             SwsdsTools.restore(cardData1.getCardData(),cardData.getBackPass());
         }catch (MgrException e){
-            return e.getMessage();
+            throw new QuantumException(ResultHelper.genResult(1,e.getMessage()));
         }
         return "0";
     }

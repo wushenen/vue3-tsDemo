@@ -1,10 +1,9 @@
-package com.unicom.quantum.component;
+package com.unicom.quantum.component.util;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureGenerationException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.unicom.quantum.component.util.SM3Util;
 import org.apache.tomcat.util.codec.binary.Base64;
 
 import java.io.IOException;

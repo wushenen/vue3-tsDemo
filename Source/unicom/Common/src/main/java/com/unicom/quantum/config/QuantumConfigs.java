@@ -1,4 +1,4 @@
-package com.unicom.quantum.component.fastJsonConfig;
+package com.unicom.quantum.config;
 
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
@@ -17,37 +17,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-public class MyConfigs extends WebMvcConfigurationSupport {
+public class QuantumConfigs extends WebMvcConfigurationSupport {
 
 
      @Override
      public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-                 FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
-                 FastJsonConfig config = new FastJsonConfig();
-                 config.setSerializerFeatures(
-                                // 保留 Map 空的字段
-                                 SerializerFeature.WriteMapNullValue,
-                                 // 将 String 类型的 null 转成""
-                                 SerializerFeature.WriteNullStringAsEmpty,
-                                // 将 Number 类型的 null 转成 0
-//                                 SerializerFeature.WriteNullNumberAsZero,
-                                 // 将 List 类型的 null 转成 []
-                                SerializerFeature.WriteNullListAsEmpty,
-                                // 将 Boolean 类型的 null 转成 false
-//                                SerializerFeature.WriteNullBooleanAsFalse,
-                                SerializerFeature.WriteDateUseDateFormat,
-                                // 避免循环引用
-                               SerializerFeature.DisableCircularReferenceDetect);
-//                 config.setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS Z");
+         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+         FastJsonConfig config = new FastJsonConfig();
+         config.setSerializerFeatures(
+                 SerializerFeature.WriteMapNullValue,
+                 SerializerFeature.WriteNullStringAsEmpty,
+                 SerializerFeature.WriteNullNumberAsZero,
+                 SerializerFeature.WriteNullListAsEmpty,
+                 SerializerFeature.WriteNullBooleanAsFalse,
+                 SerializerFeature.WriteDateUseDateFormat,
+                 SerializerFeature.DisableCircularReferenceDetect);
          config.setDateFormat("yyyy-MM-dd HH:mm:ss");
          converter.setFastJsonConfig(config);
-
-                 converter.setDefaultCharset(Charset.forName("UTF-8"));
-                List<MediaType> mediaTypeList = new ArrayList<>();
-                 // 解决中文乱码问题，相当于在 Controller 上的 @RequestMapping 中加了个属性 produces = "application/json"
-                 mediaTypeList.add(MediaType.APPLICATION_JSON);
-                 converter.setSupportedMediaTypes(mediaTypeList);
-                converters.add(converter);
+         converter.setDefaultCharset(Charset.forName("UTF-8"));
+         List<MediaType> mediaTypeList = new ArrayList<>();
+         mediaTypeList.add(MediaType.APPLICATION_JSON);
+         converter.setSupportedMediaTypes(mediaTypeList);
+         converters.add(converter);
      }
 
     /**

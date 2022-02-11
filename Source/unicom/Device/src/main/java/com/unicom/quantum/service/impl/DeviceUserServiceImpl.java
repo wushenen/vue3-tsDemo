@@ -1,5 +1,7 @@
 package com.unicom.quantum.service.impl;
 
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.mapper.DeviceUserMapper;
 import com.unicom.quantum.service.DeviceUserService;
@@ -51,18 +53,31 @@ public class DeviceUserServiceImpl implements DeviceUserService {
 
     @OperateLogAnno(operateDesc = "添加终端用户信息", operateModel = OPERATE_MODEL)
     @Override
-    public int addDeviceUser(DeviceUser deviceUser) {
+    public int addDeviceUser(DeviceUser deviceUser) throws Exception {
+        if (deviceUserMapper.userNameIsExist(deviceUser.getDeviceName())) {
+            throw new QuantumException(ResultHelper.genResult(1,"用户名已被占用"));
+        }
         deviceUser.setPassword(utilService.encryptCBCWithPadding(deviceUser.getPassword(),UtilService.SM4KEY));
         if (deviceUser.getEncKey() != null) {
             deviceUser.setEncKey(utilService.encryptCBCWithPadding(deviceUser.getEncKey(),UtilService.SM4KEY));
         }
-        return deviceUserMapper.addDeviceUser(deviceUser);
+        if (deviceUser.getUserType() == 1){
+            deviceUser.setEncKey(utilService.generateQuantumRandom(32));
+        }
+        deviceUserMapper.addDeviceUser(deviceUser);
+        return 0;
     }
 
     @OperateLogAnno(operateDesc = "修改终端用户信息", operateModel = OPERATE_MODEL)
     @Override
-    public int updateDevice(UpdateUserInfoRequest updateUserInfoRequest) {
-        updateUserInfoRequest.setPassword(utilService.encryptCBCWithPadding(updateUserInfoRequest.getPassword(),UtilService.SM4KEY));
+    public int updateDevice(UpdateUserInfoRequest updateUserInfoRequest) throws QuantumException {
+        String oldDeviceName = deviceUserMapper.getDeviceInfo(updateUserInfoRequest.getDeviceId()).getDeviceName();
+        if (!oldDeviceName.equals(updateUserInfoRequest.getDeviceName()) && deviceUserMapper.userNameIsExist(updateUserInfoRequest.getDeviceName())) {
+            throw new QuantumException(ResultHelper.genResult(1,"用户名已被占用"));
+        }
+        if (updateUserInfoRequest.getPassword()!=null) {
+            updateUserInfoRequest.setPassword(utilService.encryptCBCWithPadding(updateUserInfoRequest.getPassword(),UtilService.SM4KEY));
+        }
         return deviceUserMapper.updateDevice(updateUserInfoRequest);
     }
 

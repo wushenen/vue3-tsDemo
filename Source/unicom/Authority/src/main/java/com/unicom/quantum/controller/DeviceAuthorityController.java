@@ -1,5 +1,6 @@
 package com.unicom.quantum.controller;
 
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.pojo.DTO.AuthInfo;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
@@ -38,12 +39,9 @@ public class DeviceAuthorityController {
     @ApiOperation(value = "删除权限", notes = "删除权限")
     @RequestMapping(value = "/delDeviceAuthority",method = RequestMethod.GET)
     @ResponseBody
-    public Result unicomDelDeviceAuthority(@RequestParam("authId") int authId){
-        int i = deviceAuthorityService.delDeviceAuthority(authId);
-        if (i == 1)
-            return ResultHelper.genResultWithSuccess();
-        else
-            return ResultHelper.genResult(1,"删除权限失败");
+    public Result unicomDelDeviceAuthority(@RequestParam("authId") int authId) throws QuantumException {
+        deviceAuthorityService.delDeviceAuthority(authId);
+        return ResultHelper.genResultWithSuccess();
     }
 
     @RequiresRoles("systemUser")

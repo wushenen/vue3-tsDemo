@@ -1,5 +1,7 @@
 package com.unicom.quantum.service.impl;
 
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.mapper.AppConfigConfigMapper;
 import com.unicom.quantum.pojo.App;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
@@ -33,9 +35,9 @@ public class AppServiceImpl implements AppService {
 
     @OperateLogAnno(operateDesc = "创建新应用", operateModel = OPERATE_MODEL)
     @Override
-    public int addApp(App app) {
+    public int addApp(App app) throws QuantumException {
         if (appMapper.appExist(app.getAppName())) {
-            return 1;
+            throw new QuantumException(ResultHelper.genResult(1,"应用名称已存在"));
         } else {
             app.setAppKey(utilService.encryptCBCWithPadding(utilService.createRandomCharData(24), UtilService.SM4KEY));
             app.setAppSecret(utilService.encryptCBCWithPadding(utilService.createRandomCharData(32), UtilService.SM4KEY));

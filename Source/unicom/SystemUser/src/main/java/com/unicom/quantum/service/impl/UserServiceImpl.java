@@ -1,21 +1,17 @@
 package com.unicom.quantum.service.impl;
 
-import com.unicom.quantum.component.util.UtilService;
-import com.unicom.quantum.mapper.UserMapper;
-import com.unicom.quantum.pojo.User;
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
+import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.controller.vo.AddUserRequest;
 import com.unicom.quantum.controller.vo.UpdateUserRequest;
+import com.unicom.quantum.mapper.UserMapper;
+import com.unicom.quantum.pojo.User;
 import com.unicom.quantum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.util.List;
 
 @Service
@@ -31,9 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @OperateLogAnno(operateDesc = "添加系统用户", operateModel = OPERATE_MODEL)
     @Override
-    public int addUser(AddUserRequest addUserRequest) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
+    public int addUser(AddUserRequest addUserRequest) throws QuantumException {
         if (userMapper.userExist(addUserRequest.getUserName())) {
-            return 1;
+            throw new QuantumException(ResultHelper.genResult(1,"用户名已被占用"));
         }
         User user = new User();
         user.setUserName(addUserRequest.getUserName())

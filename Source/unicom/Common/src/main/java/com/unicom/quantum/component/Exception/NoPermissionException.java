@@ -1,3 +1,4 @@
+/*
 package com.unicom.quantum.component.Exception;
 
 import com.unicom.quantum.component.Result;
@@ -17,3 +18,4 @@ public class NoPermissionException {
     }
 
 }
+*/

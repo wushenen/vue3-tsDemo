@@ -1,5 +1,6 @@
 package com.unicom.quantum.service;
 
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.pojo.DTO.ExportDeviceUserInfo;
 import com.unicom.quantum.pojo.DeviceUser;
 import com.unicom.quantum.controller.vo.UpdateUserInfoRequest;
@@ -18,10 +19,10 @@ public interface DeviceUserService {
     boolean userNameIsExist(String deviceName);
 
     /*添加终端用户信息*/
-    int addDeviceUser(DeviceUser deviceUser);
+    int addDeviceUser(DeviceUser deviceUser) throws Exception;
 
     /*修改终端用户信息*/
-    int updateDevice(UpdateUserInfoRequest updateUserInfoRequest);
+    int updateDevice(UpdateUserInfoRequest updateUserInfoRequest) throws QuantumException;
 
     /*删除终端用户信息*/
     int deleteDevice(int deviceId);

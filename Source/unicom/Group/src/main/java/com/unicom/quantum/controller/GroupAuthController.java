@@ -1,5 +1,6 @@
 package com.unicom.quantum.controller;
 
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.controller.vo.AddGroupAuthRequest;
@@ -25,10 +26,8 @@ public class GroupAuthController {
     @ApiOperation(value = "添加分组权限",notes = "添加分组权限")
     @ResponseBody
     @PostMapping("/add")
-    public Result unicomAddGroupAuth(@RequestBody AddGroupAuthRequest addGroupAuthRequest){
-        String res = groupAuthService.addGroupAuth(addGroupAuthRequest.getGroupId(), addGroupAuthRequest.getApiId());
-        if (!"0".equals(res))
-            return ResultHelper.genResult(1,res+"  权限重复添加");
+    public Result unicomAddGroupAuth(@RequestBody AddGroupAuthRequest addGroupAuthRequest) throws QuantumException {
+        groupAuthService.addGroupAuth(addGroupAuthRequest.getGroupId(), addGroupAuthRequest.getApiId());
         return ResultHelper.genResultWithSuccess();
     }
 

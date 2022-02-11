@@ -1,11 +1,13 @@
 package com.unicom.quantum.service.impl;
 
-import com.unicom.quantum.mapper.AppConfigConfigMapper;
-import com.unicom.quantum.pojo.AppConfig;
-import com.unicom.quantum.service.AppConfigService;
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.controller.vo.UpdateAppConfigRequest;
+import com.unicom.quantum.mapper.AppConfigConfigMapper;
+import com.unicom.quantum.pojo.AppConfig;
 import com.unicom.quantum.pojo.DeviceOperation;
+import com.unicom.quantum.service.AppConfigService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,7 +34,6 @@ public class AppConfigServiceImpl implements AppConfigService {
     @OperateLogAnno(operateDesc = "修改应用配置", operateModel = OPERATE_MODEL)
     @Override
     public int updateAppConfig(UpdateAppConfigRequest updateAppConfigRequest) {
-        //如果没有改动则不用更新时间，后续可以作为优化点
         if (appConfigConfigMapper.appConfigExist(updateAppConfigRequest.getAppId())) {
             appConfigConfigMapper.updateAppConfig(updateAppConfigRequest);
         }else {
@@ -47,9 +48,9 @@ public class AppConfigServiceImpl implements AppConfigService {
 
     @OperateLogAnno(operateDesc = "控制设备重启或置零", operateModel = OPERATE_MODEL)
     @Override
-    public int addQemsOperation(String deviceName, int operation) {
+    public int addQemsOperation(String deviceName, int operation) throws QuantumException {
         if (appConfigConfigMapper.countQemsOperation(deviceName) != 0)
-            return 1;
+            throw new QuantumException(ResultHelper.genResult(1,"命令已下发，请耐心等待"));
         appConfigConfigMapper.addQemsOperation(deviceName, operation);
         return 0;
     }

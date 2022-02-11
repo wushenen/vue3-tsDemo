@@ -1,6 +1,7 @@
 package com.unicom.quantum.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.controller.vo.KeySourceConfigRequest;
 import com.unicom.quantum.controller.vo.UpdateQKDRequest;
 import com.unicom.quantum.service.KeySourceConfigService;
@@ -45,12 +46,8 @@ public class KeySourceConfigController {
     @ApiOperation("修改密钥源配置")
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
-    public Result unicomUpdate(@RequestBody KeySourceConfigRequest keySourceConfigRequest){
-        int i = keySourceConfigService.updateKeySourceConfig(keySourceConfigRequest);
-        if (i == 1)
-            return ResultHelper.genResult(1,"主IP未设置时禁止设置备用IP");
-        if (i == 2)
-            return ResultHelper.genResult(1,"请启用该量子密钥后再设置IP");
+    public Result unicomUpdate(@RequestBody KeySourceConfigRequest keySourceConfigRequest) throws QuantumException {
+        keySourceConfigService.updateKeySourceConfig(keySourceConfigRequest);
         return ResultHelper.genResultWithSuccess();
     }
 
@@ -78,10 +75,8 @@ public class KeySourceConfigController {
     @ApiOperation("禁用密钥源配置")
     @RequestMapping(value = "/delete",method = RequestMethod.GET)
     @ResponseBody
-    public Result unicomDelete(@RequestParam("id") int id,@RequestParam("priority") int priority){
-        int i = keySourceConfigService.disableKeySourceConfig(priority, id);
-        if (i == 1)
-            return ResultHelper.genResult(1,"禁止禁用所有量子密钥源");
+    public Result unicomDelete(@RequestParam("id") int id,@RequestParam("priority") int priority) throws QuantumException {
+        keySourceConfigService.disableKeySourceConfig(priority, id);
         return ResultHelper.genResultWithSuccess();
     }
 
@@ -89,10 +84,8 @@ public class KeySourceConfigController {
     @ApiOperation("启用密钥源配置")
     @RequestMapping(value = "/add",method = RequestMethod.GET)
     @ResponseBody
-    public Result unicomAdd(@RequestParam("id") int id,@RequestParam("priority") int priority){
-        int i = keySourceConfigService.enableKeySourceConfig(priority, id);
-        if (i == 1)
-            return ResultHelper.genResult(1,"密钥源已启用，无需重复启用");
+    public Result unicomAdd(@RequestParam("id") int id,@RequestParam("priority") int priority) throws QuantumException {
+        keySourceConfigService.enableKeySourceConfig(priority, id);
         return ResultHelper.genResultWithSuccess();
     }
 }

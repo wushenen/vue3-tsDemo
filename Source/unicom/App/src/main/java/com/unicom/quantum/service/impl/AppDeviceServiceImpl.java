@@ -1,5 +1,7 @@
 package com.unicom.quantum.service.impl;
 
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.controller.vo.AppDeviceRequest;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.mapper.AppDeviceMapper;
@@ -19,7 +21,7 @@ public class AppDeviceServiceImpl implements AppDeviceService {
 
     @OperateLogAnno(operateDesc = "应用绑定终端", operateModel = OPERATE_MODEL)
     @Override
-    public int addAppDevice(AppDeviceRequest appDeviceRequest) {
+    public int addAppDevice(AppDeviceRequest appDeviceRequest) throws QuantumException {
         boolean flag = false;
         for (Integer deviceId : appDeviceRequest.getDeviceIds()) {
             if (!appDeviceMapper.appDeviceExist(appDeviceRequest.getAppId(),deviceId)) {
@@ -32,7 +34,7 @@ public class AppDeviceServiceImpl implements AppDeviceService {
                 flag = true;
             }
         }
-        if (flag) return 1;
+        if (flag) throw new QuantumException(ResultHelper.genResult(1,"部分终端已绑定其它应用，若想绑定至该应用请先解除其他应用绑定"));
         return 0;
     }
 

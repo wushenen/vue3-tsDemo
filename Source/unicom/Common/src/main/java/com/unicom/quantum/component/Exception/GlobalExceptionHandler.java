@@ -1,6 +1,7 @@
-package com.unicom.quantum.component;
+package com.unicom.quantum.component.Exception;
 
-import com.unicom.quantum.component.Exception.PwspException;
+import com.unicom.quantum.component.Result;
+import com.unicom.quantum.component.ResultHelper;
 import org.apache.shiro.authz.UnauthenticatedException;
 import org.apache.shiro.authz.UnauthorizedException;
 import org.slf4j.Logger;
@@ -18,10 +19,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     @ResponseBody
     public Result exceptionHandler(Exception e, HttpServletResponse response) {
-        if(e instanceof PwspException){
-            PwspException pwspE = (PwspException)e;
-            logger.error(pwspE.getErrorResult().toString());
-            Result result = pwspE.getErrorResult();
+        if(e instanceof QuantumException){
+            QuantumException quantumException = (QuantumException)e;
+            logger.error(quantumException.getResult().toString());
+            Result result = quantumException.getResult();
             return result;
         }
         logger.error(e.getMessage(),e);

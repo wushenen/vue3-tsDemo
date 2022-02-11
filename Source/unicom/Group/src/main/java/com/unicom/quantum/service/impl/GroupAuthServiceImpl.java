@@ -1,5 +1,7 @@
 package com.unicom.quantum.service.impl;
 
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.mapper.GroupAuthMapper;
 import com.unicom.quantum.pojo.DTO.GroupAuthInfo;
@@ -19,15 +21,15 @@ public class GroupAuthServiceImpl implements GroupAuthService {
 
     @OperateLogAnno(operateDesc = "添加分组资源权限", operateModel = OPERATE_MODEL)
     @Override
-    public String addGroupAuth(Integer groupId, List<Integer> apiId) {
+    public int addGroupAuth(Integer groupId, List<Integer> apiId) throws QuantumException {
         for (Integer api : apiId) {
             if (groupAuthMapper.existGroupAuth(groupId,api))
-                return groupAuthMapper.getApiName(api);
+                throw new QuantumException(ResultHelper.genResult(1,groupAuthMapper.getApiName(api) +"  权限重复添加"));
         }
         for (Integer api : apiId) {
             groupAuthMapper.addGroupAuth(groupId,api);
         }
-        return "0";
+        return 0;
     }
 
     @OperateLogAnno(operateDesc = "撤销分组所有权限", operateModel = OPERATE_MODEL)

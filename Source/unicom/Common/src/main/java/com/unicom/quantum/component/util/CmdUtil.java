@@ -1,7 +1,7 @@
 package com.unicom.quantum.component.util;
 
 import com.unicom.quantum.component.ResultHelper;
-import com.unicom.quantum.component.Exception.PwspException;
+import com.unicom.quantum.component.Exception.QuantumException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,10 +39,10 @@ public class CmdUtil {
             process.waitFor();
         } catch (IOException e) {
             e.printStackTrace();
-            throw new PwspException(ResultHelper.genResult(403,"Forbidden.ProhibitedByRiskControl","当前用户使用脚本出错"));
+            throw new QuantumException(ResultHelper.genResult(403,"Forbidden.ProhibitedByRiskControl","当前用户使用脚本出错"));
         }catch (InterruptedException e) {
             e.printStackTrace();
-            throw new PwspException(ResultHelper.genResult(403,"Forbidden.ProhibitedByRiskControl","当前用户使用脚本出错"));
+            throw new QuantumException(ResultHelper.genResult(403,"Forbidden.ProhibitedByRiskControl","当前用户使用脚本出错"));
         }finally{
             try {
                 if(process != null){
@@ -54,7 +54,7 @@ public class CmdUtil {
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-                throw new PwspException(ResultHelper.genResult(403,"Forbidden.ProhibitedByRiskControl","当前用户使用脚本出错"));
+                throw new QuantumException(ResultHelper.genResult(403,"Forbidden.ProhibitedByRiskControl","当前用户使用脚本出错"));
             }
         }
         return String.valueOf(stdoutReader);
@@ -91,7 +91,7 @@ public class CmdUtil {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            throw new PwspException(ResultHelper.genResult(403,"当前用户使用脚本出错"));
+            throw new QuantumException(ResultHelper.genResult(403,"当前用户使用脚本出错"));
         }finally{
             if (null != br) {
                 try {
@@ -99,7 +99,7 @@ public class CmdUtil {
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
-                    throw new PwspException(ResultHelper.genResult(403,"当前用户使用脚本出错"));
+                    throw new QuantumException(ResultHelper.genResult(403,"当前用户使用脚本出错"));
                 }
             }
         }

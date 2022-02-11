@@ -1,5 +1,6 @@
 package com.unicom.quantum.controller;
 
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.controller.vo.AppDeviceRequest;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
@@ -25,10 +26,8 @@ public class AppDeviceController {
     @ApiOperation(value = "应用绑定终端",notes = "应用绑定终端")
     @RequestMapping(value = "/addAppDevice",method = RequestMethod.POST)
     @ResponseBody
-    public Result unicomAddAppDevice(@RequestBody AppDeviceRequest appDeviceRequest) {
-        int i = appDeviceService.addAppDevice(appDeviceRequest);
-        if (i == 1)
-            return ResultHelper.genResult(1,"部分终端已绑定其它应用，若想绑定至该应用请先解除其他应用绑定");
+    public Result unicomAddAppDevice(@RequestBody AppDeviceRequest appDeviceRequest) throws QuantumException {
+        appDeviceService.addAppDevice(appDeviceRequest);
         return ResultHelper.genResultWithSuccess();
     }
 

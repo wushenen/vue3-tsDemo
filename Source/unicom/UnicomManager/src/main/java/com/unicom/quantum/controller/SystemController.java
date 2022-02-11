@@ -71,13 +71,8 @@ public class SystemController {
     @PostMapping("/init")
     @ResponseBody
     public Result unicomInit() throws Exception{
-        String result = systemManageService.init();
-        if (result.equals("0")) {
-            return ResultHelper.genResultWithSuccess();
-        } else if (result.equals("1")) {
-            return ResultHelper.genResult(1, "系统已经初始化");
-        }else
-            return ResultHelper.genResult(1,"系统异常，请稍后再试");
+        systemManageService.init();
+        return ResultHelper.genResultWithSuccess();
     }
 
 
@@ -93,13 +88,8 @@ public class SystemController {
     @PostMapping("/restore")
     @ResponseBody
     public Result unicomRestore(@RequestBody CardData cardData) throws Exception{
-        String result = systemManageService.restore(cardData);
-        System.out.println(result);
-        if (result.equals("0")) {
-            return ResultHelper.genResultWithSuccess();
-        } else {
-            return ResultHelper.genResult(1, result);
-        }
+        systemManageService.restore(cardData);
+        return ResultHelper.genResultWithSuccess();
     }
 
     @ApiOperation(value = "列出所有密码卡备份信息",notes = "列出所有密码卡备份信息")

@@ -5,6 +5,7 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.alibaba.fastjson.JSONObject;
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.controller.vo.*;
@@ -93,24 +94,13 @@ public class DeviceUserController {
     @RequestMapping(value = "/addDeviceUser",method = RequestMethod.POST)
     @ResponseBody
     public Result unicomAddDeviceUser(@RequestBody AddDeviceUserRequest addDeviceUserRequest) throws Exception {
-        boolean exist = deviceUserService.userNameIsExist(addDeviceUserRequest.getDeviceName());
-        if (!exist){
-            DeviceUser deviceUser = new DeviceUser();
-            deviceUser.setDeviceName(addDeviceUserRequest.getDeviceName());
-            deviceUser.setPassword(addDeviceUserRequest.getPassword());
-            deviceUser.setComments(addDeviceUserRequest.getComments());
-            deviceUser.setUserType(addDeviceUserRequest.getUserType());
-            if (addDeviceUserRequest.getUserType() == 1){
-                deviceUser.setEncKey(utilService.generateQuantumRandom(32));
-            }
-            int res = deviceUserService.addDeviceUser(deviceUser);
-
-            if (res == 1){
-                return ResultHelper.genResultWithSuccess();
-            }else
-                return ResultHelper.genResult(1,"添加终端用户失败");
-        }else
-            return ResultHelper.genResult(1,"用户名已被占用");
+        DeviceUser deviceUser = new DeviceUser();
+        deviceUser.setDeviceName(addDeviceUserRequest.getDeviceName());
+        deviceUser.setPassword(addDeviceUserRequest.getPassword());
+        deviceUser.setComments(addDeviceUserRequest.getComments());
+        deviceUser.setUserType(addDeviceUserRequest.getUserType());
+        deviceUserService.addDeviceUser(deviceUser);
+        return ResultHelper.genResultWithSuccess();
 
     }
 
@@ -161,18 +151,9 @@ public class DeviceUserController {
     @ApiOperation(value = "修改终端用户信息" ,notes = "修改终端用户信息")
     @RequestMapping(value = "/updateDevice",method = RequestMethod.POST)
     @ResponseBody
-    public Result unicomUpdateDevice(@RequestBody UpdateUserInfoRequest updateUserInfoRequest){
-
-        boolean userNameIsExist = deviceUserService.userNameIsExist(updateUserInfoRequest.getDeviceName());
-        boolean equals = deviceUserService.getDeviceInfo(updateUserInfoRequest.getDeviceId()).getDeviceName().equals(updateUserInfoRequest.getDeviceName());
-        if ( !userNameIsExist || equals){
-            int i = deviceUserService.updateDevice(updateUserInfoRequest);
-            if (i == 1)
-                return ResultHelper.genResultWithSuccess();
-            else
-                return ResultHelper.genResult(1,"修改终端信息失败");
-        }else
-            return ResultHelper.genResult(1,"用户名重复，修改失败");
+    public Result unicomUpdateDevice(@RequestBody UpdateUserInfoRequest updateUserInfoRequest) throws QuantumException {
+        deviceUserService.updateDevice(updateUserInfoRequest);
+        return ResultHelper.genResultWithSuccess();
     }
 
 

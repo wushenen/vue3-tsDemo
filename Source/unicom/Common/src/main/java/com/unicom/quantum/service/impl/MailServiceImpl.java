@@ -1,6 +1,6 @@
 package com.unicom.quantum.service.impl;
 
-import com.unicom.quantum.component.MailProperties;
+import com.unicom.quantum.component.properties.MailProperties;
 import com.unicom.quantum.config.MailSenderConfig;
 import com.unicom.quantum.mapper.MailLogMapper;
 import com.unicom.quantum.mapper.MailMapper;

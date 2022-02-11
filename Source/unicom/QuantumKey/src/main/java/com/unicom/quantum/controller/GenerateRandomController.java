@@ -2,7 +2,7 @@ package com.unicom.quantum.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.unicom.quantum.component.Exception.PwspException;
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.util.UtilService;
@@ -56,7 +56,7 @@ public class GenerateRandomController {
                 object.put("randomPassword", Base64.getEncoder().encodeToString(RandomPassword));
                 return ResultHelper.genResultWithSuccess(object);
         } else {
-                throw new PwspException(ResultHelper.genResult(400, "InvalidParameter", "口令字节数长度应为8~128"));
+                throw new QuantumException(ResultHelper.genResult(400, "InvalidParameter", "口令字节数长度应为8~128"));
         }
     }
 

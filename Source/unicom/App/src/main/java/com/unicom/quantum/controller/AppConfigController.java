@@ -1,6 +1,7 @@
 package com.unicom.quantum.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.controller.vo.QemsOperateRequest;
 import com.unicom.quantum.controller.vo.UpdateAppConfigRequest;
 import com.unicom.quantum.pojo.AppConfig;
@@ -66,10 +67,8 @@ public class AppConfigController {
     @ApiOperation(value = "设备控制置零或重启",notes ="设备控制置零或重启")
     @RequestMapping(value = "/operation",method = RequestMethod.POST)
     @ResponseBody
-    public Result unicomOperation(@RequestBody QemsOperateRequest qemsOperateRequest) {
-        int res = appConfigService.addQemsOperation(qemsOperateRequest.getDeviceName(), qemsOperateRequest.getOperation());
-        if (res == 1)
-            return ResultHelper.genResult(1,"命令已下发，请耐心等待");
+    public Result unicomOperation(@RequestBody QemsOperateRequest qemsOperateRequest) throws QuantumException {
+        appConfigService.addQemsOperation(qemsOperateRequest.getDeviceName(), qemsOperateRequest.getOperation());
         return ResultHelper.genResultWithSuccess();
     }
 

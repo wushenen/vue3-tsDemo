@@ -2,7 +2,7 @@ package com.unicom.quantum.component.util;
 
 import com.alibaba.druid.util.StringUtils;
 import com.unicom.quantum.component.ResultHelper;
-import com.unicom.quantum.component.Exception.PwspException;
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.sansec.asn1.ASN1InputStream;
 import com.sansec.asn1.ASN1Sequence;
 import com.sansec.asn1.DERBitString;
@@ -548,7 +548,7 @@ public class SwsdsTools {
      * @return index为一组一组的
      * @throws CryptoException
      */
-    public static int getKeyPairIndex(int keyType) throws CryptoException, PwspException {
+    public static int getKeyPairIndex(int keyType) throws CryptoException, QuantumException {
         int index = 0;
         int [] keyStatus = iSDSCrypto.getKeyStatus(3);
         for (int i=0;i<keyStatus.length;i++){
@@ -576,7 +576,7 @@ public class SwsdsTools {
                 break;
         }*/
         if(0 == index){
-            throw new PwspException(ResultHelper.genResult(400,"Rejected.LimitExceeded","请求被拒绝，密码卡可存储非对称加密密钥对资源不足"));
+            throw new QuantumException(ResultHelper.genResult(400,"Rejected.LimitExceeded","请求被拒绝，密码卡可存储非对称加密密钥对资源不足"));
         }
         return index;
     }
@@ -879,7 +879,7 @@ public class SwsdsTools {
         byte[] yg = HexUtils.hexStringToBytes(
                 "BC3736A2F4F6779C59BDCEE36B692153D0A9877CC62A474002DF32E52139F0A0");
         byte[] za = new byte[id.length+194];
-        byte[] idL = short2byte((short)(id.length*8));
+        byte[] idL = HexUtils.short2byte((short)(id.length*8));
         System.arraycopy(idL,0,za,0,2);
         int index = 2;
         System.arraycopy(id,0,za,2,id.length);
@@ -904,23 +904,7 @@ public class SwsdsTools {
 
         return pbHashData;
     }
-    public static byte[] short2byte(short s){
-        byte[] b = new byte[2];
-        for(int i = 0; i < 2; i++){
-            int offset = 16 - (i+1)*8; //因为byte占4个字节，所以要计算偏移量
-            b[i] = (byte)((s >> offset)&0xff); //把16位分为2个8位进行分别存储
-        }
-        return b;
-    }
 
-    public static short byte2short(byte[] b){
-        short l = 0;
-        for (int i = 0; i < 2; i++) {
-            l<<=8; //<<=和我们的 +=是一样的，意思就是 l = l << 8
-            l |= (b[i] & 0xff); //和上面也是一样的  l = l | (b[i]&0xff)
-        }
-        return l;
-    }
 
     /**
      * 将国密xymc转为加密对象

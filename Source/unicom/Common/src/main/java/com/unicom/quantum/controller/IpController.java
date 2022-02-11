@@ -1,5 +1,6 @@
 package com.unicom.quantum.controller;
 
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.pojo.IpInfo;
@@ -29,12 +30,8 @@ public class IpController {
     @ApiOperation(value = "添加ip",notes = "向ip白名单中添加将被允许访问的ip")
     @RequestMapping(value = "/addIp", method = RequestMethod.POST)
     @ResponseBody
-    public Result unicomAddIp(@RequestBody IpInfoRequest ipInfoRequest) throws Exception {
-        int result = ipService.addIp(ipInfoRequest.getIpInfo());
-        if(result ==2){
-            return ResultHelper.genResult(1,"该IP信息已添加，勿重复添加");
-        }
-        if (result == 3) return ResultHelper.genResult(1,"请参照提示信息添加IP信息");
+    public Result unicomAddIp(@RequestBody IpInfoRequest ipInfoRequest) throws QuantumException {
+        ipService.addIp(ipInfoRequest.getIpInfo());
         return ResultHelper.genResultWithSuccess();
     }
 

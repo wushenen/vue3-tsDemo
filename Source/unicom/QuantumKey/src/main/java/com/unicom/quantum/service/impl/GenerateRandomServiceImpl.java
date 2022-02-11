@@ -1,6 +1,6 @@
 package com.unicom.quantum.service.impl;
 
-import com.unicom.quantum.component.Exception.PwspException;
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.component.util.UtilService;
@@ -36,7 +36,7 @@ public class GenerateRandomServiceImpl implements GenerateRandomService {
             random.setKeyId(keyId);
             tempKeyMapper.addAppSecret(random);
         } else {
-            throw new PwspException(ResultHelper.genResult(1, "InvalidParameter", "口令字节数长度应为8~128"));
+            throw new QuantumException(ResultHelper.genResult(1, "口令字节数长度应为8~128"));
         }
         return dto;
     }

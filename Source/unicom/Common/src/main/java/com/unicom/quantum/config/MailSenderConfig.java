@@ -1,6 +1,6 @@
 package com.unicom.quantum.config;
 
-import com.unicom.quantum.component.MailProperties;
+import com.unicom.quantum.component.properties.MailProperties;
 import com.unicom.quantum.mapper.MailMapper;
 import com.unicom.quantum.pojo.MailConfigInfo;
 import lombok.AllArgsConstructor;

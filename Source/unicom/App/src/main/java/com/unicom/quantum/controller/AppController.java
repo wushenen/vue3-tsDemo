@@ -1,5 +1,6 @@
 package com.unicom.quantum.controller;
 
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.controller.vo.AddAppRequest;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
@@ -26,13 +27,10 @@ public class AppController {
     @ApiOperation(value = "添加应用",notes = "添加应用")
     @RequestMapping(value = "/addApp",method = RequestMethod.POST)
     @ResponseBody
-    public Result unicomAddApp(@RequestBody AddAppRequest addAppRequest) {
+    public Result unicomAddApp(@RequestBody AddAppRequest addAppRequest) throws QuantumException {
         App app = new App();
         BeanUtils.copyProperties(addAppRequest,app);
-        int i = appService.addApp(app);
-        if (i==1) {
-            return ResultHelper.genResult(1,"应用名称重复");
-        }
+        appService.addApp(app);
         return ResultHelper.genResultWithSuccess();
     }
 
