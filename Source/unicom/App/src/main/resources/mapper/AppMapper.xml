@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cucc.unicom.mapper.AppMapper">
+<mapper namespace="com.unicom.quantum.mapper.AppMapper">
     
-    <insert id="addApp" useGeneratedKeys="true" keyProperty="appId" parameterType="com.cucc.unicom.pojo.App">
+    <insert id="addApp" useGeneratedKeys="true" keyProperty="appId" parameterType="com.unicom.quantum.pojo.App">
         insert into t_app (app_name,app_type,app_key,app_secret,comments)
         values (#{appName},#{appType},#{appKey},#{appSecret},#{comments});
     </insert>
@@ -18,7 +18,7 @@
         where app_id = #{appId}
     </delete>
 
-    <select id="getApps" resultType="com.cucc.unicom.pojo.App">
+    <select id="getApps" resultType="com.unicom.quantum.pojo.App">
         select * from t_app
     </select>
 

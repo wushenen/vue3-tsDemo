@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cucc.unicom.mapper.DeviceUserMapper">
+<mapper namespace="com.unicom.quantum.mapper.DeviceUserMapper">
 
     <!--添加终端用户信息-->
-    <insert id="addDeviceUser" parameterType="com.cucc.unicom.pojo.DeviceUser">
+    <insert id="addDeviceUser" parameterType="com.unicom.quantum.pojo.DeviceUser">
         insert into t_device_user (device_name,password,comments,user_type,enc_key)
         values (#{deviceName},#{password},#{comments},#{userType},#{encKey});
     </insert>
@@ -17,7 +17,7 @@
     </select>
 
     <!--修改终端用户信息-->
-    <update id="updateDevice" parameterType="com.cucc.unicom.controller.vo.UpdateUserInfoRequest">
+    <update id="updateDevice" parameterType="com.unicom.quantum.controller.vo.UpdateUserInfoRequest">
         update t_device_user
         <set>
             <if test="deviceName != null">
@@ -70,7 +70,7 @@
 
 
     <!--获取所有终端用户信息-->
-    <select id="listAllDeviceUser" resultType="com.cucc.unicom.pojo.DeviceUser">
+    <select id="listAllDeviceUser" resultType="com.unicom.quantum.pojo.DeviceUser">
         select *
         from t_device_user
         <if test="deviceName != null and !&quot;&quot;.equals(deviceName.trim())">
@@ -80,21 +80,21 @@
     </select>
 
     <!--获取终端用户信息-->
-    <select id="getDeviceInfo" parameterType="int" resultType="com.cucc.unicom.pojo.DeviceUser">
+    <select id="getDeviceInfo" parameterType="int" resultType="com.unicom.quantum.pojo.DeviceUser">
         select *
         from t_device_user
         where device_id = #{deviceId}
     </select>
 
     <!--模糊查询终端用户信息-->
-    <select id="queryDeviceUser" resultType="com.cucc.unicom.pojo.DeviceUser">
+    <select id="queryDeviceUser" resultType="com.unicom.quantum.pojo.DeviceUser">
         select *
         from t_device_user
         where device_name like concat('%',#{deviceName},'%')
         order by update_time desc
     </select>
 
-    <select id="exportDeviceUserInfo" resultType="com.cucc.unicom.pojo.DTO.ExportDeviceUserInfo">
+    <select id="exportDeviceUserInfo" resultType="com.unicom.quantum.pojo.DTO.ExportDeviceUserInfo">
         select
         device_name as deviceId,
         password,

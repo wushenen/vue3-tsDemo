@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cucc.unicom.mapper.KeySourceConfigMapper">
+<mapper namespace="com.unicom.quantum.mapper.KeySourceConfigMapper">
 
     <update id="upwardPriority">
         update t_key_source_config
@@ -31,19 +31,19 @@
         and priority != 4;
     </update>
 
-    <select id="getKeySourceConfigs" resultType="com.cucc.unicom.pojo.dto.KeySourceDetail">
+    <select id="getKeySourceConfigs" resultType="com.unicom.quantum.pojo.dto.KeySourceDetail">
         select * from t_key_source_config a, t_key_source_info b
         where a.key_source = b.key_source
         order by priority asc
     </select>
 
-    <select id="getEnableKeySourceConfigs" resultType="com.cucc.unicom.pojo.KeySourceConfig">
+    <select id="getEnableKeySourceConfigs" resultType="com.unicom.quantum.pojo.KeySourceConfig">
         select * from t_key_source_config
         where priority != 4
         order by priority asc
     </select>
 
-    <select id="getKeySourceConfig" resultType="com.cucc.unicom.pojo.KeySourceConfig">
+    <select id="getKeySourceConfig" resultType="com.unicom.quantum.pojo.KeySourceConfig">
         select *
         from t_key_source_config
         where id = #{id}

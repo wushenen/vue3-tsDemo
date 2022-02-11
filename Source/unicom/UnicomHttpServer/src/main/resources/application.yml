@@ -61,7 +61,7 @@ spring:
       password: 123456
 # 开启mybatis小驼峰式命名规则自动转换
 mybatis:
-  type-aliases-package: com.cucc.unicom.pojo
+  type-aliases-package: com.unicom.quantum.pojo
   mapper-locations: classpath*:mapper/*Mapper.xml
   configuration:
     map-underscore-to-camel-case: true

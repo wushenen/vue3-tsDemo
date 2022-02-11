@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cucc.unicom.mapper.OperateLogMapper">
+<mapper namespace="com.unicom.quantum.mapper.OperateLogMapper">
     <cache/>
-    <resultMap id="OperateLogResult" type="com.cucc.unicom.pojo.OperateLog">
+    <resultMap id="OperateLogResult" type="com.unicom.quantum.pojo.OperateLog">
         <id property="id" column="id"/>
         <result property="updateTime" column="update_time"/>
         <result property="operator" column="operator"/>
@@ -21,7 +21,7 @@
         insert into t_operate_log (operator,operate_model,detail,operate_ip,operate_status,exec_time)
         values(#{operator},#{operateModel},#{detail}, #{operateIp},#{operateStatus},#{execTime})
     </insert>
-    <select id="getOperateLogs" parameterType="com.cucc.unicom.controller.vo.OperateLogRequest" resultType="com.cucc.unicom.pojo.OperateLog">
+    <select id="getOperateLogs" parameterType="com.unicom.quantum.controller.vo.OperateLogRequest" resultType="com.unicom.quantum.pojo.OperateLog">
         SELECT
         <include refid="OPERATE_LOG_COLUMN"/>
         FROM t_operate_log

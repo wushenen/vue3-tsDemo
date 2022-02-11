@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cucc.unicom.mapper.AppConfigConfigMapper">
+<mapper namespace="com.unicom.quantum.mapper.AppConfigConfigMapper">
 
     <insert id="addAppConfig">
         insert into t_app_config (app_id,enc_port,enc_type,enc_freq,start_index,end_index)
@@ -18,18 +18,18 @@
         where app_id = #{appId}
     </select>
     
-    <select id="getAppConfig" resultType="com.cucc.unicom.pojo.AppConfig">
+    <select id="getAppConfig" resultType="com.unicom.quantum.pojo.AppConfig">
         select * from t_app_config a, t_app_device b
         where a.app_id = b.app_id
         and b.device_id = #{deviceId}
     </select>
 
-    <select id="getAppConfigByAppId" resultType="com.cucc.unicom.pojo.AppConfig">
+    <select id="getAppConfigByAppId" resultType="com.unicom.quantum.pojo.AppConfig">
         select * from t_app_config
         where app_id = #{appId}
     </select>
 
-    <update id="updateAppConfig" parameterType="com.cucc.unicom.controller.vo.UpdateAppConfigRequest">
+    <update id="updateAppConfig" parameterType="com.unicom.quantum.controller.vo.UpdateAppConfigRequest">
         update t_app_config
         set enc_port = #{encPort},
         enc_type = #{encType},
@@ -53,7 +53,7 @@
         where device_name = #{deviceName}
     </select>
 
-    <select id="getOperation" resultType="com.cucc.unicom.pojo.DeviceOperation">
+    <select id="getOperation" resultType="com.unicom.quantum.pojo.DeviceOperation">
         select * from t_device_operation
         where device_name = #{deviceName}
     </select>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cucc.unicom.mapper.AppDeviceMapper">
+<mapper namespace="com.unicom.quantum.mapper.AppDeviceMapper">
 
     <insert id="addAppDevice">
         insert into t_app_device (app_id,device_id) values (#{appId},#{deviceId})
@@ -19,7 +19,7 @@
         and device_id = #{deviceId}
     </delete>
 
-    <select id="getAppDevice" resultType="com.cucc.unicom.pojo.dto.AppDeviceDTO">
+    <select id="getAppDevice" resultType="com.unicom.quantum.pojo.dto.AppDeviceDTO">
         select *
         from t_app_device a, t_device_user b
         where a.device_id = b.device_id

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cucc.unicom.mapper.GroupMapper">
+<mapper namespace="com.unicom.quantum.mapper.GroupMapper">
 
     <!--创建分组-->
     <insert id="addGroup">
@@ -24,7 +24,7 @@
     </select>
 
     <!--查看分组信息-->
-    <select id="groupList" resultType="com.cucc.unicom.pojo.Group">
+    <select id="groupList" resultType="com.unicom.quantum.pojo.Group">
         select * from t_group
         order by update_time desc
     </select>
@@ -40,7 +40,7 @@
     </update>
 
     <!--获取当前分组名称-->
-    <select id="getGroupInfo" resultType="com.cucc.unicom.pojo.Group">
+    <select id="getGroupInfo" resultType="com.unicom.quantum.pojo.Group">
         select *
         from t_group
         where group_id = #{groupId};
@@ -58,7 +58,7 @@
 
 
     <!--模糊查询分组信息-->
-    <select id="queryGroupInfo" resultType="com.cucc.unicom.pojo.Group">
+    <select id="queryGroupInfo" resultType="com.unicom.quantum.pojo.Group">
         select * from t_group
         where group_name like concat('%',#{groupName},'%')
         order by update_time desc

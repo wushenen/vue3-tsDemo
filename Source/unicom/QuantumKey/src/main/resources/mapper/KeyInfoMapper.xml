@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cucc.unicom.mapper.KeyInfoMapper">
+<mapper namespace="com.unicom.quantum.mapper.KeyInfoMapper">
     
     <insert id="addKeyInfo">
         insert into t_key_info (key_id,key_value,applicant,key_status)
         values (#{keyId},#{keyValue},#{applicant},#{keyStatus})
     </insert>
 
-    <select id="getKeyInfo" resultType="com.cucc.unicom.pojo.KeyInfo">
+    <select id="getKeyInfo" resultType="com.unicom.quantum.pojo.KeyInfo">
         select * from t_key_info
         where key_id = #{keyId}
     </select>
@@ -24,7 +24,7 @@
         where key_id = #{keyId}
     </delete>
 
-    <select id="getKeyInfos" resultType="com.cucc.unicom.pojo.KeyInfo">
+    <select id="getKeyInfos" resultType="com.unicom.quantum.pojo.KeyInfo">
         select * from t_key_info
         where binary applicant = #{applicant}
         and key_status = #{keyStatus}
@@ -32,7 +32,7 @@
         limit 50
     </select>
 
-    <select id="getKeyInfosNotInKeyStatus" resultType="com.cucc.unicom.pojo.KeyInfo">
+    <select id="getKeyInfosNotInKeyStatus" resultType="com.unicom.quantum.pojo.KeyInfo">
         select * from t_key_info
         where binary applicant = #{applicant}
         and key_status != #{keyStatus}

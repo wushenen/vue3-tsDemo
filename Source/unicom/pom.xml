@@ -22,8 +22,8 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.cucc</groupId>
-    <artifactId>unicom</artifactId>
+    <groupId>com.unicom</groupId>
+    <artifactId>quantum</artifactId>
     <version>1.0</version>
     <name>unicom</name>
     <packaging>pom</packaging>

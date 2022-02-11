@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cucc.unicom.mapper.UserMapper">
+<mapper namespace="com.unicom.quantum.mapper.UserMapper">
 
-    <resultMap id="userInfo" type="com.cucc.unicom.pojo.User">
+    <resultMap id="userInfo" type="com.unicom.quantum.pojo.User">
         <id property="id" column="id"/>
         <result property="userName" column="user_name"/>
         <result property="password" column="password"/>
@@ -19,7 +19,7 @@
     </sql>
 
 
-    <insert id="addUser" parameterType="com.cucc.unicom.pojo.User">
+    <insert id="addUser" parameterType="com.unicom.quantum.pojo.User">
         insert into t_user (user_name,password,email,comments,account_type)
         values (#{userName},#{password},#{email},#{comments},#{accountType})
     </insert>
@@ -30,7 +30,7 @@
         where binary user_name = #{userName}
     </select>
 
-    <update id="updateUser" parameterType="com.cucc.unicom.pojo.User">
+    <update id="updateUser" parameterType="com.unicom.quantum.pojo.User">
         update t_user
         <set>
             <if test="userName != null and !&quot;&quot;.equals(userName.trim())">
@@ -71,13 +71,13 @@
         order by create_time desc
     </select>
 
-    <select id="getAppManager" resultType="com.cucc.unicom.pojo.User">
+    <select id="getAppManager" resultType="com.unicom.quantum.pojo.User">
         select id,user_name
         from t_user
         where account_type = 1
     </select>
 
-    <select id="getUserInfoById" resultType="com.cucc.unicom.pojo.User">
+    <select id="getUserInfoById" resultType="com.unicom.quantum.pojo.User">
         select *
         from t_user
         where id = #{id}
