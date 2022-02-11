@@ -30,7 +30,6 @@ public class ResultHelper {
         Result result = Result.builder().requestId().code(code).data(new JSONObject())
                 .msg(msg).build();
         logger.info("requestId:{}",result.getRequestId());
-        logger.info("code:{}",result.getCode());
         logger.info("message:{}",result.getMsg());
         return result;
     }
@@ -45,7 +44,6 @@ public class ResultHelper {
         }
         Result result =  Result.builder().requestId().code(SUCCESS).data(data).build();
         logger.info("requestId:{}",result.getRequestId());
-        logger.info("data:{}",result.getData());
         return result;
     }
 

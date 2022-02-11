@@ -42,15 +42,6 @@ public class DeviceUserController {
     @Autowired
     private UtilService utilService;
 
-    /**
-     * 获取所有终端信息
-     * @param request
-     * @param deviceName
-     * @param offset
-     * @param pageSize
-     * @return
-     * @throws Exception
-     */
     @ApiOperation(value = "获取所有终端用户信息" ,notes = "获取所有终端用户信息")
     @RequestMapping(value = "/getAllDevice/{offset}/{pageSize}",method = RequestMethod.GET)
     @ResponseBody
@@ -67,7 +58,6 @@ public class DeviceUserController {
         return ResultHelper.genResultWithSuccess(pageInfo);
     }
 
-    /*获取所有终端信息*/
     @ApiOperation(value = "获取所有终端用户信息(添加权限使用)",notes = "获取所有终端用户信息(添加权限使用)")
     @RequestMapping(value = "/getAllDeviceInfo",method = RequestMethod.GET)
     @ResponseBody
@@ -76,9 +66,6 @@ public class DeviceUserController {
         return ResultHelper.genResultWithSuccess(list);
     }
 
-
-
-    /*获取终端信息*/
     @RequiresRoles("systemUser")
     @ApiOperation(value = "获取指定终端用户信息" ,notes = "获取指定终端用户信息")
     @RequestMapping(value = "/getDeviceInfo",method = RequestMethod.POST)
@@ -88,7 +75,6 @@ public class DeviceUserController {
         return ResultHelper.genResultWithSuccess(deviceInfo);
     }
 
-    /*添加终端信息*/
     @RequiresRoles("systemUser")
     @ApiOperation(value = "添加终端用户信息",notes = "添加终端用户信息")
     @RequestMapping(value = "/addDeviceUser",method = RequestMethod.POST)
@@ -104,7 +90,6 @@ public class DeviceUserController {
 
     }
 
-    /*批量添加终端信息*/
     @RequiresRoles("systemUser")
     @ApiOperation(value = "批量导入终端",notes = "批量导入终端用户信息")
     @RequestMapping(value = "/importDeviceUser",method = RequestMethod.POST)
@@ -132,9 +117,6 @@ public class DeviceUserController {
         return ResultHelper.genResultWithSuccess();
     }
 
-
-
-    /*删除终端信息*/
     @RequiresRoles("systemUser")
     @ApiOperation(value = "删除终端用户信息",notes = "删除终端用户信息")
     @RequestMapping(value = "/deleteDevice",method = RequestMethod.POST)
@@ -146,7 +128,6 @@ public class DeviceUserController {
         return ResultHelper.genResultWithSuccess();
     }
 
-    /*修改终端用户信息*/
     @RequiresRoles("systemUser")
     @ApiOperation(value = "修改终端用户信息" ,notes = "修改终端用户信息")
     @RequestMapping(value = "/updateDevice",method = RequestMethod.POST)
@@ -155,8 +136,6 @@ public class DeviceUserController {
         deviceUserService.updateDevice(updateUserInfoRequest);
         return ResultHelper.genResultWithSuccess();
     }
-
-
 
     @ApiOperation(value = "终端用户导入模板下载",notes = "终端用户导入模板下载")
     @RequestMapping(value = "/getDeviceUserModel", method = {RequestMethod.POST,RequestMethod.GET})
@@ -208,7 +187,4 @@ public class DeviceUserController {
             outStr.close();
         }
     }
-
-
-
 }

@@ -88,8 +88,4 @@ public class Result<T> {
         this.requestId = requestId;
     }
 
-    //    public boolean isSuccess(){
-//       return code==0;
-//    }
-
 }
