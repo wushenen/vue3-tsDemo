@@ -19,8 +19,12 @@ public class DeviceAuthorityServiceImpl implements DeviceAuthorityService {
 
     @OperateLogAnno(operateDesc = "添加终端权限", operateModel = OPERATE_MODEL)
     @Override
-    public int addDeviceAuthority(int deviceId, int apiId) {
-        deviceAuthorityMapper.addDeviceAuthority(deviceId, apiId);
+    public int addDeviceAuthority(int deviceId, List<Integer> apiIds) {
+        for (Integer apiId : apiIds) {
+            if (!deviceAuthorityMapper.deviceAuthorityIsExist(deviceId,apiId)) {
+                deviceAuthorityMapper.addDeviceAuthority(deviceId, apiId);
+            }
+        }
         return 0;
     }
 

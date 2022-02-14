@@ -17,6 +17,7 @@ public interface UserMapper {
     int updateUser(User user);
 
     int deleteUser(int id);
+
     int deleteUserApp(int id);
 
     List<User> getUserInfos(String userName);

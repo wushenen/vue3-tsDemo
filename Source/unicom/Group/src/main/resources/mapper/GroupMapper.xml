@@ -3,33 +3,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.unicom.quantum.mapper.GroupMapper">
 
-    <!--创建分组-->
     <insert id="addGroup">
         insert into t_group (group_name,group_code,group_describe)
         values (#{groupName},#{groupCode},#{groupDescribe});
     </insert>
 
-    <!--判断分组名称是否唯一-->
     <select id="groupNameExist" resultType="boolean">
         select count(*)
         from t_group
         where BINARY group_name = #{groupName};
     </select>
 
-    <!--判断分组标识的唯一性-->
     <select id="groupCodeExist" resultType="boolean">
         select count(*)
         from t_group
         where BINARY group_code = #{groupCode};
     </select>
 
-    <!--查看分组信息-->
     <select id="groupList" resultType="com.unicom.quantum.pojo.Group">
         select * from t_group
         order by update_time desc
     </select>
 
-    <!--修改分组信息-->
     <update id="updateGroupInfo">
         update t_group
         set
@@ -39,30 +34,26 @@
         where group_id = #{groupId};
     </update>
 
-    <!--获取当前分组名称-->
     <select id="getGroupInfo" resultType="com.unicom.quantum.pojo.Group">
         select *
         from t_group
         where group_id = #{groupId};
     </select>
 
-    <!--删除分组-->
     <delete id="deleteGroup">
         delete from t_group
         where group_id = #{groupId}
     </delete>
+
     <delete id="deleteGroupDeviceUser">
         delete from t_group_device_user
         where group_id = #{groupId}
     </delete>
 
-
-    <!--模糊查询分组信息-->
     <select id="queryGroupInfo" resultType="com.unicom.quantum.pojo.Group">
         select * from t_group
         where group_name like concat('%',#{groupName},'%')
         order by update_time desc
     </select>
-
 
 </mapper>

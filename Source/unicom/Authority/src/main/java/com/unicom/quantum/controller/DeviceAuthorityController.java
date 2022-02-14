@@ -26,11 +26,7 @@ public class DeviceAuthorityController {
     @RequestMapping(value = "/addDeviceAuthority",method = RequestMethod.POST)
     @ResponseBody
     public Result unicomAddDeviceAuthority(@RequestBody AddDeviceAuthorityRequest addDeviceAuthorityRequest){
-        //先把全部的权限删除之后再添加
-        deviceAuthorityService.delDeviceAuthByDeviceId(addDeviceAuthorityRequest.getDeviceId());
-        for (Integer apiId : addDeviceAuthorityRequest.getApiId()) {
-            deviceAuthorityService.addDeviceAuthority(addDeviceAuthorityRequest.getDeviceId(), apiId);
-        }
+        deviceAuthorityService.addDeviceAuthority(addDeviceAuthorityRequest.getDeviceId(), addDeviceAuthorityRequest.getApiId());
         return ResultHelper.genResultWithSuccess();
     }
 

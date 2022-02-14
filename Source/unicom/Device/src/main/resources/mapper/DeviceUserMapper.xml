@@ -3,20 +3,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.unicom.quantum.mapper.DeviceUserMapper">
 
-    <!--添加终端用户信息-->
     <insert id="addDeviceUser" parameterType="com.unicom.quantum.pojo.DeviceUser">
         insert into t_device_user (device_name,password,comments,user_type,enc_key)
         values (#{deviceName},#{password},#{comments},#{userType},#{encKey});
     </insert>
 
-    <!--判断用户名是否已经被占用-->
     <select id="userNameIsExist" resultType="boolean">
         select count(*)
         from t_device_user
         where binary device_name = #{deviceName}
     </select>
 
-    <!--修改终端用户信息-->
     <update id="updateDevice" parameterType="com.unicom.quantum.controller.vo.UpdateUserInfoRequest">
         update t_device_user
         <set>
@@ -34,17 +31,16 @@
         where device_id = #{deviceId};
     </update>
 
-    <!--删除终端用户信息-->
     <delete id="deleteDevice">
         delete from t_device_user
         where device_id = #{deviceId}
     </delete>
-    <!--删除终端被赋予的分组信息-->
+
     <delete id="deleteGroupUserByDeviceId">
         delete from t_group_device_user
         where device_id = #{deviceId}
     </delete>
-    <!--删除终端授权信息-->
+
     <delete id="deleteDeviceAuthByDeviceId">
         delete from t_device_auth
         where device_id = #{deviceId}
@@ -54,22 +50,22 @@
         delete from t_key_info
         where binary applicant = #{deviceName}
     </delete>
+
     <delete id="deleteKeyLimitByDeviceName">
         delete from t_key_limit
         where binary user_name = #{deviceName}
     </delete>
+
     <delete id="deleteAppDevice">
         delete from t_app_device
         where device_id = #{deviceId}
     </delete>
+
     <delete id="deleteDeviceStatus">
         delete from t_device_status
         where device_name = #{deviceName}
     </delete>
 
-
-
-    <!--获取所有终端用户信息-->
     <select id="listAllDeviceUser" resultType="com.unicom.quantum.pojo.DeviceUser">
         select *
         from t_device_user
@@ -79,14 +75,12 @@
         order by create_time desc
     </select>
 
-    <!--获取终端用户信息-->
     <select id="getDeviceInfo" parameterType="int" resultType="com.unicom.quantum.pojo.DeviceUser">
         select *
         from t_device_user
         where device_id = #{deviceId}
     </select>
 
-    <!--模糊查询终端用户信息-->
     <select id="queryDeviceUser" resultType="com.unicom.quantum.pojo.DeviceUser">
         select *
         from t_device_user

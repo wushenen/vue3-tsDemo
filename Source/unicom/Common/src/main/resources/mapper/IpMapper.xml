@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unicom.quantum.mapper.IpMapper">
+
+    <insert id="addIp">
+        insert into t_ip(ip_info)
+        values(#{ipInfo})
+    </insert>
+
+    <select id="getAllIps" resultType="com.unicom.quantum.pojo.IpInfo">
+        select *
+        from t_ip
+        order by create_time desc
+    </select>
+
+    <delete id="deleteIpById">
+        delete from t_ip where ip_info = #{ipInfo}
+    </delete>
+
+</mapper>

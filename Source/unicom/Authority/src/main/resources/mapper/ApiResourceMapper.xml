@@ -3,60 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.unicom.quantum.mapper.ApiResourceMapper">
 
-    <!--添加资源分类-->
-    <insert id="addResourceCategory">
-        insert into t_api_resource (api_name, comments)
-        values (#{apiName},#{comments})
-    </insert>
-
-    <!--判断分类名称是否重复-->
-    <select id="resourceNameExist" resultType="boolean">
-        select count(*)
-        from t_api_resource
-        where api_name = #{apiName}
-        and parent_id = 0
-    </select>
-
-    <!--添加资源信息-->
-    <insert id="addResourceInfo">
-        insert into t_api_resource (api_name,api_URL,parent_id,comments)
-        values (#{apiName},#{apiURL},#{parentId},#{comments})
-    </insert>
-
-    <!--判断接口名称是否重复-->
-    <select id="apiNameExist" resultType="boolean">
-        select count(*)
-        from t_api_resource
-        where api_name = #{apiName}
-        and parent_id != 0
-    </select>
-
-    <!--删除资源信息-->
-    <delete id="delResource">
-        delete from t_api_resource
-        where api_id = #{apiId}
-        or parent_id = #{parentId}
-    </delete>
-
-    <!--修改资源分类信息-->
-    <update id="updateResourceCategory">
-        update t_api_resource
-        set api_name = #{apiName},
-          comments = #{comments}
-        where api_id = #{apiId}
-    </update>
-
-    <!--修改资源信息-->
-    <update id="updateResourceInfo">
-        update t_api_resource
-        set api_name = #{apiName},
-            api_URL = #{apiURL},
-            parent_id = #{parentId},
-          comments = #{comments}
-        where api_id = #{apiId}
-    </update>
-
-    <!--获取所有资源分类信息-->
     <select id="getResourceCategory" resultType="com.unicom.quantum.pojo.DTO.ApiResourceCategory">
         select *
         from t_api_resource
@@ -64,21 +10,11 @@
         order by create_time asc
     </select>
 
-    <!--获取所有资源分类信息-->
-    <select id="getAllResource" resultType="com.unicom.quantum.pojo.ApiResource">
-        select *
-        from t_api_resource
-        where parent_id != 0
-    </select>
-
-    <!--获取该分类资源下的接口资源信息-->
     <select id="getApiResource" resultType="com.unicom.quantum.pojo.ApiResource">
         select * from t_api_resource
         where parent_id = #{apiId}
     </select>
 
-
-    <!--获取特定资源信息-->
     <select id="getResourceInfo" resultType="com.unicom.quantum.pojo.ApiResource">
         select * from t_api_resource
         where api_id = #{apiId}

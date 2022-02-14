@@ -3,34 +3,29 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.unicom.quantum.mapper.DeviceAuthorityMapper">
 
-    <!--添加终端权限-->
     <insert id="addDeviceAuthority">
         insert into
         t_device_auth (device_id, api_id)
         values (#{deviceId},#{apiId})
     </insert>
 
-    <!--判断终端权限是否已经添加-->
-    <select id="deviceAuthorityIsAdd" resultType="boolean">
+    <select id="deviceAuthorityIsExist" resultType="boolean">
         select count(*)
         from t_device_auth
         where device_id = #{deviceId}
         and api_id = #{apiId}
     </select>
-    
-    <!--删除终端权限-->
+
     <delete id="delDeviceAuthority">
         delete from t_device_auth
         where auth_id = #{authId}
     </delete>
 
-    <!--删除终端用户所有权限-->
     <delete id="delDeviceAuthByDeviceId">
         delete from t_device_auth
         where device_id = #{deviceId}
     </delete>
 
-    <!--获取指定终端已添加权限信息-->
     <select id="getDeviceAuthority" resultType="com.unicom.quantum.pojo.DTO.AuthInfo">
         select a.auth_id,
                 b.*

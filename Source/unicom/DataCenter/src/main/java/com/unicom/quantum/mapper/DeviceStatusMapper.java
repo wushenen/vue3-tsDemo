@@ -12,7 +12,6 @@ import java.util.List;
 public interface DeviceStatusMapper {
 
     int addDeviceStatusInfo(DeviceStatus deviceStatus);
-    boolean deviceStatusInfoExist(String deviceName);
     int updateDeviceStatusInfo(DeviceStatus deviceStatus);
     List<DeviceStatus> listDeviceStatusInfo();
     DeviceStatus getDeviceStatusInfoByDeviceName(String deviceName);
