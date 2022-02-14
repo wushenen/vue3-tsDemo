@@ -7,13 +7,10 @@ import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.component.util.CmdUtil;
 import com.unicom.quantum.component.util.NetworkUtil;
 import com.unicom.quantum.component.util.SwsdsTools;
-import com.unicom.quantum.service.SystemManageService;
-import com.unicom.quantum.mapper.CardDataMapper;
-import com.unicom.quantum.mapper.QkmVersionMapper;
-import com.unicom.quantum.pojo.CardData;
 import com.unicom.quantum.controller.vo.LinuxServerRequest;
+import com.unicom.quantum.mapper.QkmVersionMapper;
 import com.unicom.quantum.pojo.QkmVersion;
-import com.sansec.device.crypto.MgrException;
+import com.unicom.quantum.service.SystemManageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
@@ -33,8 +31,6 @@ public class SystemManageServiceImpl implements SystemManageService {
     private String cmdPath;
     @Autowired
     private QkmVersionMapper qkmVersionMapper;
-    @Autowired
-    private CardDataMapper cardDataMapper;
 
     @OperateLogAnno(operateDesc = "修改ip,网关,子网掩码", operateModel = "系统管理模块")
     @Override
@@ -54,7 +50,6 @@ public class SystemManageServiceImpl implements SystemManageService {
         sb.append("\"" + nicName + "\"");
         sb.append(" ; echo $?");
         commands.add(sb.toString());
-        logger.info("执行修改ip的脚本命令--"+sb.toString()+"--");
         Future<String> res = CmdUtil.CMD_THREAD_POOL.submit(new Callable<String>() {
             public String call() throws Exception {
                 String fu = CmdUtil.execCommand(commands);
@@ -79,18 +74,27 @@ public class SystemManageServiceImpl implements SystemManageService {
     }
     @OperateLogAnno(operateDesc = "获取系统版本信息", operateModel = "系统管理模块")
     @Override
-    public QkmVersion getQkmVersion(){
+    public Map<String,String> getQkmVersion(){
+        HashMap<String, String> map = new HashMap<>();
         String macAddr = NetworkUtil.getLinuxMACAddress();
-        QkmVersion kv = qkmVersionMapper.getQkmVersion(macAddr);
+        QkmVersion qkmVersion = qkmVersionMapper.getQkmVersion(macAddr);
         String mysqlVersion = qkmVersionMapper.getMysqlVersion();
-        if(kv == null){
-            kv = new QkmVersion();
-            kv.setMacAddr(macAddr);
-            kv.setVersion(mysqlVersion);
-            qkmVersionMapper.addQkmVersion(kv);
-            kv = qkmVersionMapper.getQkmVersion(macAddr);
+        if(qkmVersion == null){
+            qkmVersion = new QkmVersion();
+            qkmVersion.setMacAddr(macAddr);
+            qkmVersion.setVersion(mysqlVersion);
+            qkmVersionMapper.addQkmVersion(qkmVersion);
+            qkmVersion = qkmVersionMapper.getQkmVersion(macAddr);
         }
-        return kv;
+        map.put("macAddr",qkmVersion.getMacAddr());
+        map.put("mysqlVersion","mysql-"+qkmVersion.getVersion());
+        if (qkmVersion.getState() == 0) {
+            map.put("systemStatus","初始");
+        }else if (qkmVersion.getState() == 1){
+            map.put("systemStatus","就绪");
+        }else
+            map.put("systemStatus","异常");
+        return map;
     }
 
     /**
@@ -103,7 +107,7 @@ public class SystemManageServiceImpl implements SystemManageService {
     @OperateLogAnno(operateDesc = "系统初始化", operateModel = "系统管理模块")
     @Override
     public String init() throws Exception {
-        QkmVersion kv = getQkmVersion();
+        Map<String, String> qkmVersion = getQkmVersion();
         if(1 == SwsdsTools.getKeyIndex()){
             String ml = "sh "+ cmdPath +"addSymmetric.sh "+" 1"+" 128 "+cmdPath;
             CmdUtil.executeLinuxCmd(ml);
@@ -112,49 +116,12 @@ public class SystemManageServiceImpl implements SystemManageService {
             SwsdsTools.generateKeyPair(1,1);
             SwsdsTools.generateKeyPair(1,2);
         }
-        if (kv.getState() == 0) {
-            qkmVersionMapper.updateStateOk(kv.getMacAddr());
+        if ("初始".equals(qkmVersion.get("systemStatus"))) {
+            qkmVersionMapper.updateStateOk(qkmVersion.get("macAddr"));
             return "0";
         }else {
             throw new QuantumException(ResultHelper.genResult(1, "系统已经初始化"));
         }
-    }
-
-
-    @OperateLogAnno(operateDesc = "密码卡备份", operateModel = "系统管理模块")
-    @Override
-    public void backUp(String backPass) throws Exception {
-        String macAddr = NetworkUtil.getLinuxMACAddress();
-        byte[] bk = SwsdsTools.backup(backPass);
-        CardData cardData = new CardData();
-        cardData.setCardData(bk);
-        cardData.setMacAddr(macAddr);
-        List<CardData> cardDataList = cardDataMapper.listCardData(macAddr);
-        int cardVersion =1;
-        if(cardDataList.size() != 0){
-            cardVersion = cardDataList.get(0).getCardVersion()+1;
-        }
-        cardData.setCardVersion(cardVersion);
-        cardDataMapper.addCardData(cardData);
-    }
-
-    @OperateLogAnno(operateDesc = "密码卡还原", operateModel = "系统管理模块")
-    @Override
-    public String restore(CardData cardData) throws Exception {
-        CardData cardData1 = cardDataMapper.getCardData(cardData);
-        try{
-            SwsdsTools.restore(cardData1.getCardData(),cardData.getBackPass());
-        }catch (MgrException e){
-            throw new QuantumException(ResultHelper.genResult(1,e.getMessage()));
-        }
-        return "0";
-    }
-
-
-    @Override
-    public List<CardData> listCardData(CardData cardData) throws Exception {
-        List<CardData> cardDataList = cardDataMapper.listCardData(cardData.getMacAddr());
-        return cardDataList;
     }
 
 }

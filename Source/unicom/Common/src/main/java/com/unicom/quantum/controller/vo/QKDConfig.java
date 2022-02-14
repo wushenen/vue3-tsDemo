@@ -1,10 +1,12 @@
 package com.unicom.quantum.controller.vo;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
 
+@ApiModel("KMS配置信息")
 @Data
 public class QKDConfig implements Serializable {
     @ApiModelProperty(value = "本端用户名",notes = "本端用户名")
