@@ -4,8 +4,8 @@ import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.component.util.UtilService;
+import com.unicom.quantum.controller.vo.GenerateTempKeyRequest;
 import com.unicom.quantum.mapper.TempKeyMapper;
-import com.unicom.quantum.pojo.Random;
 import com.unicom.quantum.pojo.DTO.TempKeyDTO;
 import com.unicom.quantum.service.GenerateRandomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +23,18 @@ public class GenerateRandomServiceImpl implements GenerateRandomService {
 
     @OperateLogAnno(operateDesc = "生成临时量子密钥", operateModel = "密钥管理模块")
     @Override
-    public TempKeyDTO generateTempKey(Random random) throws Exception {
-        Integer keyLen = random.getKeyLen();
+    public TempKeyDTO generateTempKey(GenerateTempKeyRequest generateTempKeyRequest) throws Exception {
+        Integer keyLen = generateTempKeyRequest.getKeyLen();
         keyLen = keyLen ==null?32:keyLen;
         TempKeyDTO dto = new TempKeyDTO();
-        String keyId = random.getKeyId()==null? UUID.randomUUID().toString():random.getKeyId();
+        String keyId = generateTempKeyRequest.getKeyId()==null? UUID.randomUUID().toString():generateTempKeyRequest.getKeyId();
         dto.setKeyId(keyId);
         if (keyLen >= 8 || keyLen <= 128) {
             byte[] tempKey = utilService.generateQuantumRandom(keyLen);
             dto.setTempKey(Base64.getEncoder().encodeToString(tempKey));
-            random.setTempKey(tempKey);
-            random.setKeyId(keyId);
-            tempKeyMapper.addAppSecret(random);
+            generateTempKeyRequest.setTempKey(tempKey);
+            generateTempKeyRequest.setKeyId(keyId);
+            tempKeyMapper.addAppSecret(generateTempKeyRequest);
         } else {
             throw new QuantumException(ResultHelper.genResult(1, "口令字节数长度应为8~128"));
         }
