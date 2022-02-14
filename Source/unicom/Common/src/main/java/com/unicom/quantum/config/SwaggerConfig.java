@@ -22,7 +22,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.unicom.unicom"))
+                .apis(RequestHandlerSelectors.basePackage("com.unicom.quantum"))
                 .paths(PathSelectors.any())
                 .build();
     }

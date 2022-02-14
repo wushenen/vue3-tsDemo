@@ -38,7 +38,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-@Api(value = "量子密钥接口",tags = {"量子密钥接口"})
+@Api(tags = "量子密钥接口")
 @RestController
 @RequestMapping("/keyInfo")
 public class KeyInfoController {

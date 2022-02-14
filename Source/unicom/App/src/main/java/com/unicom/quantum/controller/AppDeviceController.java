@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = {"应用绑定终端管理接口"})
+@Api(tags = "应用绑定终端管理接口")
 @RestController
 @RequestMapping("/appDevice")
 public class AppDeviceController {

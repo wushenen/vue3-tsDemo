@@ -5,16 +5,16 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.controller.vo.*;
-import com.unicom.quantum.service.DeviceUserService;
 import com.unicom.quantum.pojo.DTO.ExportDeviceUserInfo;
 import com.unicom.quantum.pojo.DeviceUser;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.unicom.quantum.component.Result;
+import com.unicom.quantum.service.DeviceUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -26,14 +26,16 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Api(tags = "终端用户管理接口")
 @RestController
 @RequestMapping(value = "/device")
-@Api(value = "终端用户管理接口",tags = {"终端用户管理接口"})
 public class DeviceUserController {
 
     @Autowired

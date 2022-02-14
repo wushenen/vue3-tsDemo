@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-@Api(value = "访问控制接口",tags = "访问控制接口")
+@Api(tags = "访问控制接口")
 @RestController
 @RequestMapping("/ip")
 public class IpController {

@@ -4,9 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-/**
- * Created by jerry on 2020/11/27.
- */
+
 @ApiModel(value = "修改分组信息请求参数")
 @Data
 public class UpdateGroupInfoRequest {

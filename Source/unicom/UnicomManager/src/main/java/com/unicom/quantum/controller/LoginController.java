@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collection;
 
 
-@Api(tags = {"登录接口"})
+@Api(tags = "登录接口")
 @RestController
 @RequestMapping("/login")
 public class LoginController {

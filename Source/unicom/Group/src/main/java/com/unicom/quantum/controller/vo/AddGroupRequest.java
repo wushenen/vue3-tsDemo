@@ -3,10 +3,7 @@ package com.unicom.quantum.controller.vo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-/**
- * Created by jerry on 2020/11/27.
- */
-@ApiModel(value = "创建分组请求参数")
+@ApiModel("创建分组请求参数")
 public class AddGroupRequest {
 
     @ApiModelProperty(value = "分组名称")

@@ -20,12 +20,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-/**
- * Created by jerry on 2020/11/27.
- */
+@Api(tags = "分组管理接口")
 @RestController
 @RequestMapping(value = "/group")
-@Api(value = "分组管理接口",tags = {"分组管理接口"})
 public class GroupController {
 
     private static final Logger logger = LoggerFactory.getLogger(GroupController.class);

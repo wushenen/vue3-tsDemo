@@ -2,13 +2,13 @@ package com.unicom.quantum.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.Result;
+import com.unicom.quantum.component.ResultHelper;
+import com.unicom.quantum.component.util.JWTUtil;
 import com.unicom.quantum.controller.vo.QemsOperateRequest;
 import com.unicom.quantum.controller.vo.UpdateAppConfigRequest;
 import com.unicom.quantum.pojo.AppConfig;
 import com.unicom.quantum.service.AppConfigService;
-import com.unicom.quantum.component.Result;
-import com.unicom.quantum.component.ResultHelper;
-import com.unicom.quantum.component.util.JWTUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.Logical;
@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+@Api(value = "qems配置接口",tags = "qems配置接口")
 @RestController
-@Api(value = "qems配置接口",tags = {"qems配置接口"})
 @RequestMapping("/qems")
 public class AppConfigController {
 

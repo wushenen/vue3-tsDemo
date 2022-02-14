@@ -27,7 +27,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 
-@Api(tags = {"登录接口"})
+@Api(tags = "登录接口")
 @RestController
 @RequestMapping("/login")
 public class LoginController {

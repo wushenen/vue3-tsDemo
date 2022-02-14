@@ -1,17 +1,15 @@
 package com.unicom.quantum.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
-import com.unicom.quantum.service.SystemManageService;
 import com.unicom.quantum.pojo.CardData;
 import com.unicom.quantum.pojo.LinuxServer;
 import com.unicom.quantum.pojo.QkmVersion;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
+import com.unicom.quantum.service.SystemManageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -20,14 +18,10 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * 系统配置
- */
-@Api(value = "系统配置接口",tags = {"系统配置接口"})
+@Api(tags = "系统配置接口")
 @RestController
 @RequestMapping(value = "/system")
 public class SystemController {
-    private static final Logger logger = LoggerFactory.getLogger(SystemController.class);
 
     @Autowired
     private SystemManageService systemManageService;

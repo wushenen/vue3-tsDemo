@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@Api(value = "邮件接口",tags = {"邮件接口"})
+@Api(tags = "邮件接口")
 @RequestMapping("/mail")
 @RestController
 public class MailController {

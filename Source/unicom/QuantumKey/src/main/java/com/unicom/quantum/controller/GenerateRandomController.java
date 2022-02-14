@@ -24,11 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Base64;
 
-
-/**
- * 生成一个随机口令字符串
- */
-@Api(value = "量子密钥接口",tags = {"量子密钥接口"})
+@Api(tags = "量子密钥接口")
 @Controller
 @RequestMapping("/v1/kms")
 public class GenerateRandomController {

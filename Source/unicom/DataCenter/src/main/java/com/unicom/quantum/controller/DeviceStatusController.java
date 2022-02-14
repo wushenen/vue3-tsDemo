@@ -30,7 +30,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
-@Api(value = "应用数据监测接口",tags = {"应用数据监测接口"})
+@Api(tags = "应用数据监测接口")
 @RestController
 @RequestMapping(value = "/status")
 public class DeviceStatusController {

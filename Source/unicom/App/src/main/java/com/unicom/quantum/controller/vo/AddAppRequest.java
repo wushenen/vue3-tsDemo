@@ -1,10 +1,10 @@
 package com.unicom.quantum.controller.vo;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-@ApiModel("添加应用请求参数")
+@Schema(allowableValues = "添加应用请求参数")
 @Data
 public class AddAppRequest {
     @ApiModelProperty(value = "应用名称")

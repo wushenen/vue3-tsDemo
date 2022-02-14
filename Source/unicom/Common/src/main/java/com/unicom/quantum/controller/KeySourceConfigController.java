@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = {"量子密钥源配置接口"})
+@Api(tags = "量子密钥源配置接口")
 @RequestMapping("/sourceConfig")
 @RestController
 public class KeySourceConfigController {

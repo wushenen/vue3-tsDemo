@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = {"管理员管理应用接口"})
+@Api(tags = "管理员管理应用接口")
 @RestController
 @RequestMapping("/userApp")
 public class UserAppController {

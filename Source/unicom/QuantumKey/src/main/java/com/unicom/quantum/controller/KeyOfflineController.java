@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api(tags = {"离线充注密钥接口"})
+@Api(tags = "离线充注密钥接口")
 @RequestMapping("/offline")
 @RestController
 public class KeyOfflineController {

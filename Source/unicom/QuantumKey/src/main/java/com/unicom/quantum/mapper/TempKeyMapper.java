@@ -1,14 +1,15 @@
 package com.unicom.quantum.mapper;
 
-import com.unicom.quantum.controller.vo.GenerateTempKeyRequest;
+import com.unicom.quantum.pojo.Random;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Mapper
 @Repository
 public interface TempKeyMapper {
 
-    int addAppSecret(GenerateTempKeyRequest generateTempKeyRequest);
+    int addAppSecret(@Param("random") Random random);
 
 }
 

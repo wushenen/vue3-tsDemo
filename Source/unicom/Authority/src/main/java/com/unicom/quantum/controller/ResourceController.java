@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Api(value = "资源管理接口",tags = {"资源管理接口"})
+@Api(tags = "资源管理接口")
 @RestController
 @RequestMapping(value = "/resource")
 public class ResourceController {

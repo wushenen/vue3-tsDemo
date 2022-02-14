@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 
-@Api(tags = {"分组终端用户管理接口"})
+@Api(tags = "分组终端用户管理接口")
 @RequestMapping(value = "/groupDeviceUser")
 @RestController
 public class GroupDeviceUserController {
