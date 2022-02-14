@@ -46,7 +46,7 @@ public class DeviceStatusController {
 
     @RequiresRoles("deviceUser")
     @ApiOperation(value = "上报数据",notes = "终端上报数据")
-    @RequestMapping(value = "/uploadData",method = RequestMethod.POST)
+    @PostMapping(value = "/uploadData")
     @ResponseBody
     public Result unicomUploadData(@RequestBody UploadDataRequest uploadDataRequest, HttpServletRequest request, HttpServletResponse response) {
         //判断token是否是重新签发的
@@ -81,7 +81,7 @@ public class DeviceStatusController {
 
 
     @ApiOperation(value = "获取密钥云终端数据信息",notes = "获取密钥云终端数据信息")
-    @RequestMapping(value = "/listDeviceInfo/{offset}/{pageSize}",method = RequestMethod.GET)
+    @GetMapping(value = "/listDeviceInfo/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomListDeviceInfo(HttpServletRequest request, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) throws UnsupportedEncodingException {
         request.setCharacterEncoding("utf-8");
@@ -110,7 +110,7 @@ public class DeviceStatusController {
 
 
     @ApiOperation(value = "获取密码态势感知数据信息",notes = "获取密码态势感知数据信息")
-    @RequestMapping(value = "/getDeviceStatusInfo",method = RequestMethod.GET)
+    @GetMapping(value = "/getDeviceStatusInfo")
     @ResponseBody
     public Result unicomGetDeviceStatusInfo(){
         DeviceStatusDataResponse deviceStatusInfo = deviceStatusService.getStatusShowInfo();
@@ -121,7 +121,7 @@ public class DeviceStatusController {
 
 
     @ApiOperation(value = "获取当前应用数据信息",notes = "获取当前应用数据信息")
-    @RequestMapping(value = "/getCurrentAppStatusInfo",method = RequestMethod.GET)
+    @GetMapping(value = "/getCurrentAppStatusInfo")
     @ResponseBody
     public Result unicomGetCurrentAppStatusInfo(@RequestParam("appId") int appId){
         DeviceStatusDataResponse currentAppStatus = appStatusService.getCurrentAppStatus(appId);
@@ -132,7 +132,7 @@ public class DeviceStatusController {
 
 
     @ApiOperation(value = "获取当前应用设备信息",notes = "获取当前应用绑定的设备信息")
-    @RequestMapping(value = "/getCurrentAppDeviceInfo/{offset}/{pageSize}",method = RequestMethod.GET)
+    @GetMapping(value = "/getCurrentAppDeviceInfo/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomGetCurrentAppStatusInfo(@RequestParam("appId") int appId, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize){
         PageHelper.startPage(offset,pageSize);

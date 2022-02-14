@@ -24,7 +24,7 @@ public class ResourceController {
 
 
     @ApiOperation(value = "获取所有资源分类信息", notes = "获取所有资源分类信息")
-    @RequestMapping(value = "/getCategory",method = RequestMethod.POST)
+    @PostMapping(value = "/getCategory")
     @ResponseBody
     public Result unicomGetCategory() {
         List<ApiResourceCategory> resourceCategory = apiResourceService.getResourceCategory();
@@ -32,7 +32,7 @@ public class ResourceController {
     }
 
     @ApiOperation(value = "获取该资源分类下的接口信息", notes = "获取该资源分类下的接口信息")
-    @RequestMapping(value = "/getApiResource",method = RequestMethod.POST)
+    @GetMapping(value = "/getApiResource")
     @ResponseBody
     public Result unicomGetApiResource(@RequestParam("apiId") int apiId) {
         List<ApiResource> apiResources = apiResourceService.getApiResource(apiId);
@@ -41,7 +41,7 @@ public class ResourceController {
 
 
     @ApiOperation(value = "一次性获取接口资源信息", notes = "一次获取全部接口资源信息")
-    @RequestMapping(value = "/getResource",method = RequestMethod.POST)
+    @GetMapping(value = "/getResource")
     @ResponseBody
     public Result unicomGetResource() {
         List<ResourceInfo> resourceInfos = new ArrayList<>();

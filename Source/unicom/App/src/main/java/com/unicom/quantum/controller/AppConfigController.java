@@ -30,7 +30,7 @@ public class AppConfigController {
 
     @ApiOperation(value = "修改应用配置",notes = "修改应用配置")
     @RequiresPermissions(value = {"/updateConfig","/**"},logical = Logical.OR)
-    @RequestMapping(value = "/updateConfig",method = RequestMethod.POST)
+    @PostMapping(value = "/updateConfig")
     @ResponseBody
     public Result unicomUpdateConfig(@RequestBody UpdateAppConfigRequest updateAppConfigRequest){
         if (updateAppConfigRequest.getEndIndex() - updateAppConfigRequest.getStartIndex() > 2000)
@@ -41,7 +41,7 @@ public class AppConfigController {
 
     @RequiresPermissions(value = {"/getConfig","/**"},logical = Logical.OR)
     @ApiOperation(value = "获取应用配置信息",notes = "管理员获取应用配置信息")
-    @RequestMapping(value = "/getConfig",method = RequestMethod.GET)
+    @GetMapping(value = "/getConfig")
     @ResponseBody
     public Result unicomGetConfig(@RequestParam("appId") int appId){
         AppConfig configInfo = appConfigService.getAppConfigByAppId(appId);
@@ -50,7 +50,7 @@ public class AppConfigController {
 
     @RequiresRoles(value = {"admin","deviceUser"},logical = Logical.OR)
     @ApiOperation(value = "SDK获取配置信息",notes = "SDK获取qems配置信息")
-    @RequestMapping(value = "/getConfig2",method = RequestMethod.POST)
+    @PostMapping(value = "/getConfig2")
     @ResponseBody
     public Result unicomGetConfig2(HttpServletRequest request,HttpServletResponse response) {
         JSONObject object = new JSONObject();
@@ -65,7 +65,7 @@ public class AppConfigController {
     }
 
     @ApiOperation(value = "设备控制置零或重启",notes ="设备控制置零或重启")
-    @RequestMapping(value = "/operation",method = RequestMethod.POST)
+    @PostMapping(value = "/operation")
     @ResponseBody
     public Result unicomOperation(@RequestBody QemsOperateRequest qemsOperateRequest) throws QuantumException {
         appConfigService.addQemsOperation(qemsOperateRequest.getDeviceName(), qemsOperateRequest.getOperation());

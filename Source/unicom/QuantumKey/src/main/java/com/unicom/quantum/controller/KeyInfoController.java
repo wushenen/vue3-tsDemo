@@ -59,7 +59,7 @@ public class KeyInfoController {
     private MailService mailService;
 
     @ApiOperation(value = "获取密钥",notes = "获取指定密钥")
-    @RequestMapping(value = "/getKey",method = RequestMethod.POST)
+    @PostMapping(value = "/getKey")
     @ResponseBody
     public Result unicomGenerateKey(@RequestBody KeyInfoRequest keyInfoRequest, HttpServletResponse response, HttpServletRequest request) throws Exception {
         JSONObject object = new JSONObject();
@@ -107,7 +107,7 @@ public class KeyInfoController {
      * @throws Exception
      */
     @ApiOperation(value = "SDK获取密钥",notes = "获取量子密钥，若请求中存在keyId，则使用该keyId")
-    @RequestMapping(value = "/getKeyForSDK",method = RequestMethod.POST)
+    @PostMapping(value = "/getKeyForSDK")
     @ResponseBody
     public Result unicomGetKeyForSDK(@RequestBody KeyInfoRequest keyInfoRequest, HttpServletRequest request) throws Exception {
         JSONObject object = new JSONObject();
@@ -134,7 +134,7 @@ public class KeyInfoController {
     }
 
     @ApiOperation(value = "撤回密钥",notes = "撤回指定密钥")
-    @RequestMapping(value = "/recallKey",method = RequestMethod.POST)
+    @PostMapping(value = "/recallKey")
     @ResponseBody
     public Result unicomRecallKey(@RequestBody KeyInfoRequest keyInfoRequest) {
         keyInfoService.updateKeyInfo(Base64.decodeBase64(keyInfoRequest.getKeyId()),1);
@@ -142,7 +142,7 @@ public class KeyInfoController {
     }
 
     @ApiOperation(value = "还原密钥",notes = "还原指定密钥")
-    @RequestMapping(value = "/reductionKey",method = RequestMethod.POST)
+    @PostMapping(value = "/reductionKey")
     @ResponseBody
     public Result unicomReductionKey(@RequestBody KeyInfoRequest keyInfoRequest) {
         keyInfoService.updateKeyInfo(Base64.decodeBase64(keyInfoRequest.getKeyId()),0);
@@ -151,7 +151,7 @@ public class KeyInfoController {
 
 
     @ApiOperation(value = "量子密钥额度分配",notes = "分配在线量子密钥额度")
-    @RequestMapping(value = "/updateKeyLimit",method = RequestMethod.GET)
+    @GetMapping(value = "/updateKeyLimit")
     @ResponseBody
     public Result unicomUpdateKeyLimit(@RequestParam("applicant") String applicant, @RequestParam("keyNum") int keyNum) throws Exception {
         if (keyNum > 2000)
@@ -165,7 +165,7 @@ public class KeyInfoController {
     }
 
     @ApiOperation(value = "销毁密钥",notes = "销毁指定密钥")
-    @RequestMapping(value = "/destroyKey",method = RequestMethod.POST)
+    @PostMapping(value = "/destroyKey")
     @ResponseBody
     public Result unicomDestroyKey(@RequestBody KeyInfoRequest keyInfoRequest){
         keyInfoService.deleteKeyInfo(Base64.decodeBase64(keyInfoRequest.getKeyId()));
@@ -173,7 +173,7 @@ public class KeyInfoController {
     }
 
     @ApiOperation(value = "获取密钥使用情况",notes = "获取指定用户密钥使用情况")
-    @RequestMapping(value = "/getKeyUsedInfo",method = RequestMethod.GET)
+    @GetMapping(value = "/getKeyUsedInfo")
     @ResponseBody
     public Result unicomGetKeyUsedInfo(@RequestParam("applicant") String applicant){
         Map<String, Long> res = keyInfoService.keyInfoStatistics(applicant);
@@ -182,7 +182,7 @@ public class KeyInfoController {
 
 
     @ApiOperation(value = "获取可撤回密钥id",notes = "获取量子密钥id")
-    @RequestMapping(value = "/getApplicantKeyId",method = RequestMethod.POST)
+    @PostMapping(value = "/getApplicantKeyId")
     @ResponseBody
     public Result unicomGetApplicantKeyId(@RequestBody GetApplicantKeyIdRequest getApplicantKeyIdRequest){
         List<KeyInfo> keyInfos = keyInfoService.getKeyInfosNotInKeyStatus(getApplicantKeyIdRequest.getApplicant(),1);
@@ -194,7 +194,7 @@ public class KeyInfoController {
     }
 
     @ApiOperation(value = "获取可还原密钥id",notes = "获取量子密钥id")
-    @RequestMapping(value = "/getCanReductionApplicantKeyId",method = RequestMethod.POST)
+    @PostMapping(value = "/getCanReductionApplicantKeyId")
     @ResponseBody
     public Result unicomGetCanReductionApplicantKeyId(@RequestBody GetApplicantKeyIdRequest getApplicantKeyIdRequest){
         List<KeyInfo> keyInfos = keyInfoService.getKeyInfos(getApplicantKeyIdRequest.getApplicant(),1);
@@ -206,7 +206,7 @@ public class KeyInfoController {
     }
 
     @ApiOperation(value = "获取可销毁密钥id",notes = "获取量子密钥id")
-    @RequestMapping(value = "/getCanDeleteApplicantKeyId",method = RequestMethod.POST)
+    @PostMapping(value = "/getCanDeleteApplicantKeyId")
     @ResponseBody
     public Result unicomGetCanDeleteApplicantKeyId(@RequestBody GetApplicantKeyIdRequest getApplicantKeyIdRequest){
         List<KeyInfo> keyInfos = keyInfoService.getKeyInfosNotInKeyStatus(getApplicantKeyIdRequest.getApplicant(),3);
@@ -219,7 +219,7 @@ public class KeyInfoController {
 
 
     @ApiOperation(value = "导出量子密钥",notes = "导出指定用户的全部量子密钥")
-    @RequestMapping(value = "/exportKeyInfos",method = RequestMethod.POST)
+    @PostMapping(value = "/exportKeyInfos")
     @ResponseBody
     public Result unicomExportKeyInfos(HttpServletResponse response, @RequestBody ExportKeyInfosRequest exportKeyInfosRequest) throws IOException, NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
         List<KeyInfo> keyInfos = keyInfoService.getKeyInfosNotInKeyStatus(exportKeyInfosRequest.getApplicant(),1);

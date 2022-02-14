@@ -40,7 +40,7 @@ public class LoginController {
 
     @ApiOperation(value = "系统用户登录",notes = "系统用户登录")
     @ResponseBody
-    @RequestMapping(value = "/sysLogin",method = RequestMethod.POST)
+    @PostMapping(value = "/sysLogin")
     public Result unicomSysLogin(@RequestBody SystemUserLoginRequest systemUserLoginRequest)  {
         User login = loginService.systemUserLogin(systemUserLoginRequest.getUserName());
         if (login == null)
@@ -82,7 +82,7 @@ public class LoginController {
 
     @ApiOperation(value = "注销",notes = "用户注销登录")
     @ResponseBody
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    @PostMapping(value = "/logout")
     public Result unicomLogout() {
         Subject subject = SecurityUtils.getSubject();
         if (subject != null){
@@ -94,7 +94,7 @@ public class LoginController {
 
     @ApiOperation(value = "无权限",notes = "无权限")
     @ResponseBody
-    @RequestMapping(value = "/noPerm", method = RequestMethod.GET)
+    @GetMapping(value = "/noPerm")
     public Result unicomNoPerm() {
         return ResultHelper.genResult(403,"no perms");
     }

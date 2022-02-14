@@ -26,7 +26,7 @@ public class KeySourceConfigController {
 
     @RequiresRoles("systemUser")
     @ApiOperation("获取密钥源配置")
-    @RequestMapping(value = "/get",method = RequestMethod.GET)
+    @GetMapping(value = "/get")
     @ResponseBody
     public Result unicomGet(){
         List<KeySourceDetail> keySourceConfig = keySourceConfigService.getKeySourceConfig();
@@ -34,7 +34,7 @@ public class KeySourceConfigController {
     }
 
     @ApiOperation("获取QKD配置")
-    @RequestMapping(value = "/getQKD",method = RequestMethod.GET)
+    @GetMapping(value = "/getQKD")
     @ResponseBody
     public Result unicomGetQKD(){
         String qkdConfig = keySourceConfigService.getQKDConfig();
@@ -44,7 +44,7 @@ public class KeySourceConfigController {
 
     @RequiresRoles("systemUser")
     @ApiOperation("修改密钥源配置")
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @PostMapping(value = "/update")
     @ResponseBody
     public Result unicomUpdate(@RequestBody KeySourceConfigRequest keySourceConfigRequest) throws QuantumException {
         keySourceConfigService.updateKeySourceConfig(keySourceConfigRequest);
@@ -54,7 +54,7 @@ public class KeySourceConfigController {
 
     @RequiresRoles("systemUser")
     @ApiOperation("修改QKD配置")
-    @RequestMapping(value = "/updateQKD",method = RequestMethod.POST)
+    @PostMapping(value = "/updateQKD")
     @ResponseBody
     public Result unicomUpdateQKD(@RequestBody UpdateQKDRequest updateQKDRequest){
         String configInfo = JSONObject.toJSONString(updateQKDRequest);
@@ -64,7 +64,7 @@ public class KeySourceConfigController {
 
     @RequiresRoles("systemUser")
     @ApiOperation("修改密钥源优先级")
-    @RequestMapping(value = "/updatePriority",method = RequestMethod.GET)
+    @RequestMapping(value = "/updatePriority")
     @ResponseBody
     public Result unicomUpdatePriority(@RequestParam("oldPriority") int oldPriority,@RequestParam("newPriority") int newPriority,@RequestParam("id") int id){
         keySourceConfigService.updateKeySourcePriority(oldPriority,newPriority,id);
@@ -73,7 +73,7 @@ public class KeySourceConfigController {
 
     @RequiresRoles("systemUser")
     @ApiOperation("禁用密钥源配置")
-    @RequestMapping(value = "/delete",method = RequestMethod.GET)
+    @GetMapping(value = "/delete")
     @ResponseBody
     public Result unicomDelete(@RequestParam("id") int id,@RequestParam("priority") int priority) throws QuantumException {
         keySourceConfigService.disableKeySourceConfig(priority, id);
@@ -82,7 +82,7 @@ public class KeySourceConfigController {
 
     @RequiresRoles("systemUser")
     @ApiOperation("启用密钥源配置")
-    @RequestMapping(value = "/add",method = RequestMethod.GET)
+    @GetMapping(value = "/add")
     @ResponseBody
     public Result unicomAdd(@RequestParam("id") int id,@RequestParam("priority") int priority) throws QuantumException {
         keySourceConfigService.enableKeySourceConfig(priority, id);

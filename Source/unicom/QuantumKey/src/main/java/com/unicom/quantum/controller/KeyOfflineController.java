@@ -23,13 +23,9 @@ public class KeyOfflineController {
 
     @RequiresRoles("deviceUser")
     @ApiOperation("充注离线密钥")
-    @RequestMapping(value = "/getOfflineKey",method = RequestMethod.POST)
+    @PostMapping(value = "/getOfflineKey")
     @ResponseBody
     public Result unicomGetOfflineKey(@RequestBody OfflineKeyRequest offlineKeyRequest) throws Exception {
-        if (offlineKeyRequest.getEndIndex() - offlineKeyRequest.getStartIndex() > 2000)
-            return ResultHelper.genResult(1,"充注密钥数不得大于2000");
-        if (offlineKeyRequest.getEndIndex() < offlineKeyRequest.getStartIndex())
-            return ResultHelper.genResult(1,"结束值不得小于开始值");
         List<KeyOfflineDTO> offKey = keyOfflineService.getOffKey(offlineKeyRequest.getStartIndex(), offlineKeyRequest.getEndIndex());
         return ResultHelper.genResultWithSuccess(offKey);
     }

@@ -24,7 +24,7 @@ public class AppDeviceController {
     private AppDeviceService appDeviceService;
 
     @ApiOperation(value = "应用绑定终端",notes = "应用绑定终端")
-    @RequestMapping(value = "/addAppDevice",method = RequestMethod.POST)
+    @PostMapping(value = "/addAppDevice")
     @ResponseBody
     public Result unicomAddAppDevice(@RequestBody AppDeviceRequest appDeviceRequest) throws QuantumException {
         appDeviceService.addAppDevice(appDeviceRequest);
@@ -32,7 +32,7 @@ public class AppDeviceController {
     }
 
     @ApiOperation(value = "解除应用绑定终端",notes = "解除应用绑定终端")
-    @RequestMapping(value = "/deleteAppDevice",method = RequestMethod.POST)
+    @PostMapping(value = "/deleteAppDevice")
     @ResponseBody
     public Result unicomDeleteAppDevice(@RequestBody AppDeviceRequest appDeviceRequest) {
         appDeviceService.deleteAppDevice(appDeviceRequest);
@@ -40,7 +40,7 @@ public class AppDeviceController {
     }
 
     @ApiOperation(value = "获取指定应用绑定终端信息",notes = "获取指定应用已绑定的终端信息")
-    @RequestMapping(value = "/getAppDevice/{offset}/{pageSize}",method = RequestMethod.GET)
+    @GetMapping(value = "/getAppDevice/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomGetAppDevice(@RequestParam("appId") int appId, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) {
         PageHelper.startPage(offset,pageSize);

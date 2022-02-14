@@ -28,7 +28,7 @@ public class IpController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "添加ip",notes = "向ip白名单中添加将被允许访问的ip")
-    @RequestMapping(value = "/addIp", method = RequestMethod.POST)
+    @PostMapping(value = "/addIp")
     @ResponseBody
     public Result unicomAddIp(@RequestBody IpInfoRequest ipInfoRequest) throws QuantumException {
         ipService.addIp(ipInfoRequest.getIpInfo());
@@ -36,7 +36,7 @@ public class IpController {
     }
 
     @ApiOperation(value = "获取所以ip白名单信息" ,notes ="分页获取ip白名单信息")
-    @RequestMapping(value = "/getAllIps/{offset}/{pageSize}", method = RequestMethod.GET)
+    @GetMapping(value = "/getAllIps/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomGetAllIps(HttpServletRequest request,
                             @PathVariable("offset") int offset,
@@ -50,7 +50,7 @@ public class IpController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "删除指定ip",notes = "移除白名单中指定ip")
-    @RequestMapping(value = "/delIpById", method = RequestMethod.POST)
+    @PostMapping(value = "/delIpById")
     @ResponseBody
     public Result unicomDelIpById(@RequestBody IpInfoRequest ipInfoRequest){
         ipService.deleteIpById(ipInfoRequest.getIpInfo());

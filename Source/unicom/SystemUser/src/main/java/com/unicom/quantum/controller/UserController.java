@@ -39,7 +39,7 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "用户名重复检测", notes = "检测用户名是否已被占用")
-    @RequestMapping(value = "/userNameCheck",method = RequestMethod.GET)
+    @GetMapping(value = "/userNameCheck")
     @ResponseBody
     public Result unicomUserNameCheck(@RequestParam("userName") String userName){
         if (userService.userExist(userName)) {
@@ -49,14 +49,9 @@ public class UserController {
     }
 
 
-    /**
-     * 添加用户信息
-     * @param addUserRequest
-     * @return
-     */
     @RequiresRoles("systemUser")
     @ApiOperation(value = "添加用户信息",notes = "添加用户信息")
-    @RequestMapping(value = "/addUserInfo",method = RequestMethod.POST)
+    @PostMapping(value = "/addUserInfo")
     @ResponseBody
     public Result unicomAddUserInfo(@RequestBody AddUserRequest addUserRequest) throws QuantumException {
         userService.addUser(addUserRequest);
@@ -64,14 +59,9 @@ public class UserController {
     }
 
 
-    /**
-     * 修改用户信息
-     * @param updateUserRequest
-     * @return
-     */
     @RequiresRoles("systemUser")
     @ApiOperation(value = "修改系统用户信息",notes = "修改系统用户信息（修改信息包括密码、备注）")
-    @RequestMapping(value = "/updateUserInfo",method = RequestMethod.POST)
+    @PostMapping(value = "/updateUserInfo")
     @ResponseBody
     public Result unicomUpdateUserInfo(@RequestBody UpdateUserRequest updateUserRequest) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
         userService.updateUser(updateUserRequest);
@@ -81,7 +71,7 @@ public class UserController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "删除系统用户",notes = "删除系统用户")
-    @RequestMapping(value = "/deleteUserInfo",method = RequestMethod.GET)
+    @GetMapping(value = "/deleteUserInfo")
     @ResponseBody
     public Result unicomDeleteUserInfo(@RequestParam("id") int id) {
         userService.deleteUser(id);
@@ -89,17 +79,9 @@ public class UserController {
     }
 
 
-    /**
-     * 获取所有用户信息
-     * @param request
-     * @param offset
-     * @param pageSize
-     * @return
-     * @throws UnsupportedEncodingException
-     */
     @RequiresRoles("systemUser")
     @ApiOperation(value = "获取所有系统用户信息",notes = "获取所有系统用户信息")
-    @RequestMapping(value = "/getAllUsers/{offset}/{pageSize}", method = RequestMethod.GET)
+    @GetMapping(value = "/getAllUsers/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomListAllUsers(HttpServletRequest request,
                                @RequestParam(value = "userName", required = false) String userName,
@@ -115,7 +97,7 @@ public class UserController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "获取应用管理员信息",notes = "获取应用管理员信息")
-    @RequestMapping(value = "/getAppManager", method = RequestMethod.GET)
+    @GetMapping(value = "/getAppManager")
     @ResponseBody
     public Result unicomGetAppManager() {
         List<User> appManager = userService.getAppManager();

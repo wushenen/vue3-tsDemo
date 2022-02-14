@@ -17,10 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
 
@@ -42,7 +39,7 @@ public class GenerateRandomController {
 
     @RequiresPermissions(value = {"/**","GenerateRandom"} ,logical = Logical.OR)
     @ApiOperation(value = "获取随机数",notes = "生成一个随机数")
-    @RequestMapping(value = "/GenerateRandom",method = RequestMethod.POST)
+    @PostMapping(value = "/GenerateRandom")
     @ResponseBody
     public Result unicomCreateRandomCharData(@RequestBody Random random) throws Exception {
         logger.info("生成一个随机口令字符串");
@@ -56,7 +53,7 @@ public class GenerateRandomController {
                 object.put("randomPassword", Base64.getEncoder().encodeToString(RandomPassword));
                 return ResultHelper.genResultWithSuccess(object);
         } else {
-                throw new QuantumException(ResultHelper.genResult(400, "InvalidParameter", "口令字节数长度应为8~128"));
+                throw new QuantumException(ResultHelper.genResult(1, "口令字节数长度应为8~128"));
         }
     }
 
@@ -68,7 +65,7 @@ public class GenerateRandomController {
      */
     @RequiresPermissions(value = {"/**","GenerateTempKey"} ,logical = Logical.OR)
     @ApiOperation(value = "获取临时密钥",notes = "产生一个临时密钥并返回")
-    @RequestMapping(value = "/GenerateTempKey",method = RequestMethod.POST)
+    @PostMapping(value = "/GenerateTempKey")
     @ResponseBody
     public Result unicomGenerateTempKey(@RequestBody Random random) throws Exception {
         logger.info("产生临时密钥");

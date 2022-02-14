@@ -43,7 +43,7 @@ public class DeviceUserController {
     private UtilService utilService;
 
     @ApiOperation(value = "获取所有终端用户信息" ,notes = "获取所有终端用户信息")
-    @RequestMapping(value = "/getAllDevice/{offset}/{pageSize}",method = RequestMethod.GET)
+    @GetMapping(value = "/getAllDevice/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomGetAllDevice(HttpServletRequest request, @RequestParam(value = "deviceName",required = false) String deviceName,
                                @PathVariable("offset") int offset,
@@ -59,7 +59,7 @@ public class DeviceUserController {
     }
 
     @ApiOperation(value = "获取所有终端用户信息(添加权限使用)",notes = "获取所有终端用户信息(添加权限使用)")
-    @RequestMapping(value = "/getAllDeviceInfo",method = RequestMethod.GET)
+    @GetMapping(value = "/getAllDeviceInfo")
     @ResponseBody
     public Result unicomGetAllDeviceInfo(@RequestParam(value = "deviceName",required = false) String deviceName){
         List<DeviceUser> list = deviceUserService.listAllDeviceUser(deviceName);
@@ -68,7 +68,7 @@ public class DeviceUserController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "获取指定终端用户信息" ,notes = "获取指定终端用户信息")
-    @RequestMapping(value = "/getDeviceInfo",method = RequestMethod.POST)
+    @PostMapping(value = "/getDeviceInfo")
     @ResponseBody
     public Result unicomGetDeviceInfo(@RequestBody GetDeviceInfoRequest getDeviceInfoRequest){
         DeviceUser deviceInfo = deviceUserService.getDeviceInfo(getDeviceInfoRequest.getDeviceId());
@@ -77,7 +77,7 @@ public class DeviceUserController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "添加终端用户信息",notes = "添加终端用户信息")
-    @RequestMapping(value = "/addDeviceUser",method = RequestMethod.POST)
+    @PostMapping(value = "/addDeviceUser")
     @ResponseBody
     public Result unicomAddDeviceUser(@RequestBody AddDeviceUserRequest addDeviceUserRequest) throws Exception {
         DeviceUser deviceUser = new DeviceUser();
@@ -92,7 +92,7 @@ public class DeviceUserController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "批量导入终端",notes = "批量导入终端用户信息")
-    @RequestMapping(value = "/importDeviceUser",method = RequestMethod.POST)
+    @PostMapping(value = "/importDeviceUser")
     @ResponseBody
     public Result unicomImportDeviceUser(@RequestPart("excelFile") MultipartFile excelFile) throws Exception {
         ImportParams importParams = new ImportParams();
@@ -119,7 +119,7 @@ public class DeviceUserController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "删除终端用户信息",notes = "删除终端用户信息")
-    @RequestMapping(value = "/deleteDevice",method = RequestMethod.POST)
+    @PostMapping(value = "/deleteDevice")
     @ResponseBody
     public Result unicomDeleteDevice(@RequestBody DeleteDeviceRequest deleteDeviceRequest){
         for (Integer id : deleteDeviceRequest.getDeviceId()) {
@@ -130,7 +130,7 @@ public class DeviceUserController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "修改终端用户信息" ,notes = "修改终端用户信息")
-    @RequestMapping(value = "/updateDevice",method = RequestMethod.POST)
+    @PostMapping(value = "/updateDevice")
     @ResponseBody
     public Result unicomUpdateDevice(@RequestBody UpdateUserInfoRequest updateUserInfoRequest) throws QuantumException {
         deviceUserService.updateDevice(updateUserInfoRequest);
@@ -155,7 +155,7 @@ public class DeviceUserController {
     }
 
     @ApiOperation(value = "模糊查询终端用户信息" ,notes = "模糊查询终端用户信息")
-    @RequestMapping(value = "/queryDeviceUser",method = RequestMethod.GET)
+    @GetMapping(value = "/queryDeviceUser")
     @ResponseBody
     public Result unicomQueryDeviceUser(@RequestParam(value = "deviceName",required = false) String deviceName){
         List<DeviceUser> deviceUsers = deviceUserService.queryDeviceUser(deviceName);
@@ -164,7 +164,7 @@ public class DeviceUserController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "批量导出终端用户信息",notes = "导出选中的终端用户信息")
-    @RequestMapping(value = "/exportDeviceUsers",method = RequestMethod.POST)
+    @PostMapping(value = "/exportDeviceUsers")
     @ResponseBody
     public void unicomExportDeviceUsers(HttpServletResponse response, @RequestBody ExportDeviceUserRequest exportDeviceUserRequest) throws IOException {
         List<ExportDeviceUserInfo> deviceUsers = deviceUserService.exportDeviceUserInfo(exportDeviceUserRequest.getDeviceIds());

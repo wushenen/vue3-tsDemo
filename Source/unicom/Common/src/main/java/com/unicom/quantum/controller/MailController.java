@@ -32,7 +32,7 @@ public class MailController {
     private MailService mailService;
 
     @ApiOperation("获取邮件告警日志")
-    @RequestMapping(value = "getMailLogs/{offset}/{pageSize}",method = RequestMethod.GET)
+    @GetMapping(value = "getMailLogs/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomListOperateLogs(HttpServletRequest request,
                                         @PathVariable("offset") int offset,
@@ -48,7 +48,7 @@ public class MailController {
     }
 
     @ApiOperation("获取邮件发件人信息")
-    @RequestMapping(value = "getMailConfig",method = RequestMethod.GET)
+    @GetMapping(value = "getMailConfig")
     @ResponseBody
     public Result unicomGetMailConfig() {
         MailConfigInfo mailSenderConfig = mailService.getMailSenderConfig();
@@ -57,7 +57,7 @@ public class MailController {
 
     @RequiresRoles("systemUser")
     @ApiOperation("修改邮件发件人配置信息")
-    @RequestMapping(value = "updateMailConfig",method = RequestMethod.POST)
+    @PostMapping(value = "updateMailConfig")
     @ResponseBody
     public Result unicomUpdateMailConfig(@RequestBody MailConfigRequest mailConfigRequest) {
         MailConfigInfo mailConfigInfo = new MailConfigInfo();

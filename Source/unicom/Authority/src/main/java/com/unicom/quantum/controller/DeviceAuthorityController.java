@@ -23,7 +23,7 @@ public class DeviceAuthorityController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "添加终端用户权限", notes = "添加终端用户权限")
-    @RequestMapping(value = "/addDeviceAuthority",method = RequestMethod.POST)
+    @PostMapping(value = "/addDeviceAuthority")
     @ResponseBody
     public Result unicomAddDeviceAuthority(@RequestBody AddDeviceAuthorityRequest addDeviceAuthorityRequest){
         deviceAuthorityService.addDeviceAuthority(addDeviceAuthorityRequest.getDeviceId(), addDeviceAuthorityRequest.getApiId());
@@ -32,7 +32,7 @@ public class DeviceAuthorityController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "删除权限", notes = "删除权限")
-    @RequestMapping(value = "/delDeviceAuthority",method = RequestMethod.GET)
+    @GetMapping(value = "/delDeviceAuthority")
     @ResponseBody
     public Result unicomDelDeviceAuthority(@RequestParam("authId") int authId) {
         deviceAuthorityService.delDeviceAuthority(authId);
@@ -41,7 +41,7 @@ public class DeviceAuthorityController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "删除指定终端用户所有权限", notes = "删除指定终端用户所有权限")
-    @RequestMapping(value = "/delDeviceAllAuthority",method = RequestMethod.GET)
+    @GetMapping(value = "/delDeviceAllAuthority")
     @ResponseBody
     public Result unicomDelDeviceAllAuthority(@RequestParam("deviceId") int deviceId){
         deviceAuthorityService.delDeviceAuthByDeviceId(deviceId);
@@ -50,7 +50,7 @@ public class DeviceAuthorityController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "获取指定终端用户已添加权限信息", notes = "获取指定终端用户已添加权限信息")
-    @RequestMapping(value = "/getDeviceAuthority",method = RequestMethod.GET)
+    @GetMapping(value = "/getDeviceAuthority")
     @ResponseBody
     public Result unicomGetDeviceAuthority(@RequestParam("deviceId") int deviceId){
         List<AuthInfo> authInfos = deviceAuthorityService.getDeviceAuthority(deviceId);

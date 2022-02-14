@@ -25,7 +25,7 @@ public class AppController {
     private AppService appService;
 
     @ApiOperation(value = "添加应用",notes = "添加应用")
-    @RequestMapping(value = "/addApp",method = RequestMethod.POST)
+    @PostMapping(value = "/addApp")
     @ResponseBody
     public Result unicomAddApp(@RequestBody AddAppRequest addAppRequest) throws QuantumException {
         App app = new App();
@@ -35,7 +35,7 @@ public class AppController {
     }
 
     @ApiOperation(value = "删除应用",notes = "删除应用")
-    @RequestMapping(value = "/deleteApp",method = RequestMethod.GET)
+    @GetMapping(value = "/deleteApp")
     @ResponseBody
     public Result unicomDeleteApp(@RequestParam("appId") int appId) {
         appService.deleteApp(appId);
@@ -43,7 +43,7 @@ public class AppController {
     }
 
     @ApiOperation(value = "获取应用",notes = "获取应用")
-    @RequestMapping(value = "/getApps/{offset}/{pageSize}",method = RequestMethod.GET)
+    @GetMapping(value = "/getApps/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomGetApps(@PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) {
         PageHelper.startPage(offset,pageSize);

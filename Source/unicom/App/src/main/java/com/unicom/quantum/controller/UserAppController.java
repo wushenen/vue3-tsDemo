@@ -24,7 +24,7 @@ public class UserAppController {
     private UserAppService userAppService;
 
     @ApiOperation(value = "应用添加管理员",notes = "应用添加管理员")
-    @RequestMapping(value = "/addUserApp",method = RequestMethod.POST)
+    @PostMapping(value = "/addUserApp")
     @ResponseBody
     public Result unicomAddUserApp(@RequestBody UserAppRequest userAppRequest) {
         userAppService.addUserApp(userAppRequest);
@@ -32,7 +32,7 @@ public class UserAppController {
     }
 
     @ApiOperation(value = "应用删除管理员",notes = "应用删除管理员")
-    @RequestMapping(value = "/deleteUserApp",method = RequestMethod.POST)
+    @PostMapping(value = "/deleteUserApp")
     @ResponseBody
     public Result unicomDeleteAppDevice(@RequestBody UserAppRequest userAppRequest) {
         userAppService.deleteUserApp(userAppRequest);
@@ -40,7 +40,7 @@ public class UserAppController {
     }
 
     @ApiOperation(value = "获取当前应用已添加的管理员",notes = "获取指定应用已添加的管理员")
-    @RequestMapping(value = "/getAppManagers/{offset}/{pageSize}",method = RequestMethod.GET)
+    @GetMapping(value = "/getAppManagers/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomGetAppManagers(@RequestParam("appId") int appId, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) {
         PageHelper.startPage(offset,pageSize);
@@ -50,7 +50,7 @@ public class UserAppController {
     }
 
     @ApiOperation(value = "获取管理员所管理的应用",notes = "获取管理员所管理的应用")
-    @RequestMapping(value = "/getManagerApps/{offset}/{pageSize}",method = RequestMethod.GET)
+    @GetMapping(value = "/getManagerApps/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomGetManagerApps(@RequestParam("userId") int userId, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) {
         PageHelper.startPage(offset,pageSize);

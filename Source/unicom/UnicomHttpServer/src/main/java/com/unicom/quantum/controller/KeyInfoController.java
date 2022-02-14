@@ -42,7 +42,7 @@ public class KeyInfoController {
     private MailService mailService;
 
     @ApiOperation(value = "获取密钥",notes = "获取指定密钥")
-    @RequestMapping(value = "/getKey",method = RequestMethod.POST)
+    @PostMapping(value = "/getKey")
     @ResponseBody
     public Result unicomGenerateKey(@RequestBody KeyInfoSDKRequest keyInfoRequest, HttpServletResponse response, HttpServletRequest request) throws Exception {
         JSONObject object = new JSONObject();
@@ -80,7 +80,7 @@ public class KeyInfoController {
 
 
     @ApiOperation(value = "获取密钥",notes = "获取指定密钥")
-    @RequestMapping(value = "/batchGetKey",method = RequestMethod.POST)
+    @PostMapping(value = "/batchGetKey")
     @ResponseBody
     public Result unicomBatchGetKey(@RequestBody BatchKeyInfoSDKRequest batchKeyInfoSDKRequest, HttpServletResponse response, HttpServletRequest request) throws Exception {
         JSONObject object = new JSONObject();

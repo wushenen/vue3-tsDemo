@@ -35,7 +35,7 @@ public class GroupController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "创建分组",notes = "创建新分组")
-    @RequestMapping(value = "/addGroup",method = RequestMethod.POST)
+    @PostMapping(value = "/addGroup")
     @ResponseBody
     public Result unicomAddGroup(@RequestBody AddGroupRequest addGroupRequest) throws QuantumException {
         groupService.addGroup(addGroupRequest.getGroupName(),addGroupRequest.getGroupCode(),addGroupRequest.getGroupDescribe());
@@ -45,7 +45,7 @@ public class GroupController {
 
 
     @ApiOperation(value = "查看分组信息",notes = "查看分组信息")
-    @RequestMapping(value = "/groupList/{offset}/{pageSize}",method = RequestMethod.GET)
+    @GetMapping(value = "/groupList/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomGroupList(HttpServletRequest request,
                             @PathVariable("offset") int offset,
@@ -63,7 +63,7 @@ public class GroupController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "修改分组信息",notes = "修改分组信息")
-    @RequestMapping(value = "/updateGroupInfo",method = RequestMethod.POST)
+    @PostMapping(value = "/updateGroupInfo")
     @ResponseBody
     public Result unicomUpdateGroupInfo(@RequestBody UpdateGroupInfoRequest updateGroupInfoRequest) throws QuantumException {
         groupService.updateGroupInfo(updateGroupInfoRequest.getGroupId(),updateGroupInfoRequest.getGroupName(),updateGroupInfoRequest.getGroupDescribe());
@@ -73,7 +73,7 @@ public class GroupController {
 
     @RequiresRoles("systemUser")
     @ApiOperation(value = "删除分组",notes = "删除分组")
-    @RequestMapping(value = "/deleteGroup",method = RequestMethod.GET)
+    @GetMapping(value = "/deleteGroup")
     @ResponseBody
     public Result unicomDeleteGroup(@RequestParam("groupId") int groupId) {
         groupService.deleteGroup(groupId);
@@ -81,7 +81,7 @@ public class GroupController {
     }
 
     @ApiOperation(value = "模糊查询分组信息",notes = "模糊查询分组信息")
-    @RequestMapping(value = "/queryGroupInfo",method = RequestMethod.GET)
+    @GetMapping(value = "/queryGroupInfo")
     @ResponseBody
     public Result unicomQueryGroupInfo(@RequestParam("groupName") String groupName) {
         List<Group> groups = groupService.queryGroupInfo(groupName);

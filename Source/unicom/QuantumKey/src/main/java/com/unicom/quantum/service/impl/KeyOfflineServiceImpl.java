@@ -1,5 +1,7 @@
 package com.unicom.quantum.service.impl;
 
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.mapper.KeyOfflineMapper;
@@ -43,6 +45,10 @@ public class KeyOfflineServiceImpl implements KeyOfflineService {
     @OperateLogAnno(operateDesc = "量子密钥充注", operateModel = OPERATE_MODEL)
     @Override
     public List<KeyOfflineDTO> getOffKey(Long start, Long end) throws Exception {
+        if (end - start > 2000)
+            throw new QuantumException(ResultHelper.genResult(1,"充注密钥数不得大于2000"));
+        if (end < start)
+            throw new QuantumException(ResultHelper.genResult(1,"充注结束值不得小于开始值"));
         ArrayList<KeyOfflineDTO> list = new ArrayList<>();
         Long offlineKeyNum = keyOfflineMapper.countOfflineKeyNum();
         int sub = end.intValue() - offlineKeyNum.intValue();
