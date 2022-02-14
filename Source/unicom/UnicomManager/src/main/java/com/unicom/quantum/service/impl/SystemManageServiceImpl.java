@@ -11,7 +11,7 @@ import com.unicom.quantum.service.SystemManageService;
 import com.unicom.quantum.mapper.CardDataMapper;
 import com.unicom.quantum.mapper.QkmVersionMapper;
 import com.unicom.quantum.pojo.CardData;
-import com.unicom.quantum.pojo.LinuxServer;
+import com.unicom.quantum.controller.vo.LinuxServerRequest;
 import com.unicom.quantum.pojo.QkmVersion;
 import com.sansec.device.crypto.MgrException;
 import org.slf4j.Logger;
@@ -38,14 +38,14 @@ public class SystemManageServiceImpl implements SystemManageService {
 
     @OperateLogAnno(operateDesc = "修改ip,网关,子网掩码", operateModel = "系统管理模块")
     @Override
-    public String updateIpNetmaskAndGateway(LinuxServer linuxServer) throws Exception {
+    public String updateIpNetmaskAndGateway(LinuxServerRequest linuxServerRequest) throws Exception {
         ArrayList<String> commands = new ArrayList<>(4);
         commands.add("/bin/bash");
         commands.add("-c");
-        StringBuilder sb = new StringBuilder("/bin/sh "+cmdPath+"changeip.sh \"" + linuxServer.getIp() + "\" ");
-        String netMask = linuxServer.getNetMask();
-        String gateWay = linuxServer.getGateWay();
-        String nicName = linuxServer.getNicName();
+        StringBuilder sb = new StringBuilder("/bin/sh "+cmdPath+"changeip.sh \"" + linuxServerRequest.getIp() + "\" ");
+        String netMask = linuxServerRequest.getNetMask();
+        String gateWay = linuxServerRequest.getGateWay();
+        String nicName = linuxServerRequest.getNicName();
         netMask = netMask == null ? "" : netMask;
         gateWay = gateWay == null ? "" : gateWay;
         nicName = nicName == null ? "" : nicName;

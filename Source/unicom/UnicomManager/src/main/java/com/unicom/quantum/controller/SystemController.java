@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.pojo.CardData;
-import com.unicom.quantum.pojo.LinuxServer;
+import com.unicom.quantum.controller.vo.LinuxServerRequest;
 import com.unicom.quantum.pojo.QkmVersion;
 import com.unicom.quantum.service.SystemManageService;
 import io.swagger.annotations.Api;
@@ -49,8 +49,8 @@ public class SystemController {
     @ApiOperation(value = "修改本机ip,网关,掩码",notes = "修改本机ip,网关,掩码")
     @PostMapping("/updateIpNetmaskAndGateway")
     @ResponseBody
-    public Result unicomUpdateIpNetmaskAndGateway(@RequestBody @Valid LinuxServer linuxServer) throws Exception{
-        String result = systemManageService.updateIpNetmaskAndGateway(linuxServer);
+    public Result unicomUpdateIpNetmaskAndGateway(@RequestBody @Valid LinuxServerRequest linuxServerRequest) throws Exception{
+        String result = systemManageService.updateIpNetmaskAndGateway(linuxServerRequest);
         System.out.println(result);
         if (result.equals("0")) {
             return ResultHelper.genResultWithSuccess();

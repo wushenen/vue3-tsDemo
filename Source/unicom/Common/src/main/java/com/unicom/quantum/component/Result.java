@@ -1,17 +1,24 @@
 package com.unicom.quantum.component;
 
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.UUID;
 
 /**
  * 公共返回结果
  * @param <T>
  */
-
+@ApiModel("通用返回结果")
 public class Result<T> {
+    @ApiModelProperty("请求编号")
     private String requestId;
+    @ApiModelProperty(value = "结果代码",notes = "0-成功，1-失败")
     private int code;
+    @ApiModelProperty("结果信息")
     private String msg;
+    @ApiModelProperty("返回数据")
     private T data;
     public static Builder builder(){
         return new Builder();

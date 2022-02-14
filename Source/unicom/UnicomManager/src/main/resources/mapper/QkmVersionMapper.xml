@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.unicom.quantum.mapper.QkmVersionMapper">
+
+    <select id="getQkmVersion" resultType="com.unicom.quantum.pojo.QkmVersion">
+        select *
+        from t_qkm_version
+        where mac_addr = #{macAddr}
+    </select>
+
+    <update id="updateStateOk">
+        update t_qkm_version
+        set state = 1,param = '就绪'
+        where mac_addr = #{macAddr}
+    </update>
+
+    <insert id="addQkmVersion">
+        insert into t_qkm_version(version,mac_addr)
+        values(#{version},#{macAddr})
+    </insert>
+
+    <select id="getMysqlVersion" resultType="String">
+        select version()
+    </select>
+
+</mapper>

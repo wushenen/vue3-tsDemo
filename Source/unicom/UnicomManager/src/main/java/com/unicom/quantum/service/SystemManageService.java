@@ -1,14 +1,14 @@
 package com.unicom.quantum.service;
 
 import com.unicom.quantum.pojo.CardData;
-import com.unicom.quantum.pojo.LinuxServer;
+import com.unicom.quantum.controller.vo.LinuxServerRequest;
 import com.unicom.quantum.pojo.QkmVersion;
 
 import java.util.List;
 
 public interface SystemManageService {
 
-    String updateIpNetmaskAndGateway(LinuxServer linuxServer) throws Exception;
+    String updateIpNetmaskAndGateway(LinuxServerRequest linuxServerRequest) throws Exception;
 
     QkmVersion getQkmVersion();
 
