@@ -16,10 +16,10 @@ public interface GroupMapper {
     int addGroup(@Param("groupName") String groupName, @Param("groupCode") String groupCode, @Param("groupDescribe") String groupDescribe);
 
     /*判断分组名称是否唯一*/
-    int groupNameExist(@Param("groupName") String groupName);
+    boolean groupNameExist(@Param("groupName") String groupName);
 
     /*判断分组唯一标识唯一*/
-    int groupCodeExist(@Param("groupCode") String groupCode);
+    boolean groupCodeExist(@Param("groupCode") String groupCode);
 
     /*获取分组信息*/
     List<Group> groupList();

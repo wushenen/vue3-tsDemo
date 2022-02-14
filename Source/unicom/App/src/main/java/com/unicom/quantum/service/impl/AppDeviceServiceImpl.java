@@ -24,6 +24,7 @@ public class AppDeviceServiceImpl implements AppDeviceService {
     public int addAppDevice(AppDeviceRequest appDeviceRequest) throws QuantumException {
         boolean flag = false;
         for (Integer deviceId : appDeviceRequest.getDeviceIds()) {
+            //TODO 此处逻辑是否需要优化？考虑
             if (!appDeviceMapper.appDeviceExist(appDeviceRequest.getAppId(),deviceId)) {
                 appDeviceMapper.addAppDevice(appDeviceRequest.getAppId(),deviceId);
                 String deviceName = appDeviceMapper.getDeviceName(deviceId);

@@ -56,7 +56,8 @@ public class UserServiceImpl implements UserService {
         }
         user.setComments(updateUserRequest.getComments());
         user.setEmail(updateUserRequest.getEmail());
-        return userMapper.updateUser(user);
+        userMapper.updateUser(user);
+        return 0;
     }
 
     @OperateLogAnno(operateDesc = "删除系统用户", operateModel = OPERATE_MODEL)

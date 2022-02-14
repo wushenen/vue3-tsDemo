@@ -1,5 +1,6 @@
 package com.unicom.quantum.controller;
 
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.controller.vo.AddGroupRequest;
@@ -36,20 +37,9 @@ public class GroupController {
     @ApiOperation(value = "创建分组",notes = "创建新分组")
     @RequestMapping(value = "/addGroup",method = RequestMethod.POST)
     @ResponseBody
-    public Result unicomAddGroup(@RequestBody AddGroupRequest addGroupRequest){
-        if(groupService.groupNameExist(addGroupRequest.getGroupName()) == 1){
-            logger.info("--------分组名称重复---------");
-            return ResultHelper.genResult(1,"分组名称已存在");
-        }else if(groupService.groupCodeExist(addGroupRequest.getGroupCode()) == 1){
-            logger.info("--------分组标识重复---------");
-            return ResultHelper.genResult(1,"分组标识不唯一");
-        }else if(1 == groupService.addGroup(addGroupRequest.getGroupName(),addGroupRequest.getGroupCode(),addGroupRequest.getGroupDescribe())){
-            return ResultHelper.genResultWithSuccess();
-        }else{
-            logger.info("--------添加分组失败---------");
-            return ResultHelper.genResult(1,"添加分组失败");
-        }
-
+    public Result unicomAddGroup(@RequestBody AddGroupRequest addGroupRequest) throws QuantumException {
+        groupService.addGroup(addGroupRequest.getGroupName(),addGroupRequest.getGroupCode(),addGroupRequest.getGroupDescribe());
+        return ResultHelper.genResultWithSuccess();
     }
 
 
@@ -75,23 +65,9 @@ public class GroupController {
     @ApiOperation(value = "修改分组信息",notes = "修改分组信息")
     @RequestMapping(value = "/updateGroupInfo",method = RequestMethod.POST)
     @ResponseBody
-    public Result unicomUpdateGroupInfo(@RequestBody UpdateGroupInfoRequest updateGroupInfoRequest){
-        if(1 == groupService.groupNameExist(updateGroupInfoRequest.getGroupName())){
-            if(groupService.getGroupInfo(updateGroupInfoRequest.getGroupId()).getGroupName().equals(updateGroupInfoRequest.getGroupName())){
-                int res = groupService.updateGroupInfo(updateGroupInfoRequest.getGroupId(),updateGroupInfoRequest.getGroupName(),updateGroupInfoRequest.getGroupDescribe());
-                if(res == 1)
-                    return ResultHelper.genResultWithSuccess();
-                else
-                    logger.info("--------更新分组信息失败---------");
-                    return ResultHelper.genResult(1,"更新分组信息失败");
-            }else{
-                logger.info("--------分组名称已存在---------");
-                return ResultHelper.genResult(1,"分组名称已存在");
-            }
-        }else if(1 == groupService.updateGroupInfo(updateGroupInfoRequest.getGroupId(),updateGroupInfoRequest.getGroupName(),updateGroupInfoRequest.getGroupDescribe())){
-            return ResultHelper.genResultWithSuccess();
-        }else
-        return ResultHelper.genResult(1,"更新分组信息失败");
+    public Result unicomUpdateGroupInfo(@RequestBody UpdateGroupInfoRequest updateGroupInfoRequest) throws QuantumException {
+        groupService.updateGroupInfo(updateGroupInfoRequest.getGroupId(),updateGroupInfoRequest.getGroupName(),updateGroupInfoRequest.getGroupDescribe());
+        return ResultHelper.genResultWithSuccess();
     }
 
 

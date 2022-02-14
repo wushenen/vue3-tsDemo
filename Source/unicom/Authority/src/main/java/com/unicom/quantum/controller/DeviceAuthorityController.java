@@ -1,11 +1,10 @@
 package com.unicom.quantum.controller;
 
-import com.unicom.quantum.component.Exception.QuantumException;
-import com.unicom.quantum.pojo.DTO.AuthInfo;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
-import com.unicom.quantum.service.DeviceAuthorityService;
 import com.unicom.quantum.controller.vo.AddDeviceAuthorityRequest;
+import com.unicom.quantum.pojo.DTO.AuthInfo;
+import com.unicom.quantum.service.DeviceAuthorityService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -39,7 +38,7 @@ public class DeviceAuthorityController {
     @ApiOperation(value = "删除权限", notes = "删除权限")
     @RequestMapping(value = "/delDeviceAuthority",method = RequestMethod.GET)
     @ResponseBody
-    public Result unicomDelDeviceAuthority(@RequestParam("authId") int authId) throws QuantumException {
+    public Result unicomDelDeviceAuthority(@RequestParam("authId") int authId) {
         deviceAuthorityService.delDeviceAuthority(authId);
         return ResultHelper.genResultWithSuccess();
     }

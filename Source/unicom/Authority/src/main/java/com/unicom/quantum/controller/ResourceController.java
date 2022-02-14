@@ -53,9 +53,6 @@ public class ResourceController {
             resourceInfo.setComments(category.getComments());
             resourceInfo.setApiResources(apiResourceService.getApiResource(category.getApiId()));
             resourceInfos.add(resourceInfo);
-            for (ResourceInfo info : resourceInfos) {
-                System.out.println(info);
-            }
         }
         return ResultHelper.genResultWithSuccess(resourceInfos);
     }

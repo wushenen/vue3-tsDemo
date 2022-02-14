@@ -1,5 +1,7 @@
 package com.unicom.quantum.service.impl;
 
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.mapper.GroupAuthMapper;
 import com.unicom.quantum.mapper.GroupMapper;
@@ -22,18 +24,15 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     @OperateLogAnno(operateDesc = "创建分组", operateModel = OPERATE_MODEL)
-    public int addGroup(String groupName, String groupCode, String groupDescribe) {
-        return groupMapper.addGroup(groupName, groupCode, groupDescribe);
-    }
-
-    @Override
-    public int groupNameExist(String groupName) {
-        return groupMapper.groupNameExist(groupName);
-    }
-
-    @Override
-    public int groupCodeExist(String groupCode) {
-        return groupMapper.groupCodeExist(groupCode);
+    public int addGroup(String groupName, String groupCode, String groupDescribe) throws QuantumException {
+        if (groupMapper.groupNameExist(groupName)) {
+            throw new QuantumException(ResultHelper.genResult(1,"分组名称已存在"));
+        }
+        if (groupMapper.groupCodeExist(groupCode)) {
+            throw new QuantumException(ResultHelper.genResult(1,"分组标识已存在"));
+        }
+        groupMapper.addGroup(groupName, groupCode, groupDescribe);
+        return 0;
     }
 
     @Override
@@ -44,8 +43,13 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     @OperateLogAnno(operateDesc = "修改分组信息", operateModel = OPERATE_MODEL)
-    public int updateGroupInfo(int groupId, String groupName, String groupDescribe) {
-        return groupMapper.updateGroupInfo(groupId, groupName, groupDescribe);
+    public int updateGroupInfo(int groupId, String groupName, String groupDescribe) throws QuantumException {
+        Group groupInfo = groupMapper.getGroupInfo(groupId);
+        if (!groupName.equals(groupInfo.getGroupName()) && groupMapper.groupNameExist(groupName)) {
+            throw new QuantumException(ResultHelper.genResult(1,"分组名称已存在"));
+        }
+        groupMapper.updateGroupInfo(groupId, groupName, groupDescribe);
+        return 0;
     }
 
     @Override

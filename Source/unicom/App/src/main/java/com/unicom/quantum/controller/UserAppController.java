@@ -27,7 +27,7 @@ public class UserAppController {
     @RequestMapping(value = "/addUserApp",method = RequestMethod.POST)
     @ResponseBody
     public Result unicomAddUserApp(@RequestBody UserAppRequest userAppRequest) {
-        int i = userAppService.addUserApp(userAppRequest);
+        userAppService.addUserApp(userAppRequest);
         return ResultHelper.genResultWithSuccess();
     }
 

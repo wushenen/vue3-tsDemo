@@ -67,7 +67,7 @@ pagehelper:
 
 logging:
   level:
-    com.unicom.quantum.*: debug
+    com.unicom.quantum.*: info
 
 cmdPath: /usr/local/unicom/config/
 

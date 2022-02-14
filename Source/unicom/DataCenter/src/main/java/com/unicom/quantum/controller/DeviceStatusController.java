@@ -1,6 +1,8 @@
 package com.unicom.quantum.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.util.JWTUtil;
@@ -13,9 +15,6 @@ import com.unicom.quantum.pojo.DeviceStatus;
 import com.unicom.quantum.service.AppConfigService;
 import com.unicom.quantum.service.AppStatusService;
 import com.unicom.quantum.service.DeviceStatusService;
-import com.unicom.quantum.service.OperateLogService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.binary.Base64;
@@ -41,9 +40,6 @@ public class DeviceStatusController {
 
     @Autowired
     private AppConfigService appConfigService;
-
-    @Autowired
-    private OperateLogService operateLogService;
 
     @Autowired
     private AppStatusService appStatusService;
@@ -118,10 +114,8 @@ public class DeviceStatusController {
     @ResponseBody
     public Result unicomGetDeviceStatusInfo(){
         DeviceStatusDataResponse deviceStatusInfo = deviceStatusService.getStatusShowInfo();
-//        List<OperateLog> operateLogs = operateLogService.getOperateLogsForDeviceInfoShow();
         JSONObject object = new JSONObject();
         object.put("deviceStatusInfo",deviceStatusInfo);
-//        object.put("logs",operateLogs);
         return ResultHelper.genResultWithSuccess(object);
     }
 

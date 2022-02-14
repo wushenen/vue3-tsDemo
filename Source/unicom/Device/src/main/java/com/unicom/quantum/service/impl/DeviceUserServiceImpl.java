@@ -91,7 +91,8 @@ public class DeviceUserServiceImpl implements DeviceUserService {
         deviceUserMapper.deleteKeyLimitByDeviceName(deviceInfo.getDeviceName());
         deviceUserMapper.deleteAppDevice(deviceId);
         deviceUserMapper.deleteDeviceStatus(deviceInfo.getDeviceName());
-        return deviceUserMapper.deleteDevice(deviceId);
+        deviceUserMapper.deleteDevice(deviceId);
+        return 0;
     }
 
     @OperateLogAnno(operateDesc = "查看终端用户信息", operateModel = OPERATE_MODEL)

@@ -10,14 +10,14 @@
     </insert>
 
     <!--判断分组名称是否唯一-->
-    <select id="groupNameExist" resultType="int">
+    <select id="groupNameExist" resultType="boolean">
         select count(*)
         from t_group
         where BINARY group_name = #{groupName};
     </select>
 
     <!--判断分组标识的唯一性-->
-    <select id="groupCodeExist" resultType="int">
+    <select id="groupCodeExist" resultType="boolean">
         select count(*)
         from t_group
         where BINARY group_code = #{groupCode};
