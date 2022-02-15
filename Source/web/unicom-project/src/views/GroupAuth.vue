@@ -217,7 +217,7 @@
         this.getAuthority(groupId);
       },
       async getCategory() {//一次性获取接口资源信息
-        const {data: res} = await this.$http.post('resource/getResource');
+        const {data: res} = await this.$http.get('resource/getResource');
         if (res.code !== 0) return this.$message.error('获取权限信息失败！');
         this.options = res.data;
       },
