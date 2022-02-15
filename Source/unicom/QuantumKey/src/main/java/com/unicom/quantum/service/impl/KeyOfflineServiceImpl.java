@@ -3,6 +3,7 @@ package com.unicom.quantum.service.impl;
 import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
+import com.unicom.quantum.component.util.DataTools;
 import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.mapper.KeyOfflineMapper;
 import com.unicom.quantum.pojo.DTO.KeyOfflineDTO;
@@ -36,8 +37,7 @@ public class KeyOfflineServiceImpl implements KeyOfflineService {
             System.arraycopy(random,i*48,keyId,0,16);
             System.arraycopy(random,i*48+16,keyValue,0,32);
             keyOffline.setKeyId(keyId);
-//            keyOffline.setKeyValue(UtilService.encryptMessage(keyValue));
-            keyOffline.setKeyValue(utilService.encryptCBCWithPadding(keyValue,UtilService.SM4KEY));
+            keyOffline.setKeyValue(DataTools.encryptMessage(keyValue));
             keyOfflineMapper.addOffKey(keyOffline);
         }
     }
@@ -59,8 +59,7 @@ public class KeyOfflineServiceImpl implements KeyOfflineService {
         for (KeyOffline offKey : offKeys) {
             KeyOfflineDTO dto = new KeyOfflineDTO();
             dto.setKeyId(Base64.encodeBase64String(offKey.getKeyId()));
-//            dto.setKeyValue(Base64.encodeBase64String(UtilService.decryptMessage(offKey.getKeyValue())));
-            dto.setKeyValue(Base64.encodeBase64String(utilService.decryptCBCWithPadding(offKey.getKeyValue(),UtilService.SM4KEY)));
+            dto.setKeyValue(Base64.encodeBase64String(DataTools.decryptMessage(offKey.getKeyValue())));
             list.add(dto);
         }
         return list;

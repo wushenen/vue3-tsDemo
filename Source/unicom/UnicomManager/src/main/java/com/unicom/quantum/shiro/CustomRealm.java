@@ -26,7 +26,6 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        System.out.println("--------权限判断--------");
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         ShiroUser userInfo = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
         if (UserType.SYSTEM_USER.getUserType().equals(userInfo.getUserType())){
@@ -45,7 +44,6 @@ public class CustomRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("----------身份认证---------");
         MyUserNamePasswordToken userNamePasswordToken = (MyUserNamePasswordToken) token;
         String userToken = userNamePasswordToken.getUsername();
         String userType = userNamePasswordToken.getUserType();

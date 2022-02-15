@@ -1,28 +1,22 @@
 package com.unicom.quantum.controller;
 
-import com.unicom.quantum.component.Exception.QuantumException;
-import com.unicom.quantum.pojo.User;
-import com.unicom.quantum.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.controller.vo.AddUserRequest;
 import com.unicom.quantum.controller.vo.UpdateUserRequest;
+import com.unicom.quantum.pojo.User;
+import com.unicom.quantum.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.util.List;
 
 @Api(tags = "系统用户管理接口")
@@ -63,7 +57,7 @@ public class UserController {
     @ApiOperation(value = "修改系统用户信息",notes = "修改系统用户信息（修改信息包括密码、备注）")
     @PostMapping(value = "/updateUserInfo")
     @ResponseBody
-    public Result unicomUpdateUserInfo(@RequestBody UpdateUserRequest updateUserRequest) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
+    public Result unicomUpdateUserInfo(@RequestBody UpdateUserRequest updateUserRequest) {
         userService.updateUser(updateUserRequest);
         return ResultHelper.genResultWithSuccess();
     }

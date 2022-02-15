@@ -2,6 +2,7 @@ package com.unicom.quantum.service.impl;
 
 import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.ResultHelper;
+import com.unicom.quantum.component.util.DataTools;
 import com.unicom.quantum.mapper.AppConfigConfigMapper;
 import com.unicom.quantum.pojo.App;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
@@ -14,6 +15,12 @@ import com.unicom.quantum.service.AppService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,12 +42,12 @@ public class AppServiceImpl implements AppService {
 
     @OperateLogAnno(operateDesc = "创建新应用", operateModel = OPERATE_MODEL)
     @Override
-    public int addApp(App app) throws QuantumException {
+    public int addApp(App app) throws Exception {
         if (appMapper.appExist(app.getAppName())) {
             throw new QuantumException(ResultHelper.genResult(1,"应用名称已存在"));
         } else {
-            app.setAppKey(utilService.encryptCBCWithPadding(utilService.createRandomCharData(24), UtilService.SM4KEY));
-            app.setAppSecret(utilService.encryptCBCWithPadding(utilService.createRandomCharData(32), UtilService.SM4KEY));
+            app.setAppKey(DataTools.encryptMessage(utilService.createRandomCharData(24)));
+            app.setAppSecret(DataTools.encryptMessage(utilService.createRandomCharData(32)));
             appMapper.addApp(app);
             return 0;
         }
@@ -65,11 +72,11 @@ public class AppServiceImpl implements AppService {
 
     @OperateLogAnno(operateDesc = "获取应用信息", operateModel = OPERATE_MODEL)
     @Override
-    public List<App> getApps() {
+    public List<App> getApps() throws Exception {
         List<App> list = appMapper.getApps();
         for (App app : list) {
-            app.setAppKey(utilService.decryptCBCWithPadding(app.getAppKey(), UtilService.SM4KEY));
-            app.setAppSecret(utilService.decryptCBCWithPadding(app.getAppSecret(), UtilService.SM4KEY));
+            app.setAppKey(DataTools.decryptMessage(app.getAppKey()));
+            app.setAppSecret(DataTools.decryptMessage(app.getAppSecret()));
         }
         return list;
     }

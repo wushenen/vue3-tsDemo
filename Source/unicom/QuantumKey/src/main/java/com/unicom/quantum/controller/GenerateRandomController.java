@@ -55,7 +55,7 @@ public class GenerateRandomController {
 
     /**
      * 产生临时密钥
-     * @param random
+     * @param generateTempKeyRequest
      * @return
      * @throws Exception
      */

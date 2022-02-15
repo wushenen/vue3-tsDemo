@@ -1,14 +1,13 @@
 package com.unicom.quantum.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.unicom.quantum.controller.vo.DeviceUserLoginRequest;
-import com.unicom.quantum.service.LoginService;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.util.JWTUtil;
 import com.unicom.quantum.component.util.SM3Util;
-import com.unicom.quantum.component.util.UtilService;
+import com.unicom.quantum.controller.vo.DeviceUserLoginRequest;
 import com.unicom.quantum.pojo.DeviceUser;
+import com.unicom.quantum.service.LoginService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.codec.binary.Base64;
@@ -36,27 +35,23 @@ public class LoginController {
     private SessionDAO sessionDAO;
     @Autowired
     private LoginService loginService;
-    @Autowired
-    private UtilService utilService;
-
 
     @ApiOperation(value = "终端用户登录",notes = "终端用户登录")
     @PostMapping(value = "/deviceLogin")
     @ResponseBody
-    public Result unicomDeviceLogin(@RequestBody DeviceUserLoginRequest deviceUserLoginRequest) {
+    public Result unicomDeviceLogin(@RequestBody DeviceUserLoginRequest deviceUserLoginRequest) throws Exception {
         boolean tag = false;
         String deviceName = StringUtils.newStringUtf8(Base64.decodeBase64(deviceUserLoginRequest.getDeviceName()));
         byte[] hmac1 = Base64.decodeBase64(deviceUserLoginRequest.getPassword());
         DeviceUser deviceUser = loginService.deviceUserLogin(deviceName);
         if (deviceUser !=null){
             if (deviceUser.getUserType() ==1) {
-                byte[] hash = SM3Util.hash(utilService.decryptCBCWithPadding(deviceUser.getPassword(), UtilService.SM4KEY).getBytes());
-                byte[] hmac = SM3Util.hmac(utilService.decryptCBCWithPadding(deviceUser.getEncKey(), UtilService.SM4KEY), hash);
+                byte[] hash = SM3Util.hash(deviceUser.getPassword().getBytes());
+                byte[] hmac = SM3Util.hmac(deviceUser.getEncKey(), hash);
                 tag = Arrays.equals(hmac, hmac1);
             }
             if (deviceUser.getUserType() == 0)
-                tag = utilService.decryptCBCWithPadding(deviceUser.getPassword(),UtilService.SM4KEY).equals(deviceUserLoginRequest.getPassword());
-            //判断用户成功后，获取用户的权限信息
+                tag = Arrays.equals(deviceUser.getPassword().getBytes(),Base64.decodeBase64(deviceUserLoginRequest.getPassword()));
             if (tag){
                 String token = JWTUtil.generateToken(deviceUser.getDeviceName());
                 UsernamePasswordToken userToken = new UsernamePasswordToken(token, token);

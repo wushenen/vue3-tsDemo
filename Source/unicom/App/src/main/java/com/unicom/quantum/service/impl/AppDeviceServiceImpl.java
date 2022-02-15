@@ -22,20 +22,18 @@ public class AppDeviceServiceImpl implements AppDeviceService {
     @OperateLogAnno(operateDesc = "应用绑定终端", operateModel = OPERATE_MODEL)
     @Override
     public int addAppDevice(AppDeviceRequest appDeviceRequest) throws QuantumException {
-        boolean flag = false;
         for (Integer deviceId : appDeviceRequest.getDeviceIds()) {
-            //TODO 此处逻辑是否需要优化？考虑
-            if (!appDeviceMapper.appDeviceExist(appDeviceRequest.getAppId(),deviceId)) {
-                appDeviceMapper.addAppDevice(appDeviceRequest.getAppId(),deviceId);
-                String deviceName = appDeviceMapper.getDeviceName(deviceId);
-                if (!appDeviceMapper.deviceStatusInfoExist(deviceName)) {
-                    appDeviceMapper.addDeviceToDeviceStatus(deviceName);
-                }
-            }else {
-                flag = true;
+            if (appDeviceMapper.appDeviceExist(appDeviceRequest.getAppId(), deviceId)) {
+                throw new QuantumException(ResultHelper.genResult(1, appDeviceMapper.getDeviceName(deviceId) + "终端已绑定其它应用，若想绑定至该应用请先解除其他应用绑定终端已绑定其它应用，若想绑定至该应用请先解除其他应用绑定"));
             }
         }
-        if (flag) throw new QuantumException(ResultHelper.genResult(1,"部分终端已绑定其它应用，若想绑定至该应用请先解除其他应用绑定"));
+        for (Integer deviceId : appDeviceRequest.getDeviceIds()) {
+            appDeviceMapper.addAppDevice(appDeviceRequest.getAppId(), deviceId);
+            String deviceName = appDeviceMapper.getDeviceName(deviceId);
+            if (!appDeviceMapper.deviceStatusInfoExist(deviceName)) {
+                appDeviceMapper.addDeviceToDeviceStatus(deviceName);
+            }
+        }
         return 0;
     }
 

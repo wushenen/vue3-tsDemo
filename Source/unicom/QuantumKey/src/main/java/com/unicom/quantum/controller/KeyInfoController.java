@@ -1,19 +1,20 @@
 package com.unicom.quantum.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.unicom.quantum.component.util.UtilService;
-import com.unicom.quantum.pojo.KeyLimit;
-import com.unicom.quantum.pojo.MailInfo;
-import com.unicom.quantum.service.KeyLimitService;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
+import com.unicom.quantum.component.util.DataTools;
 import com.unicom.quantum.component.util.JWTUtil;
-import com.unicom.quantum.controller.vo.GetApplicantKeyIdRequest;
-import com.unicom.quantum.service.DeviceUserService;
+import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.controller.vo.ExportKeyInfosRequest;
+import com.unicom.quantum.controller.vo.GetApplicantKeyIdRequest;
 import com.unicom.quantum.controller.vo.KeyInfoRequest;
 import com.unicom.quantum.pojo.KeyInfo;
+import com.unicom.quantum.pojo.KeyLimit;
+import com.unicom.quantum.pojo.MailInfo;
+import com.unicom.quantum.service.DeviceUserService;
 import com.unicom.quantum.service.KeyInfoService;
+import com.unicom.quantum.service.KeyLimitService;
 import com.unicom.quantum.service.MailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,18 +22,11 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
-import java.io.IOException;
 import java.net.URLEncoder;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -70,28 +64,12 @@ public class KeyInfoController {
         if (token != null){
             String deviceName = JWTUtil.getUsername(token);
             String encKey = deviceUserService.getEncKey(deviceName);
-            if (encKey == null)
-                return ResultHelper.genResult(1,"用户加密密钥错误");
-            //终端请求的参数都是Base64编码的，需要进行解码才可以使用
             byte[] keyId = Base64.decodeBase64(keyInfoRequest.getKeyId());
-            byte[] keyValue;
-            KeyInfo key = keyInfoService.getKeyInfo(keyId);
-            if (key == null) {
-                keyValue = utilService.generateQuantumRandom(32);
-//                byte[] encryptKeyValue = UtilService.encryptMessage(keyValue);
-                byte[] encryptKeyValue = utilService.encryptCBCWithPadding(keyValue,UtilService.SM4KEY);
-                keyInfoService.addKeyInfo(keyId,encryptKeyValue,deviceName,2);
-            }else{
-                if (key.getKeyStatus() == 1)
-                    return ResultHelper.genResult(1,"此量子密钥不可使用，请更换量子密钥");
-//                keyValue = UtilService.decryptMessage(key.getKeyValue());
-                keyValue = utilService.decryptCBCWithPadding(key.getKeyValue(),UtilService.SM4KEY);
-                keyInfoService.updateKeyInfo(keyId,2);
-            }
+            KeyInfo key = keyInfoService.getKeyInfo(keyId,deviceName);
+            if (key.getKeyStatus() == 1)
+                return ResultHelper.genResult(1,"此量子密钥不可使用，请更换量子密钥");
             sendEmail(deviceName);
-            //使用请求者的加密密钥进行SM4加密
-            byte[] encryptCBCKeyValue = utilService.encryptCBC(keyValue, encKey.substring(0,32));
-            //返回终端的信息，需要Base64编码
+            byte[] encryptCBCKeyValue = utilService.encryptCBC(key.getKeyValue(), encKey.substring(0,32));
             object.put("keyValue",Base64.encodeBase64String(encryptCBCKeyValue));
             return ResultHelper.genResultWithSuccess(object);
         }
@@ -221,16 +199,15 @@ public class KeyInfoController {
     @ApiOperation(value = "导出量子密钥",notes = "导出指定用户的全部量子密钥")
     @PostMapping(value = "/exportKeyInfos")
     @ResponseBody
-    public Result unicomExportKeyInfos(HttpServletResponse response, @RequestBody ExportKeyInfosRequest exportKeyInfosRequest) throws IOException, NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
+    public Result unicomExportKeyInfos(HttpServletResponse response, @RequestBody ExportKeyInfosRequest exportKeyInfosRequest) throws Exception {
         List<KeyInfo> keyInfos = keyInfoService.getKeyInfosNotInKeyStatus(exportKeyInfosRequest.getApplicant(),1);
         StringBuffer sb = new StringBuffer();
         for (KeyInfo keyInfo : keyInfos) {
             sb.append("keyId:"+Base64.encodeBase64String(keyInfo.getKeyId()));
             sb.append("    ");
-            sb.append("keyValue:"+Base64.encodeBase64String(utilService.decryptCBCWithPadding(keyInfo.getKeyValue(),UtilService.SM4KEY)));
+            sb.append("keyValue:"+Base64.encodeBase64String(DataTools.decryptMessage(keyInfo.getKeyValue())));
             sb.append("\n");
         }
-        //将密钥信息进行base64编码
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/plain");
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(exportKeyInfosRequest.getApplicant()+"量子密钥信息.txt","utf-8"));

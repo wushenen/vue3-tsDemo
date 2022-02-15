@@ -1,13 +1,12 @@
 package com.unicom.quantum.controller;
 
-import com.unicom.quantum.component.Exception.QuantumException;
-import com.unicom.quantum.controller.vo.AddAppRequest;
-import com.unicom.quantum.component.Result;
-import com.unicom.quantum.component.ResultHelper;
-import com.unicom.quantum.pojo.App;
-import com.unicom.quantum.service.AppService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.unicom.quantum.component.Result;
+import com.unicom.quantum.component.ResultHelper;
+import com.unicom.quantum.controller.vo.AddAppRequest;
+import com.unicom.quantum.pojo.App;
+import com.unicom.quantum.service.AppService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.BeanUtils;
@@ -27,7 +26,7 @@ public class AppController {
     @ApiOperation(value = "添加应用",notes = "添加应用")
     @PostMapping(value = "/addApp")
     @ResponseBody
-    public Result unicomAddApp(@RequestBody AddAppRequest addAppRequest) throws QuantumException {
+    public Result unicomAddApp(@RequestBody AddAppRequest addAppRequest) throws Exception {
         App app = new App();
         BeanUtils.copyProperties(addAppRequest,app);
         appService.addApp(app);
@@ -45,7 +44,7 @@ public class AppController {
     @ApiOperation(value = "获取应用",notes = "获取应用")
     @GetMapping(value = "/getApps/{offset}/{pageSize}")
     @ResponseBody
-    public Result unicomGetApps(@PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) {
+    public Result unicomGetApps(@PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) throws Exception {
         PageHelper.startPage(offset,pageSize);
         List<App> apps = appService.getApps();
         PageInfo<App> info = new PageInfo<>(apps);

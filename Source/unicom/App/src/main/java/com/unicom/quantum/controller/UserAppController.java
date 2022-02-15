@@ -13,6 +13,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.List;
 
 @Api(tags = "管理员管理应用接口")
@@ -52,7 +58,7 @@ public class UserAppController {
     @ApiOperation(value = "获取管理员所管理的应用",notes = "获取管理员所管理的应用")
     @GetMapping(value = "/getManagerApps/{offset}/{pageSize}")
     @ResponseBody
-    public Result unicomGetManagerApps(@RequestParam("userId") int userId, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) {
+    public Result unicomGetManagerApps(@RequestParam("userId") int userId, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize) throws Exception {
         PageHelper.startPage(offset,pageSize);
         List<App> currentManagerApp = userAppService.getCurrentManagerApp(userId);
         PageInfo<App> info = new PageInfo<>(currentManagerApp);

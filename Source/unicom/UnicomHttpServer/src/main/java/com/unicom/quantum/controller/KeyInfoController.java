@@ -6,11 +6,11 @@ import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.util.JWTUtil;
 import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.controller.vo.BatchKeyInfoSDKRequest;
-import com.unicom.quantum.pojo.KeyInfo;
-import com.unicom.quantum.service.KeyInfoService;
 import com.unicom.quantum.controller.vo.KeyInfoSDKRequest;
+import com.unicom.quantum.pojo.KeyInfo;
 import com.unicom.quantum.pojo.MailInfo;
 import com.unicom.quantum.service.DeviceUserService;
+import com.unicom.quantum.service.KeyInfoService;
 import com.unicom.quantum.service.MailService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -50,28 +50,12 @@ public class KeyInfoController {
         if (token != null){
             String deviceName = JWTUtil.getUsername(token);
             String encKey = deviceUserService.getEncKey(deviceName);
-            if (encKey == null)
-                return ResultHelper.genResult(1,"用户加密密钥错误");
-            //终端请求的参数都是Base64编码的，需要进行解码才可以使用
             byte[] keyId = Base64.decodeBase64(keyInfoRequest.getKeyId());
-            byte[] keyValue;
-            KeyInfo key = keyInfoService.getKeyInfo(keyId);
-            if (key == null) {
-                keyValue = utilService.generateQuantumRandom(32);
-    //                byte[] encryptKeyValue = UtilService.encryptMessage(keyValue);
-                byte[] encryptKeyValue = utilService.encryptCBCWithPadding(keyValue,UtilService.SM4KEY);
-                keyInfoService.addKeyInfo(keyId,encryptKeyValue,deviceName,2);
-            }else{
-                if (key.getKeyStatus() == 1)
-                    return ResultHelper.genResult(1,"此量子密钥不可使用，请更换量子密钥");
-    //                keyValue = UtilService.decryptMessage(key.getKeyValue());
-                keyValue = utilService.decryptCBCWithPadding(key.getKeyValue(),UtilService.SM4KEY);
-                keyInfoService.updateKeyInfo(keyId,2);
-            }
+            KeyInfo key = keyInfoService.getKeyInfo(keyId,deviceName);
+            if (key.getKeyStatus() == 1)
+                return ResultHelper.genResult(1,"此量子密钥不可使用，请更换量子密钥");
             sendEmail(deviceName);
-            //使用请求者的加密密钥进行SM4加密
-            byte[] encryptCBCKeyValue = utilService.encryptCBC(keyValue, encKey.substring(0,32));
-            //返回终端的信息，需要Base64编码
+            byte[] encryptCBCKeyValue = utilService.encryptCBC(key.getKeyValue(), encKey.substring(0,32));
             object.put("keyValue",Base64.encodeBase64String(encryptCBCKeyValue));
             return ResultHelper.genResultWithSuccess(object);
         }
@@ -88,28 +72,14 @@ public class KeyInfoController {
         if (token != null){
             String deviceName = JWTUtil.getUsername(token);
             String encKey = deviceUserService.getEncKey(deviceName);
-            if (encKey == null)
-                return ResultHelper.genResult(1,"用户加密密钥错误");
             ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>();
             for (String batchKeyId : batchKeyInfoSDKRequest.getKeyIds()) {
                 byte[] keyId = Base64.decodeBase64(batchKeyId);
-                KeyInfo key = keyInfoService.getKeyInfo(keyId);
-                if (key == null) {
-                    byte[] keyValue = utilService.generateQuantumRandom(32);
-                    //byte[] encryptKeyValue = UtilService.encryptMessage(keyValue);
-                    byte[] encryptKeyValue = utilService.encryptCBCWithPadding(keyValue,UtilService.SM4KEY);
-                    keyInfoService.addKeyInfo(keyId,encryptKeyValue,deviceName,2);
-                    byte[] encryptCBCKeyValue = utilService.encryptCBC(keyValue, encKey.substring(0,32));
-                    map.put(batchKeyId,Base64.encodeBase64String(encryptCBCKeyValue));
-                }else{
-                    if (key.getKeyStatus() == 1)
-                        map.put(batchKeyId,Base64.encodeBase64String("This keyId is not available".getBytes()));
-                    //keyValue = UtilService.decryptMessage(key.getKeyValue());
-                    byte[] keyValue = utilService.decryptCBCWithPadding(key.getKeyValue(), UtilService.SM4KEY);
-                    keyInfoService.updateKeyInfo(keyId,2);
-                    byte[] encryptCBCKeyValue = utilService.encryptCBC(keyValue, encKey.substring(0,32));
-                    map.put(batchKeyId,Base64.encodeBase64String(encryptCBCKeyValue));
-                }
+                KeyInfo key = keyInfoService.getKeyInfo(keyId,deviceName);
+                if (key.getKeyStatus() == 1)
+                    map.put(batchKeyId,Base64.encodeBase64String("This keyId is not available".getBytes()));
+                byte[] encryptCBCKeyValue = utilService.encryptCBC(key.getKeyValue(), encKey.substring(0,32));
+                map.put(batchKeyId,Base64.encodeBase64String(encryptCBCKeyValue));
             }
             sendEmail(deviceName);
             object.put("keyValues", map);

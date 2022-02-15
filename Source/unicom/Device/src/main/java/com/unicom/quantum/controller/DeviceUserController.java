@@ -7,7 +7,6 @@ import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.util.UtilService;
@@ -134,7 +133,7 @@ public class DeviceUserController {
     @ApiOperation(value = "修改终端用户信息" ,notes = "修改终端用户信息")
     @PostMapping(value = "/updateDevice")
     @ResponseBody
-    public Result unicomUpdateDevice(@RequestBody UpdateUserInfoRequest updateUserInfoRequest) throws QuantumException {
+    public Result unicomUpdateDevice(@RequestBody UpdateUserInfoRequest updateUserInfoRequest) throws Exception {
         deviceUserService.updateDevice(updateUserInfoRequest);
         return ResultHelper.genResultWithSuccess();
     }
@@ -168,7 +167,7 @@ public class DeviceUserController {
     @ApiOperation(value = "批量导出终端用户信息",notes = "导出选中的终端用户信息")
     @PostMapping(value = "/exportDeviceUsers")
     @ResponseBody
-    public void unicomExportDeviceUsers(HttpServletResponse response, @RequestBody ExportDeviceUserRequest exportDeviceUserRequest) throws IOException {
+    public void unicomExportDeviceUsers(HttpServletResponse response, @RequestBody ExportDeviceUserRequest exportDeviceUserRequest) throws Exception {
         List<ExportDeviceUserInfo> deviceUsers = deviceUserService.exportDeviceUserInfo(exportDeviceUserRequest.getDeviceIds());
         Object o = JSONObject.toJSON(deviceUsers);
         response.setCharacterEncoding("UTF-8");

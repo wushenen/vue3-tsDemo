@@ -11,12 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -35,12 +29,6 @@ public class UtilService {
     private final String SM4IV = "00000000000000000000000000000000";
     public static final String SM4KEY = "304C1673505BF98B894DC2C496D24B33";
 
-
-    /**
-     * 获取量子随机数
-     * @param length
-     * @return
-     */
     public byte[] generateQuantumRandom(int length) throws Exception {
         List<KeySourceDetail> keySourceConfigs = keySourceConfigMapper.getKeySourceConfigs();
         int keySource = 0;
@@ -189,12 +177,7 @@ public class UtilService {
         return result;
     }
 
-    /**
-     * SM4 加密
-     * @param plainTextBytes
-     * @param key
-     * @return
-     */
+
     public byte[] encryptCBC(byte[] plainTextBytes, String key) {
         try {
             SM4Util sm4Util = new SM4Util();
@@ -205,24 +188,6 @@ public class UtilService {
         return null;
     }
 
-    public String encryptCBC(String plainTextBytes, String key) {
-        try {
-            SM4Util sm4Util = new SM4Util();
-            return HexUtils.bytesToHexString(sm4Util.encryptDataCBC(plainTextBytes.getBytes(), key, SM4IV));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public byte[] encryptCBCWithPadding(byte[] plainTextBytes, String key) {
-        try {
-            SM4Util sm4Util = new SM4Util();
-            return sm4Util.encryptDataCBCWithPadding(plainTextBytes, key, SM4IV);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public String encryptCBCWithPadding(String plainTextBytes, String key) {
         try {
@@ -235,31 +200,6 @@ public class UtilService {
     }
 
 
-    /**
-     * SM4 解密
-     * @param cipherText
-     * @param key
-     * @return
-     */
-    public byte[] decryptCBC(byte[] cipherText, String key) {
-        try {
-            SM4Util sm4Util = new SM4Util();
-            return sm4Util.decryptDataCBC(cipherText, key, SM4IV);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public String decryptCBC(String cipherText, String key) {
-        try {
-            SM4Util sm4Util = new SM4Util();
-            return new String(sm4Util.decryptDataCBC(HexUtils.hexStringToBytes(cipherText), key, SM4IV)).trim();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
     public byte[] decryptCBCWithPadding(byte[] cipherText, String key) {
         try {
             SM4Util sm4Util = new SM4Util();
@@ -281,81 +221,11 @@ public class UtilService {
     }
 
 
-    /**
-     * 随机生成指定长度的byte数组
-     * @param length
-     * @return
-     */
     private byte[] randomByte(int length){
         byte[] randomBytes = new byte[length];
         ThreadLocalRandom.current().nextBytes(randomBytes);
         return randomBytes;
     }
-
-    /**
-     * 使用密码卡内部加密，返回 hexString
-     * @param plain
-     * @return
-     * @throws NoSuchPaddingException
-     * @throws NoSuchAlgorithmException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
-     * @throws NoSuchProviderException
-     * @throws InvalidKeyException
-     */
-    public static String encryptMessage(String plain) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
-        byte[] bytes = SwsdsTools.SDF_Encrypt1(plain.getBytes(), 1);
-        return HexUtils.bytesToHexString(bytes);
-    }
-
-    /**
-     * 使用密码卡内部解密，返回 String
-     * @param cipher
-     * @return
-     * @throws NoSuchPaddingException
-     * @throws NoSuchAlgorithmException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
-     * @throws NoSuchProviderException
-     * @throws InvalidKeyException
-     */
-    public static String decryptMessage(String cipher) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
-        byte[] bytes = HexUtils.hexStringToBytes(cipher);
-        byte[] decrypt = SwsdsTools.SDF_Decrypt1(bytes, 1);
-        return new String(decrypt);
-    }
-
-    /**
-     * 使用密码卡内部加密，返回 byte
-     * @param plain
-     * @return
-     * @throws NoSuchPaddingException
-     * @throws NoSuchAlgorithmException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
-     * @throws NoSuchProviderException
-     * @throws InvalidKeyException
-     */
-    public static byte[] encryptMessage(byte[] plain) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
-        return SwsdsTools.SDF_Encrypt1(plain, 1);
-    }
-
-    /**
-     * 使用密码卡内部解密，返回 byte
-     * @param cipher
-     * @return
-     * @throws NoSuchPaddingException
-     * @throws NoSuchAlgorithmException
-     * @throws IllegalBlockSizeException
-     * @throws BadPaddingException
-     * @throws NoSuchProviderException
-     * @throws InvalidKeyException
-     */
-    public static byte[] decryptMessage(byte[] cipher) throws NoSuchPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchProviderException, InvalidKeyException {
-        return SwsdsTools.SDF_Decrypt1(cipher, 1);
-    }
-
-
 
 
 }

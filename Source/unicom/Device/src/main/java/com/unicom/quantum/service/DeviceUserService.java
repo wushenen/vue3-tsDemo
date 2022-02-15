@@ -5,6 +5,12 @@ import com.unicom.quantum.pojo.DTO.ExportDeviceUserInfo;
 import com.unicom.quantum.pojo.DeviceUser;
 import com.unicom.quantum.controller.vo.UpdateUserInfoRequest;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.util.List;
 
 public interface DeviceUserService {
@@ -22,7 +28,7 @@ public interface DeviceUserService {
     int addDeviceUser(DeviceUser deviceUser) throws Exception;
 
     /*修改终端用户信息*/
-    int updateDevice(UpdateUserInfoRequest updateUserInfoRequest) throws QuantumException;
+    int updateDevice(UpdateUserInfoRequest updateUserInfoRequest) throws Exception;
 
     /*删除终端用户信息*/
     int deleteDevice(int deviceId);
@@ -31,9 +37,9 @@ public interface DeviceUserService {
     List<DeviceUser> queryDeviceUser(String deviceName);
 
     /*导出指定用户*/
-    List<ExportDeviceUserInfo> exportDeviceUserInfo(List<Integer> deviceIds);
+    List<ExportDeviceUserInfo> exportDeviceUserInfo(List<Integer> deviceIds) throws Exception;
 
     /*获取终端用户加密密钥*/
-    String getEncKey(String deviceName);
+    String getEncKey(String deviceName) throws Exception;
 
 }

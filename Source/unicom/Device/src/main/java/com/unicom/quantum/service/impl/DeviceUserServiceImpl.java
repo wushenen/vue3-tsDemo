@@ -2,14 +2,15 @@ package com.unicom.quantum.service.impl;
 
 import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.ResultHelper;
+import com.unicom.quantum.component.annotation.OperateLogAnno;
+import com.unicom.quantum.component.util.DataTools;
+import com.unicom.quantum.component.util.HexUtils;
 import com.unicom.quantum.component.util.UtilService;
+import com.unicom.quantum.controller.vo.UpdateUserInfoRequest;
 import com.unicom.quantum.mapper.DeviceUserMapper;
-import com.unicom.quantum.service.DeviceUserService;
 import com.unicom.quantum.pojo.DTO.ExportDeviceUserInfo;
 import com.unicom.quantum.pojo.DeviceUser;
-import com.unicom.quantum.component.annotation.OperateLogAnno;
-import com.unicom.quantum.component.util.HexUtils;
-import com.unicom.quantum.controller.vo.UpdateUserInfoRequest;
+import com.unicom.quantum.service.DeviceUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -57,12 +58,9 @@ public class DeviceUserServiceImpl implements DeviceUserService {
         if (deviceUserMapper.userNameIsExist(deviceUser.getDeviceName())) {
             throw new QuantumException(ResultHelper.genResult(1,"用户名已被占用"));
         }
-        deviceUser.setPassword(utilService.encryptCBCWithPadding(deviceUser.getPassword(),UtilService.SM4KEY));
-        if (deviceUser.getEncKey() != null) {
-            deviceUser.setEncKey(utilService.encryptCBCWithPadding(deviceUser.getEncKey(),UtilService.SM4KEY));
-        }
+        deviceUser.setPassword(DataTools.encryptMessage(deviceUser.getPassword()));
         if (deviceUser.getUserType() == 1){
-            deviceUser.setEncKey(utilService.generateQuantumRandom(32));
+            deviceUser.setEncKey(DataTools.encryptMessage(utilService.generateQuantumRandom(32)));
         }
         deviceUserMapper.addDeviceUser(deviceUser);
         return 0;
@@ -70,13 +68,13 @@ public class DeviceUserServiceImpl implements DeviceUserService {
 
     @OperateLogAnno(operateDesc = "修改终端用户信息", operateModel = OPERATE_MODEL)
     @Override
-    public int updateDevice(UpdateUserInfoRequest updateUserInfoRequest) throws QuantumException {
+    public int updateDevice(UpdateUserInfoRequest updateUserInfoRequest) throws Exception {
         String oldDeviceName = deviceUserMapper.getDeviceInfo(updateUserInfoRequest.getDeviceId()).getDeviceName();
         if (!oldDeviceName.equals(updateUserInfoRequest.getDeviceName()) && deviceUserMapper.userNameIsExist(updateUserInfoRequest.getDeviceName())) {
             throw new QuantumException(ResultHelper.genResult(1,"用户名已被占用"));
         }
         if (updateUserInfoRequest.getPassword()!=null) {
-            updateUserInfoRequest.setPassword(utilService.encryptCBCWithPadding(updateUserInfoRequest.getPassword(),UtilService.SM4KEY));
+            updateUserInfoRequest.setPassword(DataTools.encryptMessage(updateUserInfoRequest.getPassword()));
         }
         return deviceUserMapper.updateDevice(updateUserInfoRequest);
     }
@@ -102,20 +100,23 @@ public class DeviceUserServiceImpl implements DeviceUserService {
     }
 
     @Override
-    public List<ExportDeviceUserInfo> exportDeviceUserInfo(List<Integer> deviceIds) {
+    public List<ExportDeviceUserInfo> exportDeviceUserInfo(List<Integer> deviceIds) throws Exception {
         List<ExportDeviceUserInfo> userInfos = deviceUserMapper.exportDeviceUserInfo(deviceIds);
         for (ExportDeviceUserInfo userInfo : userInfos) {
-            userInfo.setPassword(utilService.decryptCBCWithPadding(userInfo.getPassword(),UtilService.SM4KEY));
+            userInfo.setPassword(DataTools.decryptMessage(userInfo.getPassword()));
             if (userInfo.getEncKey() != null) {
-                userInfo.setEncKey(HexUtils.bytesToHexString(utilService.decryptCBCWithPadding(HexUtils.hexStringToBytes(userInfo.getEncKey()),UtilService.SM4KEY)));
+                userInfo.setEncKey(HexUtils.bytesToHexString(DataTools.decryptMessage(HexUtils.hexStringToBytes(userInfo.getEncKey()))));
             }
         }
         return userInfos;
     }
 
     @Override
-    public String getEncKey(String deviceName) {
-        return HexUtils.bytesToHexString(utilService.decryptCBCWithPadding(HexUtils.hexStringToBytes(deviceUserMapper.getEncKey(deviceName)),UtilService.SM4KEY));
-//        return utilService.decryptCBC(deviceUserMapper.getEncKey(deviceName),UtilService.SM4KEY);
+    public String getEncKey(String deviceName) throws Exception {
+        String encKey = HexUtils.bytesToHexString(DataTools.decryptMessage(HexUtils.hexStringToBytes(deviceUserMapper.getEncKey(deviceName))));
+        if (encKey != null && !encKey.equals(""))
+            return encKey;
+        else
+            throw new QuantumException(ResultHelper.genResult(1,"用户加密密钥错误"));
     }
 }

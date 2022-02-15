@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.util.*;
-import com.unicom.quantum.service.LoginService;
 import com.unicom.quantum.controller.vo.SystemUserLoginRequest;
 import com.unicom.quantum.pojo.User;
+import com.unicom.quantum.service.LoginService;
 import com.unicom.quantum.shiro.MyUserNamePasswordToken;
 import com.unicom.quantum.shiro.ShiroUser;
 import io.swagger.annotations.Api;
@@ -35,17 +35,12 @@ public class LoginController {
     @Autowired
     private LoginService loginService;
 
-    @Autowired
-    private UtilService utilService;
-
     @ApiOperation(value = "系统用户登录",notes = "系统用户登录")
     @ResponseBody
     @PostMapping(value = "/sysLogin")
-    public Result unicomSysLogin(@RequestBody SystemUserLoginRequest systemUserLoginRequest)  {
+    public Result unicomSysLogin(@RequestBody SystemUserLoginRequest systemUserLoginRequest) throws Exception {
         User login = loginService.systemUserLogin(systemUserLoginRequest.getUserName());
-        if (login == null)
-            return ResultHelper.genResult(1,"用户不存在");
-        String s = HexUtils.bytesToHexString(SM3Util.hash(SM4Util.byteMerger(utilService.decryptCBCWithPadding(login.getPassword(), UtilService.SM4KEY).getBytes(),systemUserLoginRequest.getUserName().getBytes())));
+        String s = HexUtils.bytesToHexString(SM3Util.hash(SM4Util.byteMerger(login.getPassword().getBytes(),systemUserLoginRequest.getUserName().getBytes())));
         if (systemUserLoginRequest.getPassword().equalsIgnoreCase(s)){
             String jwtToken = JWTUtil.generateToken(systemUserLoginRequest.getUserName());
             UsernamePasswordToken token = new MyUserNamePasswordToken(jwtToken,jwtToken,"systemUser");

@@ -1,6 +1,8 @@
 package com.unicom.quantum.service.impl;
 
 import com.unicom.quantum.component.annotation.OperateLogAnno;
+import com.unicom.quantum.component.util.DataTools;
+import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.mapper.KeyInfoMapper;
 import com.unicom.quantum.mapper.KeyLimitMapper;
 import com.unicom.quantum.pojo.KeyInfo;
@@ -23,15 +25,25 @@ public class KeyInfoServiceImpl implements KeyInfoService {
     @Autowired
     private KeyLimitMapper keyLimitMapper;
 
+    @Autowired
+    private UtilService utilService;
+
     @Override
-    public void addKeyInfo(byte[] keyId,byte[] keyValue,String applicant, int keyStatus) {
-        keyInfoMapper.addKeyInfo(keyId, keyValue, applicant,keyStatus);
+    public void addKeyInfo(byte[] keyId,byte[] keyValue,String applicant, int keyStatus) throws Exception {
+        keyInfoMapper.addKeyInfo(keyId, DataTools.encryptMessage(keyValue), applicant,keyStatus);
     }
 
-    @OperateLogAnno(operateDesc = "获取量子密钥", operateModel = OPERATE_MODEL)
     @Override
-    public KeyInfo getKeyInfo(byte[] keyId) {
+    public KeyInfo getKeyInfo(byte[] keyId, String deviceName) throws Exception {
+        byte[] keyValue;
         KeyInfo keyInfo = keyInfoMapper.getKeyInfo(keyId);
+        if (keyInfo == null) {
+            keyValue = utilService.generateQuantumRandom(32);
+            keyInfoMapper.addKeyInfo(keyId,keyValue,deviceName,2);
+        }else{
+            keyInfo.setKeyValue(DataTools.decryptMessage(keyInfo.getKeyValue()));
+            keyInfoMapper.updateKeyInfo(keyId,2);
+        }
         return keyInfo;
     }
 

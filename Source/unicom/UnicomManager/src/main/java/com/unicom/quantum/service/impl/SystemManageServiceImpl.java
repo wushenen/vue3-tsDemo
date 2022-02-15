@@ -5,8 +5,8 @@ import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.component.util.CmdUtil;
+import com.unicom.quantum.component.util.DataTools;
 import com.unicom.quantum.component.util.NetworkUtil;
-import com.unicom.quantum.component.util.SwsdsTools;
 import com.unicom.quantum.controller.vo.LinuxServerRequest;
 import com.unicom.quantum.mapper.QkmVersionMapper;
 import com.unicom.quantum.pojo.QkmVersion;
@@ -108,13 +108,9 @@ public class SystemManageServiceImpl implements SystemManageService {
     @Override
     public String init() throws Exception {
         Map<String, String> qkmVersion = getQkmVersion();
-        if(1 == SwsdsTools.getKeyIndex()){
+        if(1 == DataTools.getKeyIndex()){
             String ml = "sh "+ cmdPath +"addSymmetric.sh "+" 1"+" 128 "+cmdPath;
             CmdUtil.executeLinuxCmd(ml);
-        }
-        if(1 == SwsdsTools.getKeyPairIndex(1)){
-            SwsdsTools.generateKeyPair(1,1);
-            SwsdsTools.generateKeyPair(1,2);
         }
         if ("初始".equals(qkmVersion.get("systemStatus"))) {
             qkmVersionMapper.updateStateOk(qkmVersion.get("macAddr"));
