@@ -15,25 +15,13 @@ public class CustomRealm extends AuthorizingRealm {
     @Autowired
     private LoginService loginService;
 
-    /**
-     * 权限校验
-     * @param principals
-     * @return
-     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         return null;
     }
 
-    /**
-     * 身份认证
-     * @param token
-     * @return
-     * @throws AuthenticationException
-     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        System.out.println("----------身份认证---------");
         UsernamePasswordToken userNamePasswordToken = (UsernamePasswordToken) token;
         String userToken = userNamePasswordToken.getUsername();
         String username = null;

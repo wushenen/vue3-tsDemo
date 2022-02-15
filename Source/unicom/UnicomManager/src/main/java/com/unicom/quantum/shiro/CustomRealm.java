@@ -19,11 +19,6 @@ public class CustomRealm extends AuthorizingRealm {
     @Autowired
     private LoginService loginService;
 
-    /**
-     * 权限校验
-     * @param principals
-     * @return
-     */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
@@ -36,12 +31,6 @@ public class CustomRealm extends AuthorizingRealm {
         return info;
     }
 
-    /**
-     * 身份认证
-     * @param token
-     * @return
-     * @throws AuthenticationException
-     */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
         MyUserNamePasswordToken userNamePasswordToken = (MyUserNamePasswordToken) token;
