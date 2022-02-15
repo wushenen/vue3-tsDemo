@@ -22,7 +22,7 @@ public class UnicomServerApplication implements ApplicationRunner {
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         List<IpInfo> allIps = ipService.getAllIps();
         if (allIps.size() != 0) {
             for (IpInfo ipInfo : allIps) {
