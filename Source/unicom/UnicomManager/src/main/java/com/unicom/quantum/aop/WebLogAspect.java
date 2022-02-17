@@ -18,8 +18,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -37,10 +35,8 @@ import java.util.Map;
 @Component
 public class WebLogAspect {
 
-    private final Logger logger = LoggerFactory.getLogger(WebLogAspect.class);
     @Autowired
     OperateLogService operateLogService;
-
 
     @Pointcut("execution(public * com.unicom.quantum.service.impl..*.*(..))")
     public void controllerLog1(){}
@@ -63,7 +59,6 @@ public class WebLogAspect {
             operateLog.setExecTime(System.currentTimeMillis() - start);
             operateLog.setOperateStatus(0);
             operateLogService.insertOperateLog(getOperateLog(operateLog,methodDesc));
-            logger.info("保存日志" + operateLog);
             System.out.println(result);
         } else {
             result = joinPoint.proceed();
@@ -80,7 +75,6 @@ public class WebLogAspect {
         OperateLog operateLog = new OperateLog();
         operateLog.setOperateStatus(1);
         operateLogService.insertOperateLog(getOperateLog(operateLog,methodDesc));
-        logger.error("失败日志记录：" + operateLog);
     }
     private Map<String, String> getMethodDesc(JoinPoint joinPoint) throws NoSuchMethodException {
         Map<String, String> methodDetails = new HashMap<>();
