@@ -1,7 +1,7 @@
 server:
   servlet :
     context-path: /unicom
-  port: 9999
+  port: 8888
   ssl:
     key-store: classpath:certificate/unicom.keystore
     key-store-password: unicom

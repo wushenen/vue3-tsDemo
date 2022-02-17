@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -61,8 +62,18 @@ public class AppStatusServiceImpl implements AppStatusService {
                 deviceNames.add(appDevice.getDeviceName());
             }
         }
-        if (deviceNames.size()!=0)
+        if (deviceNames.size() != 0) {
             deviceStatuses = appStatusMapper.listDeviceStatusInfo(deviceNames);
+            for (DeviceStatus deviceStatus : deviceStatuses) {
+                if (deviceStatus.getOnlineTime() != null) {
+                    long time = (new Date().getTime() - deviceStatus.getOnlineTime().getTime()) / 1000;
+                    long hours = time / 3600;
+                    long minutes = (time - (hours * 3600)) / 60;
+                    long seconds = time - (hours * 3600) - (minutes * 60);
+                    deviceStatus.setWorkTime(hours + "时" + minutes + "分" + seconds + "秒");
+                }
+            }
+        }
         return deviceStatuses;
     }
 }
