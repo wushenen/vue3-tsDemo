@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@Api(value = "qems配置接口",tags = "qems配置接口")
+@Api(value = "应用配置接口",tags = "应用配置接口")
 @RestController
 @RequestMapping("/qems")
 public class AppConfigController {
@@ -49,7 +49,7 @@ public class AppConfigController {
     }
 
     @RequiresRoles(value = {"admin","deviceUser"},logical = Logical.OR)
-    @ApiOperation(value = "SDK获取配置信息",notes = "SDK获取qems配置信息")
+    @ApiOperation(value = "密钥云终端获取配置信息",notes = "密钥云终端获取应用配置信息")
     @PostMapping(value = "/getConfig2")
     @ResponseBody
     public Result unicomGetConfig2(HttpServletRequest request,HttpServletResponse response) {
@@ -64,7 +64,7 @@ public class AppConfigController {
         return ResultHelper.genResultWithSuccess(object);
     }
 
-    @ApiOperation(value = "设备控制置零或重启",notes ="设备控制置零或重启")
+    @ApiOperation(value = "控制密钥云终端设备置零或重启",notes ="控制密钥云终端设备置零或重启")
     @PostMapping(value = "/operation")
     @ResponseBody
     public Result unicomOperation(@RequestBody QemsOperateRequest qemsOperateRequest) throws QuantumException {

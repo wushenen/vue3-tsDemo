@@ -16,4 +16,5 @@ public interface DeviceAuthorityMapper {
     int delDeviceAuthority(@Param("authId") int authId);
     int delDeviceAuthByDeviceId(@Param("deviceId") int deviceId);
     List<AuthInfo> getDeviceAuthority(@Param("deviceId") int deviceId);
+    String getApiName(Integer apiId);
 }

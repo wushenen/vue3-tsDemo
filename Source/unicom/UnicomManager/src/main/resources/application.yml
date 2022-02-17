@@ -19,7 +19,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://192.168.93.186:3306/unicom2?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
+      url: jdbc:mysql://localhost:3306/unicom2?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai&autoReconnect=true
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -71,4 +71,4 @@ logging:
 
 cmdPath: /usr/local/unicom/config/
 
-systemVersion: V 1.0
+systemVersion: V 1.1

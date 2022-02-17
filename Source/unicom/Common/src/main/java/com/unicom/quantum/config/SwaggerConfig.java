@@ -27,13 +27,11 @@ public class SwaggerConfig {
                 .build();
     }
 
-    //配置接口信息
-    private ApiInfo apiInfo(){
-        //作者信息
-        Contact contact = new Contact("unicom", "", "");
 
-        return new ApiInfo("联通密钥云管理平台"
-                , "联通密钥云管理平台在线接口"
+    private ApiInfo apiInfo(){
+        Contact contact = new Contact("unicom", "", "");
+        return new ApiInfo("量子密钥云管理平台"
+                , "量子密钥云管理平台在线接口文档"
                 , "1.0"
                 , ""
                 ,  contact

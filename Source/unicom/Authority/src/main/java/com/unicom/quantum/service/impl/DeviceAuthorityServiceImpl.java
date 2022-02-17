@@ -1,5 +1,7 @@
 package com.unicom.quantum.service.impl;
 
+import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.mapper.DeviceAuthorityMapper;
 import com.unicom.quantum.pojo.DTO.AuthInfo;
@@ -19,11 +21,14 @@ public class DeviceAuthorityServiceImpl implements DeviceAuthorityService {
 
     @OperateLogAnno(operateDesc = "添加终端权限", operateModel = OPERATE_MODEL)
     @Override
-    public int addDeviceAuthority(int deviceId, List<Integer> apiIds) {
+    public int addDeviceAuthority(int deviceId, List<Integer> apiIds) throws QuantumException {
         for (Integer apiId : apiIds) {
-            if (!deviceAuthorityMapper.deviceAuthorityIsExist(deviceId,apiId)) {
-                deviceAuthorityMapper.addDeviceAuthority(deviceId, apiId);
+            if (deviceAuthorityMapper.deviceAuthorityIsExist(deviceId,apiId)) {
+                throw new QuantumException(ResultHelper.genResult(1,deviceAuthorityMapper.getApiName(apiId) +"  权限重复添加"));
             }
+        }
+        for (Integer apiId : apiIds) {
+            deviceAuthorityMapper.addDeviceAuthority(deviceId, apiId);
         }
         return 0;
     }

@@ -53,12 +53,7 @@ public class GenerateRandomController {
         }
     }
 
-    /**
-     * 产生临时密钥
-     * @param generateTempKeyRequest
-     * @return
-     * @throws Exception
-     */
+
     @RequiresPermissions(value = {"/**","GenerateTempKey"} ,logical = Logical.OR)
     @ApiOperation(value = "获取临时密钥",notes = "产生一个临时密钥并返回")
     @PostMapping(value = "/GenerateTempKey")

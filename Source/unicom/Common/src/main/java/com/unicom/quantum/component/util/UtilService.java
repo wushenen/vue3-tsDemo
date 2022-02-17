@@ -37,13 +37,13 @@ public class UtilService {
         if (keySourceConfigs.size() != 0) {
             for (int i = 0; i < keySourceConfigs.size(); i++) {
                 long startTime = System.currentTimeMillis();
-                if(keySourceConfigs.get(i).getPriority() != 5){
+                if(keySourceConfigs.get(i).getPriority() != 4){
                     logger.info("随机数获取源：{}",keySourceConfigs.get(i).getKeySource());
+                    keySource = keySourceConfigs.get(i).getKeySource();
                     switch (keySourceConfigs.get(i).getKeySource()) {
                         case 1://qrng
                             logger.info("QRNG获取量子随机数");
                             random = QrngUtil.genrateRandom(length);
-                            keySource = 1;
                             break;
                         case 2://902
                             logger.info("高速QRNG获取量子随机数");
@@ -80,7 +80,6 @@ public class UtilService {
                                     }
                                 }
                             }
-                            keySource = 2;
                             break;
                         case 3: //QKD
                             logger.info("QKD获取量子随机数");
@@ -119,7 +118,6 @@ public class UtilService {
                             }
                             if (bytes != null)
                                 System.arraycopy(bytes, 0, random, 0, length);
-                            keySource = 3;
                             break;
                         default:
                             random = randomByte(length);
@@ -173,7 +171,6 @@ public class UtilService {
             }
         }
         String result=sb.toString();
-        logger.info("生成的随机数兑换码为{}",result);
         return result;
     }
 

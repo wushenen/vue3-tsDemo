@@ -42,11 +42,11 @@ public class WebLogAspect {
     OperateLogService operateLogService;
 
 
-    @Pointcut("execution(public * com.cucc.unicom.service.impl..*.*(..))")
+    @Pointcut("execution(public * com.unicom.quantum.service.impl..*.*(..))")
     public void controllerLog1(){}
-    @Pointcut("!execution(public * com.cucc.unicom.service.impl..*.getAllIps(..))")
+    @Pointcut("!execution(public * com.unicom.quantum.service.impl..*.getAllIps(..))")
     public void controllerLog2(){}
-    @Pointcut("!execution(public * com.cucc.unicom.service.impl..*.getQemsConfig(..))")
+    @Pointcut("!execution(public * com.unicom.quantum.service.impl..*.getQemsConfig(..))")
     public void controllerLog3(){}
     @Pointcut("controllerLog1() && controllerLog2() && controllerLog3()")
     public void controllerLog(){}

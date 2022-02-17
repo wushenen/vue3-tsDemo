@@ -1,5 +1,6 @@
 package com.unicom.quantum.controller;
 
+import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.controller.vo.AddDeviceAuthorityRequest;
@@ -25,7 +26,7 @@ public class DeviceAuthorityController {
     @ApiOperation(value = "添加终端用户权限", notes = "添加终端用户权限")
     @PostMapping(value = "/addDeviceAuthority")
     @ResponseBody
-    public Result unicomAddDeviceAuthority(@RequestBody AddDeviceAuthorityRequest addDeviceAuthorityRequest){
+    public Result unicomAddDeviceAuthority(@RequestBody AddDeviceAuthorityRequest addDeviceAuthorityRequest) throws QuantumException {
         deviceAuthorityService.addDeviceAuthority(addDeviceAuthorityRequest.getDeviceId(), addDeviceAuthorityRequest.getApiId());
         return ResultHelper.genResultWithSuccess();
     }

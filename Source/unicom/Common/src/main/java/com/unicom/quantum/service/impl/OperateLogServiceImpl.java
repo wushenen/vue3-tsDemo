@@ -1,6 +1,5 @@
 package com.unicom.quantum.service.impl;
 
-import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.controller.vo.OperateLogRequest;
 import com.unicom.quantum.mapper.OperateLogMapper;
 import com.unicom.quantum.pojo.OperateLog;
@@ -14,15 +13,13 @@ import java.util.List;
 public class OperateLogServiceImpl implements OperateLogService {
 
     @Autowired
-    OperateLogMapper operateLogMapper;
+    private OperateLogMapper operateLogMapper;
 
     @Override
     public void insertOperateLog(OperateLog log) {
         operateLogMapper.insertOperateLog(log);
     }
 
-
-    @OperateLogAnno(operateDesc = "查看日志", operateModel = "日志管理")
 	@Override
 	public List<OperateLog> getOperateLogs(OperateLogRequest operateLogRequest) {
         return operateLogMapper.getOperateLogs(operateLogRequest);
