@@ -70,7 +70,7 @@
     },
     methods: {
       async getUserList() {
-        const {data: res} = await this.$http.post(`resource/getApiResource?apiId=${this.$route.query.apiId}`);
+        const {data: res} = await this.$http.get(`resource/getApiResource?apiId=${this.$route.query.apiId}`);
         if (res.code !== 0) return this.$message.error((res.msg !== '' && res.msg !== null) ? res.msg : '获取权限失败！');
         this.userList = res.data;
       },
