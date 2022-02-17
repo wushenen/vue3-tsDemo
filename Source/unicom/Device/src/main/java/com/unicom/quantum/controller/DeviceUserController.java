@@ -103,7 +103,6 @@ public class DeviceUserController {
             if(insertUser.getDeviceName().trim() == null && insertUser.getPassword().trim() == null && insertUser.getComments().trim() == null)
                 return ResultHelper.genResult(1,"导入数据中至少有一条数据的用户名、密码和备注为空");
         }
-        //检查用户名是否重复
         for (DeviceUser deviceUser : list) {
             String userName = deviceUser.getDeviceName();
             if (deviceUserService.userNameIsExist(userName))

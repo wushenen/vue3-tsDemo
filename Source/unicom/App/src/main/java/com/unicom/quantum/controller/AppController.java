@@ -29,7 +29,7 @@ public class AppController {
     public Result unicomAddApp(@RequestBody AddAppRequest addAppRequest) throws Exception {
         App app = new App();
         BeanUtils.copyProperties(addAppRequest,app);
-        appService.addApp(app);
+        appService.addApp(app,addAppRequest.getAppType());
         return ResultHelper.genResultWithSuccess();
     }
 
