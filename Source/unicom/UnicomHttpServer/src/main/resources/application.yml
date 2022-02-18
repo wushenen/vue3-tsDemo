@@ -66,6 +66,6 @@ pagehelper:
 
 logging:
   level:
-    com.cucc.unicom.*: error
+    com.unicom.quantum.*: error
 
 

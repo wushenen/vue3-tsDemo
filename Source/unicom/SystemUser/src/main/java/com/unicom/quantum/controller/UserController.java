@@ -57,7 +57,7 @@ public class UserController {
     @ApiOperation(value = "修改系统用户信息",notes = "修改系统用户信息（修改信息包括密码、备注）")
     @PostMapping(value = "/updateUserInfo")
     @ResponseBody
-    public Result unicomUpdateUserInfo(@RequestBody UpdateUserRequest updateUserRequest) {
+    public Result unicomUpdateUserInfo(@RequestBody UpdateUserRequest updateUserRequest) throws QuantumException {
         userService.updateUser(updateUserRequest);
         return ResultHelper.genResultWithSuccess();
     }

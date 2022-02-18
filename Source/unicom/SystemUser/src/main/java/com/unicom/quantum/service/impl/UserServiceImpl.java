@@ -3,6 +3,7 @@ package com.unicom.quantum.service.impl;
 import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
+import com.unicom.quantum.component.util.RegUtils;
 import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.controller.vo.AddUserRequest;
 import com.unicom.quantum.controller.vo.UpdateUserRequest;
@@ -31,6 +32,9 @@ public class UserServiceImpl implements UserService {
         if (userMapper.userExist(addUserRequest.getUserName())) {
             throw new QuantumException(ResultHelper.genResult(1,"用户名已被占用"));
         }
+        if (!RegUtils.pwdMatch(addUserRequest.getPassword())) {
+            throw new QuantumException(ResultHelper.genResult(1,"密码必须包含字母数字和特殊字符"));
+        }
         User user = new User();
         user.setUserName(addUserRequest.getUserName())
             .setPassword(utilService.encryptCBCWithPadding(addUserRequest.getPassword(),UtilService.SM4KEY))
@@ -48,10 +52,13 @@ public class UserServiceImpl implements UserService {
 
     @OperateLogAnno(operateDesc = "修改系统用户信息", operateModel = OPERATE_MODEL)
     @Override
-    public int updateUser(UpdateUserRequest updateUserRequest) {
+    public int updateUser(UpdateUserRequest updateUserRequest) throws QuantumException {
         User user = new User();
         user.setId(updateUserRequest.getId());
         if (!updateUserRequest.getPassword().equals("")){
+            if (!RegUtils.pwdMatch(updateUserRequest.getPassword())) {
+                throw new QuantumException(ResultHelper.genResult(1,"密码必须包含字母数字和特殊字符"));
+            }
             user.setPassword(utilService.encryptCBCWithPadding(updateUserRequest.getPassword(),UtilService.SM4KEY));
         }
         user.setComments(updateUserRequest.getComments());

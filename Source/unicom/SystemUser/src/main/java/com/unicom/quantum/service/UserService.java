@@ -13,7 +13,7 @@ public interface UserService {
 
     boolean userExist(String userName);
 
-    int updateUser(UpdateUserRequest updateUserRequest);
+    int updateUser(UpdateUserRequest updateUserRequest) throws QuantumException;
 
     int deleteUser(int id);
 

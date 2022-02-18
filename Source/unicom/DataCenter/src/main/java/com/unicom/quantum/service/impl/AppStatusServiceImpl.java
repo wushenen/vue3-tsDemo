@@ -71,6 +71,11 @@ public class AppStatusServiceImpl implements AppStatusService {
                     long minutes = (time - (hours * 3600)) / 60;
                     long seconds = time - (hours * 3600) - (minutes * 60);
                     deviceStatus.setWorkTime(hours + "时" + minutes + "分" + seconds + "秒");
+                } else {
+                    deviceStatus.setDeviceIp(null);
+                    deviceStatus.setWorkTime(null);
+                    deviceStatus.setEncRate(null);
+                    deviceStatus.setDecRate(null);
                 }
             }
         }

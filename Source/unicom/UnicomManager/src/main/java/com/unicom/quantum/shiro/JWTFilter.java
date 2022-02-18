@@ -107,7 +107,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     private void responseError(ServletResponse response) {
         try {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            httpServletResponse.sendRedirect("/login/sysLogin");
+            httpServletResponse.sendRedirect("/");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
