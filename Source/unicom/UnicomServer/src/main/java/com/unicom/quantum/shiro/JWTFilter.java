@@ -48,13 +48,6 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
                 responseError(response);
             }
         }
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        if(shiroUser != null){
-            HttpServletRequest req = (HttpServletRequest) request;
-            String s = req.getServletPath();
-            if(s.startsWith("/excel/export/operateLog"))
-                return true;
-        }
         try {
             logger.info("no Token......");
             response.getWriter().write("{\"code\":401}");
@@ -117,7 +110,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     private void responseError(ServletResponse response) {
         try {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            httpServletResponse.sendRedirect("/login");
+            httpServletResponse.sendRedirect("/login/deviceLogin");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }

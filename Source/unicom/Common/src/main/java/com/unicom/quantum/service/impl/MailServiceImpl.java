@@ -48,7 +48,6 @@ public class MailServiceImpl implements MailService {
     public void sendSimpleMail(MailInfo mailInfo) {
         mailSenderConfig.clear();
         JavaMailSenderImpl sender = mailSenderConfig.getSender();
-        System.out.println("sender.getUsername() = " + sender.getUsername());
         SimpleMailMessage message = new SimpleMailMessage();
         try {
             message.setFrom(sender.getUsername());

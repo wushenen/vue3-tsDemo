@@ -62,7 +62,6 @@ public class MailController {
     public Result unicomUpdateMailConfig(@RequestBody MailConfigRequest mailConfigRequest) {
         MailConfigInfo mailConfigInfo = new MailConfigInfo();
         BeanUtils.copyProperties(mailConfigRequest,mailConfigInfo);
-        System.out.println("mailConfigInfo = " + mailConfigInfo);
         mailService.updateMailSenderConfig(mailConfigInfo);
         return ResultHelper.genResultWithSuccess();
     }

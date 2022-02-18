@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
         logger.error(e.getMessage(),e);
         return ResultHelper.genResult(403,"该用户没权限");
     }
-    @ExceptionHandler(UnauthenticatedException.class)//
+    @ExceptionHandler(UnauthenticatedException.class)
     @ResponseBody
     public Result UnauthenticatedException(Exception e, HttpServletResponse response) {
         logger.error(e.getMessage(),e);

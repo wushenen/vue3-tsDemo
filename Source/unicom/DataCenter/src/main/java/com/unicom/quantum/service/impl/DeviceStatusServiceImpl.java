@@ -30,10 +30,7 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
         if (info != null) {
             deviceStatus.setKeyNum(info.getKeyNum() + deviceStatus.getKeyNum())
                     .setEncData(info.getEncData() + deviceStatus.getEncData())
-                    .setDecData(info.getDecData() + deviceStatus.getDecData())
-                    .setEncRate(CalculateUtil.calRate(deviceStatus.getDecData()))
-                    .setDecRate(CalculateUtil.calRate(deviceStatus.getDecData()));
-            //判断原来的状态是否在线
+                    .setDecData(info.getDecData() + deviceStatus.getDecData());
             if (info.isWorkStatus())
                 deviceStatus.setOnlineTime(info.getOnlineTime());
             deviceStatusMapper.updateDeviceStatusInfo(deviceStatus);

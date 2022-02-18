@@ -447,11 +447,4 @@ static{
         return time;
     }
 
-    public static void main(String[] args) {
-        try {
-            System.out.println(integerUnit("7d"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

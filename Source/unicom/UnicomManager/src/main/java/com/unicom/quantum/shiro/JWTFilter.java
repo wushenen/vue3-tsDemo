@@ -45,13 +45,6 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
                 responseError(response);
             }
         }
-        ShiroUser shiroUser = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-        if (shiroUser != null) {
-            HttpServletRequest req = (HttpServletRequest) request;
-            String s = req.getServletPath();
-            if (s.startsWith("/excel/export/operateLog"))
-                return true;
-        }
         try {
             logger.info("no Token......");
             response.getWriter().write("{\"code\":401}");
@@ -100,7 +93,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        boolean loggedIn = false; //false by default or we wouldn't be in this method
+        boolean loggedIn = false;
         if (isLoginAttempt(request, response)) {
             loggedIn = executeLogin(request, response);
         }
@@ -114,7 +107,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     private void responseError(ServletResponse response) {
         try {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            httpServletResponse.sendRedirect("/login");
+            httpServletResponse.sendRedirect("/login/sysLogin");
         } catch (IOException e) {
             logger.error(e.getMessage());
         }

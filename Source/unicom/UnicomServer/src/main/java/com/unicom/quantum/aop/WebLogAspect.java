@@ -72,7 +72,6 @@ public class WebLogAspect {
     public void doAfterThrowing(JoinPoint joinPoint, Exception ex) throws Exception {
         String methodName = joinPoint.getSignature().getName();
         List<Object> args = Arrays.asList(joinPoint.getArgs());
-        System.out.println("连接点方法为：" + methodName + ",参数为：" + args + ",异常为：" + ex);
         Map<String, String> methodDesc = getMethodDesc(joinPoint);
         OperateLog operateLog = new OperateLog();
         operateLog.setOperateStatus(1);

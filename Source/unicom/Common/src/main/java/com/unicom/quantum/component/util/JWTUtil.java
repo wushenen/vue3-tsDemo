@@ -11,11 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JWTUtil {
-    // 过期时间，12小时
-    private static final long GRACE_TIME = 12*60*60*1000;//30 * 60 * 1000;
-    //过期时间15天
-    //private static final long GRACE_TIME = 15*24*60*60*1000;
-    // 加密算法，name的取值需和header的alg取值一致
+    private static final long GRACE_TIME = 24*60*60*1000;
     private static Algorithm ALGORITHM_SM3 = HMACSM3Algorithm.getInstance("SM3");
     /**
      * jwt形式的Token签名方法，生成最终Token
@@ -26,14 +22,11 @@ public class JWTUtil {
      */
     public static String generateToken(String username) {
         try {
-            // 设置过期时间
             long now = System.currentTimeMillis();
             Date exp = new Date(now + GRACE_TIME);
-            // 设置头部信息
             Map<String, Object> header = new HashMap<>(2);
             header.put("typ", "JWT");
             header.put("alg", "SM3");
-            // 返回token字符串
             return JWT.create()
                     .withHeader(header)
                     .withIssuer("qtec_R&D")
@@ -41,7 +34,6 @@ public class JWTUtil {
                     .withSubject("cipher_server")      // 该JWT所面向的用户
                     .withExpiresAt(exp)               // 指定token的生命周期
                     .withIssuedAt(new Date(now))     // token创建时间
-//                    .withJWTId(password)            // 针对当前token的唯一标识
                     .sign(ALGORITHM_SM3);
         } catch (Exception e) {
             e.printStackTrace();
@@ -51,14 +43,11 @@ public class JWTUtil {
 
     public static String generateTokenWithId(Integer id, String username) {
         try {
-            // 设置过期时间
             long now = System.currentTimeMillis();
             Date exp = new Date(now + GRACE_TIME);
-            // 设置头部信息
             Map<String, Object> header = new HashMap<>(2);
             header.put("typ", "JWT");
             header.put("alg", "SM3");
-            // 返回token字符串
             return JWT.create()
                     .withHeader(header)
                     .withIssuer("qtec_R&D")
@@ -67,7 +56,6 @@ public class JWTUtil {
                     .withSubject("cipher_server")      // 该JWT所面向的用户
                     .withExpiresAt(exp)               // 指定token的生命周期
                     .withIssuedAt(new Date(now))     // token创建时间
-//                    .withJWTId(password)            // 针对当前token的唯一标识
                     .sign(ALGORITHM_SM3);
         } catch (Exception e) {
             e.printStackTrace();
@@ -76,14 +64,11 @@ public class JWTUtil {
     }
     public static String generateToken(String username,long time) {
         try {
-            // 设置过期时间
             long now = System.currentTimeMillis();
             Date exp = new Date(now + time);
-            // 设置头部信息
             Map<String, Object> header = new HashMap<>(2);
             header.put("typ", "JWT");
             header.put("alg", "SM3");
-            // 返回token字符串
             return JWT.create()
                     .withHeader(header)
                     .withIssuer("qtec_R&D")
@@ -91,7 +76,6 @@ public class JWTUtil {
                     .withSubject("cipher_server")      // 该JWT所面向的用户
                     .withExpiresAt(exp)               // 指定token的生命周期
                     .withIssuedAt(new Date(now))     // token创建时间
-//                    .withJWTId(password)            // 针对当前token的唯一标识
                     .sign(ALGORITHM_SM3);
         } catch (Exception e) {
             e.printStackTrace();
@@ -135,7 +119,6 @@ public class JWTUtil {
      * @return token中包含的用户名
      */
     public static Date getExpiresAt(String token) throws Exception{
-//        System.out.println(token);
         DecodedJWT jwt = JWT.decode(token);
         return jwt.getExpiresAt();
     }

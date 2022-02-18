@@ -2,6 +2,8 @@ package com.unicom.quantum.component.util;
 
 import com.qtec.qtecQr.QtecQr;
 import com.qtec.qtecQr.QtecQrException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -9,7 +11,8 @@ import java.util.concurrent.Executors;
 
 public class QrngUtil {
 
-    private static ExecutorService threadPool = Executors.newFixedThreadPool(10);
+    private static ExecutorService threadPool = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+    private static final Logger logger = LoggerFactory.getLogger(QrngUtil.class);
 
     /**
      * 从真随机数源 qrng 获取指定长度随机数
@@ -22,7 +25,7 @@ public class QrngUtil {
         int loopTimes = 1;
         try {
             Class.forName("com.qtec.qtecQr.QtecQr");
-        } catch (Throwable e){  // 此处原来的Exception改为Throwable就可以了
+        } catch (Throwable e){
             return data;
         }
         int countPci = QtecQr.Count(QtecQr.QtecQrDeviceType.QTEC_QR_DEVICE_PCI);
@@ -32,7 +35,7 @@ public class QrngUtil {
         }
         QtecQr[] qtecQrs = new QtecQr[countPci + countUsb];
         if (countPci > 0) {
-            System.out.printf("Using {%d} QtecQr PCI device.\n", countPci);
+            logger.info("Using {%d} QtecQr PCI device",countPci);
             for (int i = 0; i < countPci; i++) {
                 qtecQrs[i] = new QtecQr(QtecQr.QtecQrDeviceType.QTEC_QR_DEVICE_PCI, i);
             }
