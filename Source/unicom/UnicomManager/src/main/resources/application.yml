@@ -67,7 +67,7 @@ pagehelper:
 
 logging:
   level:
-    com.unicom.quantum.*: info
+    com.unicom.quantum.*: error
 
 cmdPath: /usr/local/unicom/config/
 
