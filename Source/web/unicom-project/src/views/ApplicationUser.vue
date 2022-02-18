@@ -42,7 +42,9 @@
         <el-table-column label="操作" width="400px">
           <template slot-scope="scope">
             <el-button type="danger" size="mini" @click="deleteByName(scope.row.appId)">删除</el-button>
-            <el-button type="success" size="mini" @click="goDeviceDetail(scope.row.appId,scope.row.appType)">终端列表
+            <el-button type="success" size="mini" v-if="scope.row.appType === 1" @click="goDeviceDetail(scope.row.appId,scope.row.appType)">终端列表
+            </el-button>
+            <el-button type="success" size="mini" v-if="scope.row.appType === 2" @click="goDeviceDetail2(scope.row.appId,scope.row.appType)">终端列表
             </el-button>
             <el-button type="warning" size="mini" @click="goAppList(scope.row.appId)">绑定应用管理员</el-button>
             <el-button type="primary" size="mini" v-if="scope.row.appType === 1"
@@ -191,7 +193,10 @@
         this.addForm.comments = value === 1 ? '密钥云终端形式' : '标准协议形式';
       },
       goDeviceDetail(id, type) {
-        this.$router.push({path: '/pwsp', query: {'id': id, 'type': type}})
+        this.$router.push({path: '/appSpecial', query: {'id': id, 'type': type}})
+      },
+      goDeviceDetail2(id, type) {
+        this.$router.push({path: '/appCommon', query: {'id': id, 'type': type}})
       },
       goDeviceConfig(id) {
         this.$router.push({path: '/qems', query: {'id': id}})

@@ -18,7 +18,8 @@ const Resources = () => import("../views/Resources.vue");
 const ResourceDetail = () => import("../views/ResourceDetail.vue");
 const Group = () => import("../views/Group.vue");
 const GroupDetail = () => import("../views/GroupDetail.vue");
-const Pwsp = () => import("../views/Pwsp.vue");
+const AppSpecial = () => import("../views/AppSpecial.vue");
+const AppCommon = () => import("../views/AppCommon.vue");
 const Total = () => import("../views/Total.vue");
 const Alert = () => import("../views/Alert.vue");
 const Qems = () => import("../views/Qems.vue");
@@ -67,7 +68,8 @@ const routes = [
       {path: '/alert', component: Alert},
       {path: '/group', component: Group},
       {path: '/groupDetail', component: GroupDetail},
-      {path: '/pwsp', component: Pwsp},
+      {path: '/appSpecial', component: AppSpecial},
+      {path: '/appCommon', component: AppCommon},
       {path: '/qems', component: Qems},
       {path: '/groupAuth', component: GroupAuth},
       {path: '/applicationManagerUser', component: ApplicationManagerUser},

@@ -9,7 +9,7 @@
       <el-row>
         <el-form :inline="true" :model="formInline" ref="formInline" class="demo-form-inline">
           <el-form-item prop="operator">
-            <el-select v-model.trim="formInline.operator" placeholder="选择操作员" @visible-change="oneClick($event)">
+            <el-select clearable v-model.trim="formInline.operator" placeholder="选择操作员" @visible-change="oneClick($event)">
               <el-option
                 v-for="(item,index) in optionsOne"
                 :key="index"
@@ -19,7 +19,7 @@
             </el-select>
           </el-form-item>
           <el-form-item prop="operateModel">
-            <el-select v-model.trim="formInline.operateModel" placeholder="选择操作模块" @visible-change="twoClick($event)">
+            <el-select clearable v-model.trim="formInline.operateModel" placeholder="选择操作模块" @visible-change="twoClick($event)">
               <el-option
                 v-for="(item,index) in optionsTwo"
                 :key="index"
@@ -29,7 +29,7 @@
             </el-select>
           </el-form-item>
           <el-form-item prop="detail">
-            <el-select v-model.trim="formInline.detail" placeholder="选择操作功能" @visible-change="threeClick($event)">
+            <el-select clearable v-model.trim="formInline.detail" placeholder="选择操作功能" @visible-change="threeClick($event)">
               <el-option
                 v-for="(item,index) in optionsThree"
                 :key="index"
@@ -195,12 +195,16 @@
         this.optionsOne = res.data;
       },
       async getSelectTwo() {
-        const {data: res} = await this.$http.get('logger/getOperateModel');
+        const {data: res} = await this.$http.get('logger/getOperateModel',{params:{
+            'operator':this.formInline.operator
+          }});
         if (res.code !== 0) return this.$message.error(res.msg !== null && res.msg !== '' ? res.msg : '获取操作模块失败！');
         this.optionsTwo = res.data;
       },
       async getSelectThree() {
-        const {data: res} = await this.$http.get('logger/getOperateDetail');
+        const {data: res} = await this.$http.get('logger/getOperateDetail',{params:{
+            'operator':this.formInline.operator,'operateModel':this.formInline.operateModel
+          }});
         if (res.code !== 0) return this.$message.error(res.msg !== null && res.msg !== '' ? res.msg : '获取操作功能失败！');
         this.optionsThree = res.data;
       },

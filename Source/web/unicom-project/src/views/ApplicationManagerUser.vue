@@ -38,7 +38,11 @@
         </el-table-column>
         <el-table-column label="操作" width="330px">
           <template slot-scope="scope">
-            <el-button type="success" size="mini" @click="goDeviceDetail(scope.row.appId,scope.row.appType)">终端列表
+            <el-button type="success" size="mini" v-if="scope.row.appType === 1"
+                       @click="goDeviceDetail(scope.row.appId,scope.row.appType)">终端列表
+            </el-button>
+            <el-button type="success" size="mini" v-if="scope.row.appType === 2"
+                       @click="goDeviceDetail2(scope.row.appId,scope.row.appType)">终端列表
             </el-button>
             <el-button type="warning" size="mini" @click="goDeviceTotal(scope.row.appId)">量子密钥统计</el-button>
             <el-button type="primary" size="mini" v-if="scope.row.appType === 1"
@@ -71,8 +75,8 @@
           pagesize: 10
         },
         total: 0,
-        expands:[],
-        getRowKeys (row) {
+        expands: [],
+        getRowKeys(row) {
           return row.appId
         },
         addDialogVisible: false,
@@ -118,7 +122,7 @@
         this.queryInfo.pagenum = newPage;
         this.getUserList()
       },
-      expandChange (row, expandedRows) {
+      expandChange(row, expandedRows) {
         if (expandedRows.length) {
           this.expands = [];
           if (row) {
@@ -129,7 +133,10 @@
         }
       },
       goDeviceDetail(id, type) {
-        this.$router.push({path: '/pwsp', query: {'id': id, 'type': type, 'urlType': 2}})
+        this.$router.push({path: '/appSpecial', query: {'id': id, 'type': type, 'urlType': 2}})
+      },
+      goDeviceDetail2(id, type) {
+        this.$router.push({path: '/appCommon', query: {'id': id, 'type': type, 'urlType': 2}})
       },
       goDeviceConfig(id) {
         this.$router.push({path: '/qems', query: {'id': id, 'urlType': 2}})

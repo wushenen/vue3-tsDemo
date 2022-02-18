@@ -23,21 +23,6 @@
             <span>{{scope.row.keyNum == null ||  scope.row.keyNum == '' ? '-' : scope.row.keyNum}}</span>
           </template>
         </el-table-column>
-        <el-table-column  v-if="type === 1" label="终端状态" prop="workStatus">
-          <template slot-scope="scope">
-            <span>{{scope.row.workStatus == false ? '离线' : '在线'}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column v-if="type === 1" label="加密速率" prop="encRate">
-          <template slot-scope="scope">
-            <span>{{scope.row.encRate == null ||  scope.row.encRate == '' ? '-' : scope.row.encRate}}</span>
-          </template>
-        </el-table-column>
-        <el-table-column  v-if="type === 1"  label="解密速率" prop="decRate">
-          <template slot-scope="scope">
-            <span>{{scope.row.decRate == null ||  scope.row.decRate == '' ? '-' : scope.row.decRate}}</span>
-          </template>
-        </el-table-column>
         <el-table-column label="在线时间" prop="workTime" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span>{{scope.row.workTime == null ||  scope.row.workTime == '' ? '-' : scope.row.workTime}}</span>
@@ -90,7 +75,6 @@
   export default {
     data() {
       return {
-        type:this.$route.query.type,
         userlist: [],
         queryInfo: {
           pagenum: 1,
@@ -175,7 +159,7 @@
           return
         }
         const {data: res} = await this.$http.post('appDevice/deleteAppDevice',
-        {'appId': parseInt(this.$route.query.id),'deviceIds':[id]}
+          {'appId': parseInt(this.$route.query.id),'deviceIds':[id]}
         );
         if (res.code !== 0) return this.$message.error(res.msg !== null && res.msg !== '' ? res.msg : '解绑失败！');
         this.$message.success('解绑成功！');
