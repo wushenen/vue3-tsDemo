@@ -50,14 +50,6 @@ spring:
       web-stat-filter:
         exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
 
-
-#shiro配置
-  redis :
-    shiro :
-      host: localhost
-      port: 6379
-      timeout: 2000
-      password: 123456
 # 开启mybatis小驼峰式命名规则自动转换
 mybatis:
   type-aliases-package: com.unicom.quantum.pojo
@@ -76,12 +68,5 @@ pagehelper:
 
 logging:
   level:
-    com.cucc.unicom.*: debug
-#获取随机数的方式，1-随机数发生器，2-密码卡，3-901, 4-902
-rngSource: 4
-server901IP : 192.168.90.7   #当使用901获取随机数时，设置的901服务ip地址
-server902IP : 192.168.92.100
-cmdPath: /usr/local/unicom/config/
-managerPath: /usr/local/unicom/UnicomManager-1.0.war
-serverPath: /usr/local/unicom/UnicomManager-1.0.war
+    com.cucc.unicom.*: error
 
