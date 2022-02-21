@@ -35,7 +35,7 @@ public class IpController {
         return ResultHelper.genResultWithSuccess();
     }
 
-    @ApiOperation(value = "获取所以ip白名单信息" ,notes ="分页获取ip白名单信息")
+    @ApiOperation(value = "获取所有ip白名单信息" ,notes ="分页获取ip白名单信息")
     @GetMapping(value = "/getAllIps/{offset}/{pageSize}")
     @ResponseBody
     public Result unicomGetAllIps(HttpServletRequest request,

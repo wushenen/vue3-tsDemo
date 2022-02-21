@@ -64,7 +64,7 @@ public class KeySourceConfigController {
 
     @RequiresRoles("systemUser")
     @ApiOperation("修改密钥源优先级")
-    @RequestMapping(value = "/updatePriority")
+    @GetMapping(value = "/updatePriority")
     @ResponseBody
     public Result unicomUpdatePriority(@RequestParam("oldPriority") int oldPriority,@RequestParam("newPriority") int newPriority,@RequestParam("id") int id){
         keySourceConfigService.updateKeySourcePriority(oldPriority,newPriority,id);
