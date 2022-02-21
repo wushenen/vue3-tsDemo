@@ -33,13 +33,18 @@ public class KeyInfoServiceImpl implements KeyInfoService {
         byte[] keyValue;
         KeyInfo keyInfo = keyInfoMapper.getKeyInfo(keyId);
         if (keyInfo == null) {
+            KeyInfo keyInfo1 = new KeyInfo();
             keyValue = utilService.generateQuantumRandom(32);
-            keyInfoMapper.addKeyInfo(keyId,keyValue,deviceName,2);
+            keyInfo1.setKeyId(keyId);
+            keyInfo1.setKeyValue(keyValue);
+            keyInfo1.setKeyStatus(2);
+            keyInfoMapper.addKeyInfo(keyId,DataTools.encryptMessage(keyValue),deviceName,2);
+            return keyInfo1;
         }else{
             keyInfo.setKeyValue(DataTools.decryptMessage(keyInfo.getKeyValue()));
             keyInfoMapper.updateKeyInfo(keyId,2);
+            return keyInfo;
         }
-        return keyInfo;
     }
 
     @Override
