@@ -59,7 +59,7 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <el-dialog title="添加终端用户" :visible.sync="addDialogVisible" width="520px" @close="addDialogClosed">
+    <el-dialog title="添加终端用户" :visible.sync="addDialogVisible" width="650px" @close="addDialogClosed">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="80px">
         <el-form-item label="用户名" prop="deviceName">
           <el-input v-model.trim="addForm.deviceName"></el-input>
