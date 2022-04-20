@@ -9,8 +9,7 @@
 
     <select id="appDeviceExist" resultType="boolean">
         select count(1) from t_app_device
-        where app_id = #{appId}
-        and device_id = #{deviceId}
+        where device_id = #{deviceId}
     </select>
 
     <delete id="deleteAppDevice">
