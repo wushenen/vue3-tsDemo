@@ -275,7 +275,7 @@ CREATE TABLE `t_mail_config_info`  (
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
-INSERT INTO `unicom2`.`t_mail_config_info`(`id`, `email_host`, `email_username`, `email_password`, `email_port`, `email_protocol`) VALUES (1, 'smtp.exmail.qq.com', 'emaill@qtec.cn', 'password', 465, 'smtp');
+INSERT INTO `t_mail_config_info`(`id`, `email_host`, `email_username`, `email_password`, `email_port`, `email_protocol`) VALUES (1, 'smtp.exmail.qq.com', 'emaill@qtec.cn', 'password', 465, 'smtp');
 
 -- ----------------------------
 -- Table structure for t_mail_log
