@@ -6,7 +6,7 @@ server:
     key-store: classpath:certificate/unicom.keystore
     key-store-password: unicom
     key-store-type: PKCS12
-    enabled: true
+    enabled: false
     key-alias: unicom
     key-password: unicom
 
