@@ -87,7 +87,7 @@ CREATE TABLE `t_device_auth`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_device_operation`;
 CREATE TABLE `t_device_operation`  (
-  `id` int(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键，终端用户id',
+  `id` int(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `device_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
   `operation` int(1) NOT NULL DEFAULT 0 COMMENT '设备操作（0-无操作，1-重启，2-置零，默认0',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
@@ -188,7 +188,7 @@ CREATE TABLE `t_ip`  (
 -- ----------------------------
 DROP TABLE IF EXISTS `t_key_info`;
 CREATE TABLE `t_key_info`  (
-  `key_id` binary(16) NOT NULL DEFAULT 0                COMMENT '主键',
+  `key_id` binary(16) NOT NULL DEFAULT '0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0' COMMENT '主键',
   `key_value` binary(48) NOT NULL COMMENT '密钥',
   `key_status` int(1) NOT NULL DEFAULT 0 COMMENT '密钥状态（0-可用，1-不可用，2-已使用，默认0）',
   `applicant` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密钥申请者',
