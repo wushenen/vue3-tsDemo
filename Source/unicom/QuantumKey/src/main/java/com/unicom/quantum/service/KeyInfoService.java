@@ -1,5 +1,6 @@
 package com.unicom.quantum.service;
 
+import com.unicom.quantum.controller.vo.DeviceKeyUsedInfoResponse;
 import com.unicom.quantum.pojo.KeyInfo;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface KeyInfoService {
     String getAdminEmail();
 
     Long getApplicantKeyNum(String applicant);
+
+    List<DeviceKeyUsedInfoResponse> getDeviceKeyUsedInfo(String deviceName);
 }

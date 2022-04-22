@@ -1,5 +1,6 @@
 package com.unicom.quantum.mapper;
 
+import com.unicom.quantum.controller.vo.DeviceKeyUsedInfoResponse;
 import com.unicom.quantum.pojo.KeyInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -19,4 +20,6 @@ public interface KeyInfoMapper {
     Long getUsedNum(String applicant);
     String getAdminEmail();
     Long getDeviceStatusKeyNum(String deviceName);
+
+    List<DeviceKeyUsedInfoResponse> getDeviceKeyUsedInfo(String deviceName);
 }

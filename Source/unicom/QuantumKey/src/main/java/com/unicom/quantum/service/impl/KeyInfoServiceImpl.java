@@ -3,6 +3,7 @@ package com.unicom.quantum.service.impl;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.component.util.DataTools;
 import com.unicom.quantum.component.util.UtilService;
+import com.unicom.quantum.controller.vo.DeviceKeyUsedInfoResponse;
 import com.unicom.quantum.mapper.KeyInfoMapper;
 import com.unicom.quantum.mapper.KeyLimitMapper;
 import com.unicom.quantum.pojo.KeyInfo;
@@ -98,5 +99,11 @@ public class KeyInfoServiceImpl implements KeyInfoService {
     public Long getApplicantKeyNum(String applicant) {
         Long totalNum = keyInfoMapper.getTotalNum(applicant);
         return totalNum;
+    }
+
+    @Override
+    public List<DeviceKeyUsedInfoResponse> getDeviceKeyUsedInfo(String deviceName) {
+        List<DeviceKeyUsedInfoResponse> deviceKeyUsedInfo = keyInfoMapper.getDeviceKeyUsedInfo(deviceName);
+        return deviceKeyUsedInfo;
     }
 }

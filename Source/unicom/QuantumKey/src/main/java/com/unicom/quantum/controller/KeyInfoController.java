@@ -1,11 +1,14 @@
 package com.unicom.quantum.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.util.DataTools;
 import com.unicom.quantum.component.util.JWTUtil;
 import com.unicom.quantum.component.util.UtilService;
+import com.unicom.quantum.controller.vo.DeviceKeyUsedInfoResponse;
 import com.unicom.quantum.controller.vo.ExportKeyInfosRequest;
 import com.unicom.quantum.controller.vo.GetApplicantKeyIdRequest;
 import com.unicom.quantum.controller.vo.KeyInfoRequest;
@@ -193,6 +196,16 @@ public class KeyInfoController {
             keyIds.add(Base64.encodeBase64String(keyInfo.getKeyId()));
         }
         return ResultHelper.genResultWithSuccess(keyIds);
+    }
+
+    @ApiOperation(value = "获取当前终端密钥使用情况",notes = "获取当前终端密钥使用情况")
+    @GetMapping(value = "/getDeviceKeyUsedInfo/{offset}")
+    @ResponseBody
+    public Result unicomGetDeviceKeyUsedInfo(@RequestParam("deviceName") String deviceName,@PathVariable("offset") int offset){
+        PageHelper.startPage(offset,10);
+        List<DeviceKeyUsedInfoResponse> info = keyInfoService.getDeviceKeyUsedInfo(deviceName);
+        PageInfo<DeviceKeyUsedInfoResponse> pageInfo = new PageInfo<>(info);
+        return ResultHelper.genResultWithSuccess(pageInfo);
     }
 
 

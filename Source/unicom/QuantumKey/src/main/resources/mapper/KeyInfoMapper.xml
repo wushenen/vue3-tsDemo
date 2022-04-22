@@ -60,5 +60,10 @@
         select key_num from t_device_status where binary device_name = #{deviceName};
     </select>
 
+    <select id="getDeviceKeyUsedInfo" resultType="com.unicom.quantum.controller.vo.DeviceKeyUsedInfoResponse">
+        select HEX(key_id) as keyId,create_time
+        from t_key_info
+        where applicant = #{deviceName}
+    </select>
 
 </mapper>
