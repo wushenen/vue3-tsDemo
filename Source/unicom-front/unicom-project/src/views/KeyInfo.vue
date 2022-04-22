@@ -7,13 +7,15 @@
       <el-breadcrumb-item>量子密钥管控</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
-      <h2>量子密钥操作：</h2>
+      <h2>量子密钥管控详情：</h2>
+   
+      <el-col :span="7">
       <div style="display: flex;justify-content: flex-start;padding: 40px 30px">
         <div class="content" @click="getKey">
           <img src="../assets/image/04.png" alt="">
-          <el-button type="text">分配额度</el-button>
+          <el-button type="text" style="font-size:25px">分配额度</el-button>
         </div>
-        <div class="content" @click="exportKey">
+        <!-- <div class="content" @click="exportKey">
           <img src="../assets/image/02.png" alt="">
           <el-button type="text">导出</el-button>
         </div>
@@ -28,9 +30,25 @@
         <div class="content" @click="destoryKey">
           <img src="../assets/image/05.png" alt="">
           <el-button type="text">销毁</el-button>
-        </div>
+        </div> -->
       </div>
       <div id="pie"></div>
+      </el-col>
+      <el-col :span="14" >
+        <el-table :data="userList" stripe  :header-cell-style="{ 'text-align': 'center', background: '#fff' }" :cell-style="{ 'text-align': 'center' }">
+        <el-table-column type="index" label="序号" width="80"></el-table-column>
+        <el-table-column label="密钥ID" :show-overflow-tooltip="true" width="400" prop="keyId" ></el-table-column>
+        <el-table-column label="操作时间" width="200" :show-overflow-tooltip="true" prop="createTime">
+        </el-table-column>
+      </el-table>
+       <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="queryInfo.offset"
+        :page-size="queryInfo.pagesize"
+        layout="total, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
+      </el-col> 
     </el-card>
     <el-dialog :title="title" :visible.sync="keyDialogVisible" width="520px" @close="keyDialogClosed">
       <el-form :model="keyForm" :rules="keyFormRules" ref="keyFormRef" label-width="80px">
@@ -77,6 +95,13 @@
         }
       };
       return {
+        userList:[],
+        queryInfo:{
+          query:'',
+          offset:1,
+          pagesize:10,
+        },
+        total:'',
         options: [],
         title: '',
         deviceName: this.$route.query.deviceName,
@@ -100,6 +125,7 @@
     },
     created() {
       this.getUserList();
+      this.getUserList1()
     },
     methods: {
       async getUserList() {
@@ -207,11 +233,11 @@
       chart(total, use) {
         let myChart = echarts.init(document.getElementById('pie'));
         myChart.setOption({
-          title: [{text: `量子密钥额度:${total}     量子密钥使用数量:${use}`, left: '50%', top: '85%', textAlign: 'center'}],
+          title: [{text: `量子密钥额度:${total}     量子密钥使用数量:${use}`, left: '50%', top: '90%', textAlign: 'center'}],
           series: [
             {
               type: 'gauge',
-              radius: '50%',
+              radius: '65%',
               startAngle: 90,
               endAngle: -270,
               center: ['50%', '40%'],
@@ -249,11 +275,11 @@
                 distance: 50
               },
               data: [
-                {value: ((use / total) * 100).toFixed(2)}
+                {value: ((use / total) * 100).toFixed(2)=='NaN'?0:((use / total) * 100).toFixed(2)}
               ],
               detail: {//仪表盘详情，用于显示数据
                 valueAnimation: true,
-                fontSize: 18,
+                fontSize: 30,
                 color: 'auto',
                 formatter: '{value}%',
                 offsetCenter: ['0%', '0%'],
@@ -264,7 +290,22 @@
         window.addEventListener("resize", function () {
           myChart.resize();
         });
-      }
+      },
+       //表格数据
+     async  getUserList1(){
+        const {data: res} = await this.$http.get(`/keyInfo/getDeviceKeyUsedInfo/${this.queryInfo.offset}?deviceName=${this.deviceName}&&?ts=${new Date().getTime()}`);
+        if (res.code === 0) {
+          this.userList = res.data.list;
+          this.total = res.data.total;
+        } else {
+          return this.$message.error('获取信息失败！')
+        }
+        console.log(this.userList)
+       },
+       handleCurrentChange(offset){
+        this.queryInfo.offset = offset;
+        this.getUserList1();
+       }
     }
   }
 
@@ -272,8 +313,8 @@
 <style lang="less">
   .keyInfo {
     #pie {
-      width: 600px;
-      height: 300px;
+      width: 450px;
+      height: 350px;
     }
     h2 {
       border-bottom: 1px solid #eee;
@@ -284,9 +325,9 @@
       flex-direction: row;
       justify-content: center;
       align-items: center;
-      width: 200px;
+      width: 300px;
       height: 100px;
-      margin-right: 30px;
+      margin-left: 50px;
       background-color: #ecf5ff;
       border-radius: 6px;
       cursor: pointer;
@@ -301,10 +342,17 @@
         font-size: 18px;
         padding: 0 10px;
       }
+     
+    }
+    .el-table{
+      margin-left: 120px;
     }
     .el-collapse-item__header {
       font-size: 16px;
       padding-left: 24px;
+    }
+    .el-pagination{
+      margin-left: 120px;
     }
   }
 </style>

@@ -18,7 +18,7 @@ module.exports = {
       '/unicom': {
         // target:'https://192.168.93.197:9443',
         // target:'https://192.168.93.186:9443',
-        target:'https://192.168.90.59:9443',
+        target:'http://192.168.90.59:9443',
         changeOrigin: true,
       }
     }

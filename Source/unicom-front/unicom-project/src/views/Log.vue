@@ -66,14 +66,13 @@
             <span>{{scope.row.operateIp === null ? '-' : scope.row.operateIp}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="耗时(毫秒)" prop="execTime"></el-table-column>
-        <el-table-column label="操作结果" prop="operateStatus">
+        <el-table-column label="操作结果" prop="operateStatus" width="200px">
           <template slot-scope="scope">
             <span v-if="scope.row.operateStatus === 0">成功</span>
             <span v-else-if="scope.row.operateStatus === 1">失败</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作时间" width="140" :show-overflow-tooltip="true" prop="updateTime">
+        <el-table-column label="操作时间" width="180" :show-overflow-tooltip="true" prop="updateTime">
         </el-table-column>
       </el-table>
       <el-pagination
