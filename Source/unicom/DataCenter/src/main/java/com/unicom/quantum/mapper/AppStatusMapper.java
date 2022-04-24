@@ -12,6 +12,6 @@ import java.util.List;
 public interface AppStatusMapper {
     Long currentAppDistributionNum(List<String> deviceNames);
     Long currentAppOnlineKeyNum(List<String> deviceNames);
-    List<DeviceStatus> listDeviceStatusInfo(List<String> deviceNames);
+    List<DeviceStatus> listDeviceStatusInfo(int appId);
     DeviceStatusDataInfo getDeviceStatusInfo(List<String> deviceNames);
 }

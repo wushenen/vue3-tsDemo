@@ -54,29 +54,19 @@ public class AppStatusServiceImpl implements AppStatusService {
     @OperateLogAnno(operateDesc = "查看特定应用绑定终端状态数据", operateModel = OPERATE_MODEL)
     @Override
     public List<DeviceStatus> listDeviceStatusInfo(int appId) {
-        ArrayList<String> deviceNames = new ArrayList<>();
-        List<DeviceStatus> deviceStatuses = new ArrayList<>();
-        List<AppDeviceDTO> appDevices = appDeviceMapper.getAppDevice(appId);
-        if (appDevices.size() != 0) {
-            for (AppDeviceDTO appDevice : appDevices) {
-                deviceNames.add(appDevice.getDeviceName());
-            }
-        }
-        if (deviceNames.size() != 0) {
-            deviceStatuses = appStatusMapper.listDeviceStatusInfo(deviceNames);
-            for (DeviceStatus deviceStatus : deviceStatuses) {
-                if (deviceStatus.getOnlineTime() != null) {
-                    long time = (new Date().getTime() - deviceStatus.getOnlineTime().getTime()) / 1000;
-                    long hours = time / 3600;
-                    long minutes = (time - (hours * 3600)) / 60;
-                    long seconds = time - (hours * 3600) - (minutes * 60);
-                    deviceStatus.setWorkTime(hours + "时" + minutes + "分" + seconds + "秒");
-                } else {
-                    deviceStatus.setDeviceIp(null);
-                    deviceStatus.setWorkTime(null);
-                    deviceStatus.setEncRate(null);
-                    deviceStatus.setDecRate(null);
-                }
+        List<DeviceStatus> deviceStatuses = appStatusMapper.listDeviceStatusInfo(appId);
+        for (DeviceStatus deviceStatus : deviceStatuses) {
+            if (deviceStatus.getOnlineTime() != null) {
+                long time = (new Date().getTime() - deviceStatus.getOnlineTime().getTime()) / 1000;
+                long hours = time / 3600;
+                long minutes = (time - (hours * 3600)) / 60;
+                long seconds = time - (hours * 3600) - (minutes * 60);
+                deviceStatus.setWorkTime(hours + "时" + minutes + "分" + seconds + "秒");
+            } else {
+                deviceStatus.setDeviceIp(null);
+                deviceStatus.setWorkTime(null);
+                deviceStatus.setEncRate(null);
+                deviceStatus.setDecRate(null);
             }
         }
         return deviceStatuses;

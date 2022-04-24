@@ -137,12 +137,8 @@ public class DeviceStatusController {
     public Result unicomGetCurrentAppStatusInfo(@RequestParam("appId") int appId, @PathVariable("offset") int offset, @PathVariable("pageSize") int pageSize){
         PageHelper.startPage(offset,pageSize);
         List<DeviceStatus> deviceStatuses = appStatusService.listDeviceStatusInfo(appId);
-        if (deviceStatuses.size()!=0) {
-            PageInfo<DeviceStatus> info = new PageInfo<>(deviceStatuses);
-            return ResultHelper.genResultWithSuccess(info);
-        }else
-            return ResultHelper.genResultWithSuccess();
-
+        PageInfo<DeviceStatus> info = new PageInfo<>(deviceStatuses);
+        return ResultHelper.genResultWithSuccess(info);
     }
 
 }

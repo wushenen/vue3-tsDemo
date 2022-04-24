@@ -4,15 +4,14 @@
 <mapper namespace="com.unicom.quantum.mapper.AppStatusMapper">
 
     <select id="listDeviceStatusInfo" resultType="com.unicom.quantum.pojo.DeviceStatus">
-        select b.device_id as deviceId,
-        a.device_name as deviceName,
-        a.*
-        from t_device_status a, t_device_user b
-        where a.device_name = b.device_name
-         and a.device_name in
-        <foreach collection="deviceNames" item="deviceName" open="(" index="index" close=")" separator=",">
-            #{deviceName}
-        </foreach>
+        SELECT c.*,b.device_id as deviceId
+        from t_app_device a
+        LEFT JOIN
+        t_device_user b
+        ON a.device_id = b.device_id
+        LEFT JOIN t_device_status c
+        ON b.device_name = c.device_name
+        WHERE a.app_id = #{appId}
     </select>
 
     <select id="getDeviceStatusInfo" resultType="com.unicom.quantum.pojo.DTO.DeviceStatusDataInfo">
