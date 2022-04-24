@@ -21,6 +21,23 @@ import java.util.concurrent.ThreadLocalRandom;
 public class UtilService {
     private static final Logger logger = LoggerFactory.getLogger(UtilService.class);
 
+    private final static int BUFFER_LENGTH = 51200;
+    private static byte[] QRNG_BUFFER = new byte[BUFFER_LENGTH];
+    private static byte[] QRNG_BUFFER2 = new byte[BUFFER_LENGTH];
+    public static volatile int QRNG_INDEX = 0;
+    public static volatile int CURRENT = 1;
+    public static volatile boolean FIRST_COME = false;
+
+    static {
+        try {
+            QRNG_BUFFER = QrngUtil.genrateRandom(BUFFER_LENGTH);
+            QRNG_BUFFER2 = QrngUtil.genrateRandom(BUFFER_LENGTH);
+            logger.info("----------QR301/302初始化完毕---------");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Autowired
     private KeySourceConfigMapper keySourceConfigMapper;
     @Autowired
@@ -43,7 +60,59 @@ public class UtilService {
                     switch (keySourceConfigs.get(i).getKeySource()) {
                         case 1://qrng
                             logger.info("QRNG获取量子随机数");
-                            random = QrngUtil.genrateRandom(length);
+                            switch (CURRENT){
+                                case 1:
+                                    try {
+                                        System.arraycopy(QRNG_BUFFER, QRNG_INDEX, random, 0, length);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                case 2:
+                                    try {
+                                        System.arraycopy(QRNG_BUFFER2, QRNG_INDEX, random, 0, length);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                    break;
+                                default:
+                                    break;
+                            }
+                            QRNG_INDEX = QRNG_INDEX + length;
+                            if (QRNG_INDEX > 50000) {
+                                QRNG_INDEX = 0;
+                                FIRST_COME = true;
+                            }
+                            CompletableFuture.runAsync(()-> {
+                                while (FIRST_COME) {
+                                    switch (CURRENT) {
+                                        case 1:
+                                            CURRENT = 2;
+                                            FIRST_COME = false;
+                                            CompletableFuture.runAsync(()->{
+                                                try {
+                                                    System.arraycopy(QrngUtil.genrateRandom(BUFFER_LENGTH), 0, QRNG_BUFFER, 0, BUFFER_LENGTH);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            });
+                                            break;
+                                        case 2:
+                                            CURRENT = 1;
+                                            FIRST_COME = false;
+                                            CompletableFuture.runAsync(()->{
+                                                try {
+                                                    System.arraycopy(QrngUtil.genrateRandom(BUFFER_LENGTH), 0, QRNG_BUFFER2, 0, BUFFER_LENGTH);
+                                                } catch (Exception e) {
+                                                    e.printStackTrace();
+                                                }
+                                            });
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            });
                             break;
                         case 2://902
                             logger.info("高速QRNG获取量子随机数");
