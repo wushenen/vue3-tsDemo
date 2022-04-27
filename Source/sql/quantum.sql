@@ -35,7 +35,8 @@ CREATE TABLE `t_app`  (
   `app_secret` varchar(96) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '应用secret',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   `comments` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  PRIMARY KEY (`app_id`) USING BTREE
+  PRIMARY KEY (`app_id`) USING BTREE,
+  UNIQUE KEY `index_app_name` (`app_name`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '应用表' ROW_FORMAT = Compact;
 
 -- ----------------------------
@@ -92,7 +93,8 @@ CREATE TABLE `t_device_operation`  (
   `operation` int(1) NOT NULL DEFAULT 0 COMMENT '设备操作（0-无操作，1-重启，2-置零，默认0',
   `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
   `update_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `index_device_name` (`device_name`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '终端设备操作表（记录置零或重启）' ROW_FORMAT = Compact;
 
 -- ----------------------------
