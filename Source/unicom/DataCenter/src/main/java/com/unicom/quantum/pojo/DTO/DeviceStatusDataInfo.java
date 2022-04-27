@@ -20,10 +20,4 @@ public class DeviceStatusDataInfo {
 
     private Long decDataNum;
 
-/*    private int avgFre;
-
-    private int maxFre;
-
-    private int minFre;*/
-
 }
