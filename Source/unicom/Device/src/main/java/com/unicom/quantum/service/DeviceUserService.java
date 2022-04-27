@@ -1,16 +1,10 @@
 package com.unicom.quantum.service;
 
-import com.unicom.quantum.component.Exception.QuantumException;
+import com.unicom.quantum.controller.vo.UpdateUserInfoRequest;
 import com.unicom.quantum.pojo.DTO.ExportDeviceUserInfo;
 import com.unicom.quantum.pojo.DeviceUser;
-import com.unicom.quantum.controller.vo.UpdateUserInfoRequest;
+import org.springframework.web.multipart.MultipartFile;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 import java.util.List;
 
 public interface DeviceUserService {
@@ -19,10 +13,7 @@ public interface DeviceUserService {
     List<DeviceUser> listAllDeviceUser(String deviceName);
 
     /*获取终端用户信息*/
-    DeviceUser getDeviceInfo(int deviceId);
-
-    /*判断的用户名是否已被占用*/
-    boolean userNameIsExist(String deviceName);
+    DeviceUser getDeviceInfo(int deviceId) throws Exception;
 
     /*添加终端用户信息*/
     int addDeviceUser(DeviceUser deviceUser) throws Exception;
@@ -41,5 +32,7 @@ public interface DeviceUserService {
 
     /*获取终端用户加密密钥*/
     String getEncKey(String deviceName) throws Exception;
+
+    void importDeviceUser(MultipartFile fileData) throws Exception;
 
 }

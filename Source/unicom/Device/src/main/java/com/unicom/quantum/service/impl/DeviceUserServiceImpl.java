@@ -1,8 +1,11 @@
 package com.unicom.quantum.service.impl;
 
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.unicom.quantum.component.Exception.QuantumException;
 import com.unicom.quantum.component.ResultHelper;
 import com.unicom.quantum.component.annotation.OperateLogAnno;
+import com.unicom.quantum.component.util.CharacterUtil;
 import com.unicom.quantum.component.util.DataTools;
 import com.unicom.quantum.component.util.HexUtils;
 import com.unicom.quantum.component.util.UtilService;
@@ -13,6 +16,7 @@ import com.unicom.quantum.pojo.DeviceUser;
 import com.unicom.quantum.service.DeviceUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -40,16 +44,11 @@ public class DeviceUserServiceImpl implements DeviceUserService {
 
     @OperateLogAnno(operateDesc = "查看特定终端用户信息", operateModel = OPERATE_MODEL)
     @Override
-    public DeviceUser getDeviceInfo(int deviceId) {
+    public DeviceUser getDeviceInfo(int deviceId) throws Exception {
         DeviceUser deviceInfo = deviceUserMapper.getDeviceInfo(deviceId);
-        deviceInfo.setPassword(utilService.decryptCBCWithPadding(deviceInfo.getPassword(),UtilService.SM4KEY));
-        deviceInfo.setEncKey(utilService.decryptCBCWithPadding(deviceInfo.getEncKey(),UtilService.SM4KEY));
+        deviceInfo.setPassword(DataTools.decryptMessage(deviceInfo.getPassword()));
+        deviceInfo.setEncKey(DataTools.decryptMessage(deviceInfo.getEncKey()));
         return deviceInfo;
-    }
-
-    @Override
-    public boolean userNameIsExist(String deviceName) {
-        return deviceUserMapper.userNameIsExist(deviceName);
     }
 
     @OperateLogAnno(operateDesc = "添加终端用户信息", operateModel = OPERATE_MODEL)
@@ -118,5 +117,46 @@ public class DeviceUserServiceImpl implements DeviceUserService {
             return encKey;
         else
             throw new QuantumException(ResultHelper.genResult(1,"用户加密密钥错误"));
+    }
+
+    @Override
+    public void importDeviceUser(MultipartFile fileData) throws Exception {
+        String suffix = fileData.getOriginalFilename().substring(fileData.getOriginalFilename().lastIndexOf('.'));
+        if (! ".xls".equals(suffix) && !".xlsx".equals(suffix)) {
+            throw new QuantumException(ResultHelper.genResult(1,"模板文件格式有误"));
+        }
+        ImportParams importParams = new ImportParams();
+        importParams.setHeadRows(1);
+        List<DeviceUser> list = null;
+        try {
+            list = ExcelImportUtil.importExcel(fileData.getInputStream(), DeviceUser.class, importParams);
+        } catch (Exception e) {
+            throw new QuantumException(ResultHelper.genResult(1,"请确认导入模板是否正确！"));
+        }
+        for (DeviceUser insertUser : list) {
+            if (insertUser.getDeviceName() == null || insertUser.getPassword() == null)
+                throw new QuantumException(ResultHelper.genResult(1,"导入数据有误，请确认导入模板是否正确！"));
+            if (CharacterUtil.containsChinese(insertUser.getDeviceName()))
+                throw new QuantumException(ResultHelper.genResult(1,"终端用户名不支持中文字符，请检查后再导入！"));
+            if(insertUser.getDeviceName().trim() == null && insertUser.getPassword().trim() == null && insertUser.getComments().trim() == null)
+                throw new QuantumException(ResultHelper.genResult(1,"导入数据中至少有一条数据的用户名、密码和备注为空"));
+            if (insertUser.getDeviceName().length() < 4 || insertUser.getDeviceName().length() > 16)
+                throw new QuantumException(ResultHelper.genResult(1,"终端用户名："+insertUser.getDeviceName()+"不符合长度限制(4-16位)"));
+            if (insertUser.getPassword().length() < 8 || insertUser.getPassword().length() > 16)
+                throw new QuantumException(ResultHelper.genResult(1,"终端用户："+insertUser.getDeviceName()+"密码不符合长度限制(8-16位)"));
+        }
+        for (DeviceUser deviceUser : list) {
+            String userName = deviceUser.getDeviceName();
+            if (deviceUserMapper.userNameIsExist(userName))
+                throw new QuantumException(ResultHelper.genResult(1,"终端用户：" + userName + "已存在，数据导入失败"));
+        }
+        for (DeviceUser deviceUser : list) {
+            deviceUser.setPassword(DataTools.encryptMessage(deviceUser.getPassword()));
+            if (deviceUser.getUserType() == 1) {
+                deviceUser.setEncKey(DataTools.encryptMessage(utilService.generateQuantumRandom(32)));
+            }
+            if (!deviceUserMapper.userNameIsExist(deviceUser.getDeviceName()))
+                deviceUserMapper.addDeviceUser(deviceUser);
+        }
     }
 }

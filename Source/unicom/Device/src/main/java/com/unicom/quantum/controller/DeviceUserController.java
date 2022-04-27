@@ -1,15 +1,12 @@
 package com.unicom.quantum.controller;
 
 import cn.afterturn.easypoi.excel.ExcelExportUtil;
-import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ExportParams;
-import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.unicom.quantum.component.Result;
 import com.unicom.quantum.component.ResultHelper;
-import com.unicom.quantum.component.util.UtilService;
 import com.unicom.quantum.controller.vo.*;
 import com.unicom.quantum.pojo.DTO.ExportDeviceUserInfo;
 import com.unicom.quantum.pojo.DeviceUser;
@@ -40,9 +37,6 @@ public class DeviceUserController {
     @Autowired
     private DeviceUserService deviceUserService;
 
-    @Autowired
-    private UtilService utilService;
-
     @ApiOperation(value = "获取所有终端用户信息" ,notes = "获取所有终端用户信息")
     @GetMapping(value = "/getAllDevice/{offset}/{pageSize}")
     @ResponseBody
@@ -71,7 +65,7 @@ public class DeviceUserController {
     @ApiOperation(value = "获取指定终端用户信息" ,notes = "获取指定终端用户信息")
     @PostMapping(value = "/getDeviceInfo")
     @ResponseBody
-    public Result unicomGetDeviceInfo(@RequestBody GetDeviceInfoRequest getDeviceInfoRequest){
+    public Result unicomGetDeviceInfo(@RequestBody GetDeviceInfoRequest getDeviceInfoRequest) throws Exception {
         DeviceUser deviceInfo = deviceUserService.getDeviceInfo(getDeviceInfoRequest.getDeviceId());
         return ResultHelper.genResultWithSuccess(deviceInfo);
     }
@@ -96,24 +90,7 @@ public class DeviceUserController {
     @PostMapping(value = "/importDeviceUser")
     @ResponseBody
     public Result unicomImportDeviceUser(@RequestPart("excelFile") MultipartFile excelFile) throws Exception {
-        ImportParams importParams = new ImportParams();
-        importParams.setHeadRows(1);
-        List<DeviceUser> list = ExcelImportUtil.importExcel(excelFile.getInputStream(), DeviceUser.class, importParams);
-        for (DeviceUser insertUser : list) {
-            if(insertUser.getDeviceName().trim() == null && insertUser.getPassword().trim() == null && insertUser.getComments().trim() == null)
-                return ResultHelper.genResult(1,"导入数据中至少有一条数据的用户名、密码和备注为空");
-        }
-        for (DeviceUser deviceUser : list) {
-            String userName = deviceUser.getDeviceName();
-            if (deviceUserService.userNameIsExist(userName))
-                return ResultHelper.genResult(1,"用户名" + userName + "已被占用，用户数据导入失败");
-        }
-
-        for (DeviceUser deviceUser : list) {
-            if (deviceUser.getUserType() == 1)
-                deviceUser.setEncKey(utilService.generateQuantumRandom(32));
-            deviceUserService.addDeviceUser(deviceUser);
-        }
+        deviceUserService.importDeviceUser(excelFile);
         return ResultHelper.genResultWithSuccess();
     }
 
