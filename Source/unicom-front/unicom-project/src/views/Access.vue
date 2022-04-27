@@ -30,13 +30,13 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <el-dialog title="添加" :visible.sync="addDialogVisible" width="500px" @close="addDialogClosed">
+    <el-dialog title="添加" :visible.sync="addDialogVisible" width="500px" @close="addDialogClosed" :close-on-click-modal = "false">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" status-icon label-width="70px">
         <el-form-item label="提示:" >
           <span>请输入IP（如x.x.x.x）、IP范围（用-分隔,如x.x.x.x-x.x.x.x）或网段（用/分隔，如x.x.x.x/x）</span>
         </el-form-item>
         <el-form-item label="IP" prop="ipInfo">
-          <el-input v-model.trim="addForm.ipInfo"></el-input>
+          <el-input v-model.trim="addForm.ipInfo"  maxlength="16"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

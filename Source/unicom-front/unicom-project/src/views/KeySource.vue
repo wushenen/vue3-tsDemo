@@ -74,10 +74,10 @@
     <el-dialog title="修改IP" :visible.sync="editDialogVisible" width="500px" @close="editDialogClosed">
       <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="100px">
         <el-form-item label="发送端IP" prop="sourceIp">
-          <el-input v-model.trim="editForm.sourceIp"></el-input>
+          <el-input v-model.trim="editForm.sourceIp"  maxlength="16"></el-input>
         </el-form-item>
         <el-form-item label="发送端备用IP" prop="sourceIp2">
-          <el-input v-model.trim="editForm.sourceIp2"></el-input>
+          <el-input v-model.trim="editForm.sourceIp2"  maxlength="16"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -100,34 +100,33 @@
         <el-button type="primary" v-preventReClick="1000" @click="keyEnsure">确 定</el-button>
       </div>
     </el-dialog>
-
-    <el-dialog title="修改参数" :visible.sync="configDialogVisible" width="500px" @close="configDialogClosed">
+    <el-dialog title="修改参数" :visible.sync="configDialogVisible" width="500px" @close="configDialogClosed" >
       <el-form :model="configForm" :rules="configFormRules" ref="configFormRef" label-width="130px">
         <el-form-item label="发送端用户名" prop="localName">
-          <el-input v-model.trim="configForm.localName"></el-input>
+          <el-input v-model.trim="configForm.localName"  maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="接收端用户名" prop="peerName">
-          <el-input v-model.trim="configForm.peerName"></el-input>
+          <el-input v-model.trim="configForm.peerName"  maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="发送端设备密钥" prop="devKey">
-          <el-input type="textarea" v-model.trim="configForm.devKey"></el-input>
+          <el-input type="textarea" v-model.trim="configForm.devKey"  maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="发送端加密密钥" prop="cryptKey">
-          <el-input type="textarea" v-model.trim="configForm.cryptKey"></el-input>
+          <el-input type="textarea" v-model.trim="configForm.cryptKey"  maxlength="32"></el-input>
         </el-form-item>
         <el-collapse accordion @change="handleChange">
           <el-collapse-item :name="1" title="备用参数">
             <el-form-item label="发送端用户名" prop="localName2">
-              <el-input v-model.trim="configForm.localName2"></el-input>
+              <el-input v-model.trim="configForm.localName2"  maxlength="32"></el-input>
             </el-form-item>
             <el-form-item label="接收端用户名" prop="peerName2">
-              <el-input v-model.trim="configForm.peerName2"></el-input>
+              <el-input v-model.trim="configForm.peerName2"  maxlength="32"></el-input>
             </el-form-item>
             <el-form-item label="发送端设备密钥" prop="devKey2">
-              <el-input type="textarea" v-model.trim="configForm.devKey2"></el-input>
+              <el-input type="textarea" v-model.trim="configForm.devKey2"  maxlength="32"></el-input>
             </el-form-item>
             <el-form-item label="发送端加密密钥" prop="cryptKey2">
-              <el-input type="textarea" v-model.trim="configForm.cryptKey2"></el-input>
+              <el-input type="textarea" v-model.trim="configForm.cryptKey2"  maxlength="32"></el-input>
             </el-form-item>
           </el-collapse-item>
         </el-collapse>

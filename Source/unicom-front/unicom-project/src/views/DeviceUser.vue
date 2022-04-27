@@ -59,16 +59,16 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <el-dialog title="添加终端用户" :visible.sync="addDialogVisible" width="650px" @close="addDialogClosed">
+    <el-dialog title="添加终端用户" :visible.sync="addDialogVisible" width="650px" @close="addDialogClosed" :close-on-click-modal = "false">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="80px">
         <el-form-item label="用户名" prop="deviceName">
-          <el-input v-model.trim="addForm.deviceName"></el-input>
+          <el-input v-model.trim="addForm.deviceName"  maxlength="32" autoComplete="new-text"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pws1">
-          <el-input type="password" v-model.trim="addForm.pws1"></el-input>
+          <el-input type="password" v-model.trim="addForm.pws1"  maxlength="16" autoComplete="new-password"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="pws2">
-          <el-input type="password" v-model.trim="addForm.pws2"></el-input>
+          <el-input type="password" v-model.trim="addForm.pws2"  maxlength="16" autoComplete="new-password"></el-input>
         </el-form-item>
         <el-form-item label="用户类型" prop="userType">
           <el-radio-group v-model.trim="addForm.userType">
@@ -77,7 +77,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="comments">
-          <el-input type="textarea" maxlength="200" show-word-limit :rows="5" v-model.trim="addForm.comments"></el-input>
+          <el-input type="textarea" maxlength="200" show-word-limit :rows="10" v-model.trim="addForm.comments"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -85,13 +85,13 @@
         <el-button type="primary" v-preventReClick="1000" @click="submitAdd">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="编辑终端用户" :visible.sync="editDialogVisible" width="520px" @close="editDialogClosed">
+    <el-dialog title="编辑终端用户" :visible.sync="editDialogVisible" width="650px" @close="editDialogClosed" :close-on-click-modal = "false">
       <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="80px">
         <el-form-item label="用户名" prop="deviceName">
           <el-input v-model.trim="editForm.deviceName" disabled></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="comments">
-          <el-input type="textarea" maxlength="200" show-word-limit :rows="5" v-model.trim="editForm.comments"></el-input>
+          <el-input type="textarea" maxlength="200" show-word-limit :rows="10" v-model.trim="editForm.comments"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -99,13 +99,13 @@
         <el-button type="primary" v-preventReClick="1000" @click="submitEdit">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="修改密码" :visible.sync="psdDialogVisible" width="650px" @close="psdDialogClosed">
+    <el-dialog title="修改密码" :visible.sync="psdDialogVisible" width="650px" @close="psdDialogClosed" :close-on-click-modal = "false">
       <el-form :model="psdForm" :rules="psdFormRules" ref="psdFormRef" label-width="80px">
         <el-form-item label="新密码" prop="psd1">
-          <el-input type="password" v-model.trim="psdForm.psd1"></el-input>
+          <el-input type="password" v-model.trim="psdForm.psd1"  maxlength="16" autoComplete="new-password"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="psd2">
-          <el-input type="password" v-model.trim="psdForm.psd2"></el-input>
+          <el-input type="password" v-model.trim="psdForm.psd2"  maxlength="16" autoComplete="new-password"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">

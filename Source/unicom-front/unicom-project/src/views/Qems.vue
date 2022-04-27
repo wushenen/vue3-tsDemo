@@ -9,21 +9,21 @@
     <el-card>
       <el-form style="margin-top: 20px" ref="formRef" :model="userList" :rules="formRules" label-width="140px">
         <el-form-item label="加密端口:" prop="encPort">
-          <el-input v-model="userList.encPort"></el-input>
+          <el-input v-model="userList.encPort"  maxlength="16"></el-input>
         </el-form-item>
         <el-form-item label="密钥更新频率(秒):" prop="encFreq">
-          <el-input v-model="userList.encFreq"></el-input>
+          <el-input v-model="userList.encFreq"  maxlength="10"></el-input>
         </el-form-item>
         <el-form-item label="密钥充注:" required>
           <el-col :span="11">
             <el-form-item prop="startIndex">
-              <el-input placeholder="开始值" v-model="userList.startIndex" style="width: 100%;"></el-input>
+              <el-input placeholder="开始值" v-model="userList.startIndex" style="width: 100%;"  maxlength="10"></el-input>
             </el-form-item>
           </el-col>
           <el-col class="line" :span="2" style="text-align: center">-</el-col>
           <el-col :span="11">
             <el-form-item prop="endIndex">
-              <el-input placeholder="结束值" v-model="userList.endIndex" style="width: 100%;"></el-input>
+              <el-input placeholder="结束值" v-model="userList.endIndex" style="width: 100%;"  maxlength="10"></el-input>
             </el-form-item>
           </el-col>
         </el-form-item>

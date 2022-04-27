@@ -49,7 +49,7 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <el-dialog title="添加权限" :visible.sync="addDialogVisible" width="600px" @close="addDialogClosed">
+    <el-dialog title="添加权限" :visible.sync="addDialogVisible" width="600px" @close="addDialogClosed" :close-on-click-modal = "false">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="90px">
         <el-form-item label="选择权限:" prop="checkedAuth">
           <div class="block">

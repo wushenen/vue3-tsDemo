@@ -15,8 +15,8 @@ import preventReClick from './assets/js/preventRepeatClick'
 
 Vue.config.productionTip = false;
 Vue.prototype.Global = global;
-// axios.defaults.baseURL = './unicom/';//打包的配置
-axios.defaults.baseURL = './unicom/';//本地的配置
+ axios.defaults.baseURL = './';//打包的配置
+//axios.defaults.baseURL = './unicom/';//本地的配置
 Vue.use(ElementUI);
 Vue.use(preventReClick);
 Vue.prototype.$message = message;

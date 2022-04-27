@@ -18,7 +18,7 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <el-dialog :title="title" :visible.sync="addFormDialogVisible" width="500px" @close="addDialogClosed">
+    <el-dialog :title="title" :visible.sync="addFormDialogVisible" width="500px" @close="addDialogClosed" :close-on-click-modal = "false">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="120px">
         <el-form-item label="接口资源名称" prop="apiName">
           <el-input v-model.trim="addForm.apiName"></el-input>

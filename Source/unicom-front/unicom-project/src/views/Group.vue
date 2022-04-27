@@ -40,13 +40,13 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <el-dialog title="创建分组" :visible.sync="addDialogVisible" width="500px" @close="addDialogClosed">
+    <el-dialog title="创建分组" :visible.sync="addDialogVisible" width="500px" @close="addDialogClosed" :close-on-click-modal = "false">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="110px">
         <el-form-item label="分组名称" prop="groupName">
-          <el-input v-model.trim="addForm.groupName"></el-input>
+          <el-input v-model.trim="addForm.groupName"  maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="分组唯一标识" prop="groupCode">
-          <el-input v-model.trim="addForm.groupCode"></el-input>
+          <el-input v-model.trim="addForm.groupCode"  maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="分组描述" prop="groupDescribe">
           <el-input type="textarea" maxlength="128" show-word-limit :rows="8" v-model.trim="addForm.groupDescribe"></el-input>
@@ -57,10 +57,10 @@
         <el-button type="primary" v-preventReClick="1000"  @click="submitAdd">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="编辑分组" :visible.sync="editDialogVisible" width="500px" @close="editDialogClosed">
+    <el-dialog title="编辑分组" :visible.sync="editDialogVisible" width="500px" @close="editDialogClosed" :close-on-click-modal = "false">
       <el-form :model="editForm" :rules="editFormRules" ref="editFormRef" label-width="110px">
         <el-form-item label="分组名称" prop="groupName">
-          <el-input v-model.trim="editForm.groupName"></el-input>
+          <el-input v-model.trim="editForm.groupName"  maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="分组唯一标识" prop="groupCode">
           <el-input v-model.trim="editForm.groupCode" disabled></el-input>

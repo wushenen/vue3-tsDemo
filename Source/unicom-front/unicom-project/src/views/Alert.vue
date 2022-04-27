@@ -35,7 +35,7 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <el-dialog title="修改发件人信息" :visible.sync="addDialogVisible" width="600px" @close="addDialogClosed">
+    <el-dialog title="修改发件人信息" :visible.sync="addDialogVisible" width="600px" @close="addDialogClosed" :close-on-click-modal = "false">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="150px">
         <el-form-item label="发件人邮箱" prop="emailUsername">
           <el-input v-model.trim="addForm.emailUsername"></el-input>

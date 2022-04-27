@@ -36,7 +36,7 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <el-dialog title="绑定应用管理员" :visible.sync="keyDialogVisible" width="500px" @close="keyDialogClosed">
+    <el-dialog title="绑定应用管理员" :visible.sync="keyDialogVisible" width="500px" @close="keyDialogClosed" :close-on-click-modal = "false">
       <el-form :model="keyForm" :rules="keyFormRules" ref="keyFormRef" label-width="100px">
         <el-form-item label="应用管理员" prop="userManager">
           <el-select multiple clearable  style="width: 100%" v-model="keyForm.userManager" placeholder="请选择">

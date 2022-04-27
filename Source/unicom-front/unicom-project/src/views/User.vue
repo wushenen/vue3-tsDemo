@@ -52,19 +52,19 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <el-dialog title="添加" :visible.sync="addDialogVisible" width="700px" @close="addDialogClosed">
+    <el-dialog title="添加" :visible.sync="addDialogVisible" width="700px" @close="addDialogClosed" :close-on-click-modal = "false">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="90px">
         <el-form-item label="用户名" prop="userName">
-          <el-input v-model.trim="addForm.userName"></el-input>
+          <el-input v-model.trim="addForm.userName"  maxlength="32" autoComplete="new-text"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model.trim="addForm.email"></el-input>
+          <el-input v-model.trim="addForm.email"  maxlength="32" autoComplete="new-text"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="psd1">
-          <el-input type="password" v-model.trim="addForm.psd1"></el-input>
+          <el-input type="password" v-model.trim="addForm.psd1"  maxlength="32" autoComplete="new-password"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="psd2">
-          <el-input type="password" v-model.trim="addForm.psd2"></el-input>
+          <el-input type="password" v-model.trim="addForm.psd2"  maxlength="32" autoComplete="new-password"></el-input>
         </el-form-item>
         <el-form-item label="用户类型" prop="accountType">
           <el-radio-group v-model.trim="addForm.accountType">
@@ -74,7 +74,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="comments">
-          <el-input type="textarea" maxlength="200" show-word-limit :rows="5"
+          <el-input type="textarea" maxlength="200" show-word-limit :rows="10"
                     v-model.trim="addForm.comments"></el-input>
         </el-form-item>
       </el-form>
@@ -83,22 +83,22 @@
         <el-button type="primary" v-preventReClick="1000" @click="submitAdd">确 定</el-button>
       </div>
     </el-dialog>
-    <el-dialog title="编辑用户信息" :visible.sync="psdDialogVisible" width="650px" @close="psdDialogClosed">
+    <el-dialog title="编辑用户信息" :visible.sync="psdDialogVisible" width="650px" @close="psdDialogClosed" :close-on-click-modal = "false">
       <el-form :model="psdForm" :rules="psdFormRules" ref="psdFormRef" label-width="80px">
         <el-form-item label="用户名" prop="userName">
           <el-input v-model.trim="psdForm.userName" disabled></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model.trim="psdForm.email"></el-input>
+          <el-input v-model.trim="psdForm.email"  maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="新密码" prop="psd1">
-          <el-input type="password" v-model.trim="psdForm.psd1"></el-input>
+          <el-input type="password" v-model.trim="psdForm.psd1"  maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="确认密码" prop="psd2">
-          <el-input type="password" v-model.trim="psdForm.psd2"></el-input>
+          <el-input type="password" v-model.trim="psdForm.psd2"  maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="备注" prop="comments">
-          <el-input type="textarea" maxlength="200" show-word-limit :rows="5"
+          <el-input type="textarea" maxlength="200" show-word-limit :rows="10"
                     v-model.trim="psdForm.comments"></el-input>
         </el-form-item>
       </el-form>

@@ -60,7 +60,7 @@
       </el-pagination>
     </el-card>
 
-    <el-dialog title="绑定终端用户" :visible.sync="addDialogVisible" width="500px" @close="addDialogClosed">
+    <el-dialog title="绑定终端用户" :visible.sync="addDialogVisible" width="500px" @close="addDialogClosed" :close-on-click-modal = "false">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef"
                label-width="100px">
         <el-form-item label="终端用户：" prop="value">

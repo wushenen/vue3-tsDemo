@@ -38,7 +38,7 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <el-dialog title="添加成员" :visible.sync="addDialogVisible" width="500px" @close="addDialogClosed">
+    <el-dialog title="添加成员" :visible.sync="addDialogVisible" width="550px" @close="addDialogClosed" :close-on-click-modal = "false">
       <el-form :model="addForm" :rules="addFormRules" ref="addFormRef" label-width="110px">
         <el-form-item label="终端用户：" prop="value">
           <el-select ref="inputValue"
@@ -46,7 +46,9 @@
                      multiple
                      placeholder="请选择用户名"
                      :loading="loading"
+                     clearable
                      @visible-change="remoteMethod($event)">
+                     
             <el-option
               v-for="item in options"
               :key="item.deviceId"
@@ -187,8 +189,19 @@
     }
   }
 </script>
-<style lang="less" scoped>
+<style lang="less" >
   .el-select {
     display: block;
+    width: 100%;
+   
   }
+   .el-tag--small { 
+      height: 25px !important;
+      background-color: pink;
+     }
+     .el-select-dropdown{
+       top:300px !important;
+     }
+    
+
 </style>

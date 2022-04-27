@@ -63,11 +63,11 @@
         :total="total">
       </el-pagination>
     </el-card>
-    <el-dialog title="添加应用" :visible.sync="addDialogVisible" width="520px" @close="addDialogClosed">
+    <el-dialog title="添加应用" :visible.sync="addDialogVisible" width="650px" @close="addDialogClosed" :close-on-click-modal = "false">
       <el-form style="width: 80%;margin: 20px auto;" :model="addForm" :rules="addFormRules" ref="addFormRef"
                label-width="80px">
         <el-form-item label="应用名称" prop="loginName">
-          <el-input v-model.trim="addForm.loginName"></el-input>
+          <el-input v-model.trim="addForm.loginName"  maxlength="16"></el-input>
         </el-form-item>
         <el-form-item label="应用类型" prop="appType">
           <el-radio-group v-model.trim="addForm.appType" @change="radioChange">
@@ -76,7 +76,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="备注" prop="comments">
-          <el-input type="textarea" maxlength="200" show-word-limit :rows="5"
+          <el-input type="textarea" maxlength="200" show-word-limit :rows="10"
                     v-model.trim="addForm.comments"></el-input>
         </el-form-item>
       </el-form>

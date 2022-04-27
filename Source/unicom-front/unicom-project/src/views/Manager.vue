@@ -9,13 +9,13 @@
         <el-tab-pane label="修改IP" name="first">
           <el-form :model="ipForm" ref="ipFormRef" :rules="ipFormRules" label-width="110px">
             <el-form-item label="IP地址" prop="ip">
-              <el-input v-model.trim="ipForm.ip"></el-input>
+              <el-input v-model.trim="ipForm.ip"  maxlength="16"></el-input>
             </el-form-item>
             <el-form-item label="子网掩码" prop="netMask">
-              <el-input v-model.trim="ipForm.netMask"></el-input>
+              <el-input v-model.trim="ipForm.netMask"  maxlength="16"></el-input>
             </el-form-item>
             <el-form-item label="默认网关" prop="gateWay">
-              <el-input v-model.trim="ipForm.gateWay"></el-input>
+              <el-input v-model.trim="ipForm.gateWay"  maxlength="16"></el-input>
             </el-form-item>
             <el-form-item label="网卡名" prop="nicName">
               <el-select placeholder="请选择" v-model="ipForm.nicName">

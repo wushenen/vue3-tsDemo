@@ -50,7 +50,7 @@
       </el-pagination>
       </el-col> 
     </el-card>
-    <el-dialog :title="title" :visible.sync="keyDialogVisible" width="520px" @close="keyDialogClosed">
+    <el-dialog :title="title" :visible.sync="keyDialogVisible" width="520px" @close="keyDialogClosed" :close-on-click-modal = "false">
       <el-form :model="keyForm" :rules="keyFormRules" ref="keyFormRef" label-width="80px">
         <el-form-item label="密钥ID" prop="keyId">
           <el-select clearable style="width: 100%" v-model="keyForm.keyId" placeholder="请选择"
