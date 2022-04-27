@@ -24,7 +24,7 @@ public class AppDeviceServiceImpl implements AppDeviceService {
     public int addAppDevice(AppDeviceRequest appDeviceRequest) throws QuantumException {
         for (Integer deviceId : appDeviceRequest.getDeviceIds()) {
             if (appDeviceMapper.appDeviceExist(appDeviceRequest.getAppId(), deviceId)) {
-                throw new QuantumException(ResultHelper.genResult(1, appDeviceMapper.getDeviceName(deviceId) + "终端已绑定其它应用，若想绑定至该应用请先解除其他应用绑定终端已绑定其它应用，若想绑定至该应用请先解除其他应用绑定"));
+                throw new QuantumException(ResultHelper.genResult(1, appDeviceMapper.getDeviceName(deviceId) + "终端已绑定其它应用，若想绑定至该应用请先解除其他应用绑定"));
             }
         }
         for (Integer deviceId : appDeviceRequest.getDeviceIds()) {
