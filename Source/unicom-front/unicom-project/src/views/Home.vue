@@ -24,7 +24,7 @@
 </template>
 <script>
   import menuTree from "../components/MenuTree";
-
+  import Cookies from "js-cookie";
   export default {
     name: 'Home',
     components: {
@@ -89,8 +89,8 @@
       }
     },
     created() {
-      this.loginName = window.sessionStorage.getItem('loginName');
-      let aa = window.sessionStorage.getItem('accountTypeLogin');
+      this.loginName = Cookies.get('loginName');
+      let aa = Cookies.get('accountTypeLogin');
       if (aa === '9') {
         this.menuList = this.adminList;
         this.accountTypeLogin = "(管理员)";
@@ -114,7 +114,7 @@
         if (confirmResult !== 'confirm') {
           return
         }
-        window.sessionStorage.clear();
+       Cookies.remove();
         this.menuList.splice(0, this.menuList.length);
         this.$router.push('/login')
       },

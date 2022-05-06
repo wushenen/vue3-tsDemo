@@ -80,7 +80,7 @@
 </template>
 <script>
   import * as echarts from 'echarts';
-
+import Cookies from 'js-cookie'
   export default {
     data() {
       const checkBase64 = (rule, value, cb) => {
@@ -101,7 +101,7 @@
           offset:1,
           pagesize:10,
         },
-        total:'',
+        total:0,
         options: [],
         title: '',
         deviceName: this.$route.query.deviceName,
@@ -116,7 +116,7 @@
       }
     },
     beforeRouteEnter: (to, form, next) => {
-      const loginType = window.sessionStorage.getItem('accountTypeLogin');
+      const loginType =Cookies.get('accountTypeLogin');
       if (loginType === '9') {
         next()
       } else {
@@ -219,8 +219,9 @@
           }
         });
         if (res.code !== 0) return this.$message.error((res.msg !== '' && res.msg !== null) ? res.msg : '分配额度失败！');
-        this.$message.success('分配额度成功！');
-        this.getUserList();
+        this.$message.success('分配额度成功！'); 
+         this.getUserList();
+         this.chart()
       },
       exportKey() {
         let saveUrl = 'keyInfo/exportKeyInfos';
@@ -231,7 +232,7 @@
         })
       },
       chart(total, use) {
-        let myChart = echarts.init(document.getElementById('pie'));
+        let myChart = echarts.init(document.getElementById('pie'));      
         myChart.setOption({
           title: [{text: `量子密钥额度:${total}     量子密钥使用数量:${use}`, left: '50%', top: '90%', textAlign: 'center'}],
           series: [
@@ -277,6 +278,7 @@
               data: [
                 {value: ((use / total) * 100).toFixed(2)=='NaN'?0:((use / total) * 100).toFixed(2)}
               ],
+               
               detail: {//仪表盘详情，用于显示数据
                 valueAnimation: true,
                 fontSize: 30,
@@ -287,9 +289,11 @@
             }
           ]
         });
+      
         window.addEventListener("resize", function () {
           myChart.resize();
-        });
+        });     
+      
       },
        //表格数据
      async  getUserList1(){
@@ -300,7 +304,6 @@
         } else {
           return this.$message.error('获取信息失败！')
         }
-        console.log(this.userList)
        },
        handleCurrentChange(offset){
         this.queryInfo.offset = offset;

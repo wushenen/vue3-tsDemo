@@ -40,6 +40,7 @@
   </div>
 </template>
 <script>
+import Cookies from 'js-cookie'
   export default {
     data() {
       const checkIP = (rule, value, cb) => {
@@ -83,7 +84,7 @@
       };
     },
     beforeRouteEnter: (to, form, next) => {
-      const loginType = window.sessionStorage.getItem('accountTypeLogin');
+      const loginType =Cookies.get('accountTypeLogin');
       if (loginType === '1' || loginType === '9') {
         next()
       }else{
@@ -123,7 +124,7 @@
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            window.sessionStorage.clear();
+           Cookies.remove();
             this.$router.push('/login');
             window.location.reload()
           }).catch(() => {

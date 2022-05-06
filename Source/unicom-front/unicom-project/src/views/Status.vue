@@ -14,6 +14,7 @@
   </div>
 </template>
 <script>
+import Cookies from 'js-cookie'
   export default {
     data() {
       return {
@@ -22,7 +23,7 @@
       }
     },
     beforeRouteEnter: (to, form, next) => {
-      const loginType = window.sessionStorage.getItem('accountTypeLogin');
+      const loginType =Cookies.get('accountTypeLogin');
       if (loginType === '1' || loginType === '9' || loginType === '2') {
         next()
       }else{

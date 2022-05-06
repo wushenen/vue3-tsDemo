@@ -110,6 +110,7 @@
   </div>
 </template>
 <script>
+import Cookies from 'js-cookie'
   export default {
     data() {
       const keyBlur = (rule, val, cb) => {
@@ -190,7 +191,7 @@
       }
     },
     beforeRouteEnter: (to, form, next) => {
-      const loginType = window.sessionStorage.getItem('accountTypeLogin');
+      const loginType =Cookies.get('accountTypeLogin');
       if (loginType === '9') {
         next()
       } else {
@@ -199,7 +200,7 @@
     },
     created() {
       this.getUserList();
-      this.accountTypeLogin = window.sessionStorage.getItem('accountTypeLogin');
+      this.accountTypeLogin =Cookies.get('accountTypeLogin');
     },
     methods: {
       async getUserList() {

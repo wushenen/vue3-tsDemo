@@ -116,8 +116,16 @@
   </div>
 </template>
 <script>
+import Cookies from 'js-cookie'
   export default {
     data() {
+     const valiPass = (rule, value, cb) => {//密码
+  const reg = /^(?![0-9_]+$)(?![a-zA-Z]+$)[0-9A-Za-z_]{8,16}$/;
+  if (reg.test(value)) {
+    return cb()
+  }
+  cb(new Error('请输入数字和字母组成的字符，长度为8-16位'))
+};
       const valiPws2 = (rule, value, cb) => {
         if (value === '') {
           cb(new Error('请再次输入密码'));
@@ -154,7 +162,7 @@
         },
         addFormRules: {
           deviceName: [{required: true, validator: this.Global.valiUser, trigger: 'blur'}],
-          pws1: [{required: true, validator: this.Global.valiPass, trigger: 'blur'}],
+          pws1: [{required: true, validator: valiPass, trigger: 'blur'}],
           pws2: [{required: true, validator: valiPws2, trigger: 'blur'}],
           comments: [{min: 0, max: 200, message: '长度在200个字符以内', trigger: 'blur'}],
           userType: [{required: true, message: '请选择用户类型', trigger: 'change'}]
@@ -182,13 +190,13 @@
           password: [
             {required: true, message: "请输入旧密码", trigger: 'blur'}
           ],
-          psd1: [{required: true, validator: this.Global.valiPass, trigger: 'blur'}],
+          psd1: [{required: true, validator: valiPass, trigger: 'blur'}],
           psd2: [{required: true, validator: valiPws3, trigger: 'blur'}],
         }
       }
     },
     beforeRouteEnter: (to, form, next) => {
-      const loginType = window.sessionStorage.getItem('accountTypeLogin');
+      const loginType =Cookies.get('accountTypeLogin');
       if (loginType === '9') {
         next()
       }else{

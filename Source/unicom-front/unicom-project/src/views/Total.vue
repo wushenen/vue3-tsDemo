@@ -39,7 +39,7 @@
 </template>
 <script>
   import * as echarts from 'echarts';
-
+import Cookies from 'js-cookie'
   export default {
     data() {
       return {
@@ -57,7 +57,7 @@
       }
     },
     beforeRouteEnter: (to, form, next) => {
-      const loginType = window.sessionStorage.getItem('accountTypeLogin');
+      const loginType =Cookies.get('accountTypeLogin');
       if (loginType === '9' || loginType === '1') {
         next()
       } else {

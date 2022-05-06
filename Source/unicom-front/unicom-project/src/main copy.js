@@ -16,8 +16,6 @@ import Cookies from 'js-cookie'
 
 Vue.config.productionTip = false;
 Vue.prototype.Global = global;
-Vue.prototype.$cookies = Cookies;
-
  //axios.defaults.baseURL = './';//打包的配置
 axios.defaults.baseURL = './unicom/';//本地的配置
 Vue.use(ElementUI);
@@ -25,7 +23,7 @@ Vue.use(preventReClick);
 Vue.prototype.$message = message;
 axios.interceptors.request.use(config => {
   NProgress.start();
-  config.headers.Token = Cookies.get('token');
+  config.headers.Token = window.sessionStorage.getItem('token');
   return config
 }, error => {
   return Promise.reject(error)
@@ -33,7 +31,7 @@ axios.interceptors.request.use(config => {
 axios.interceptors.response.use(config => {
   NProgress.done();
   if (config.headers.token != null) {
-    Cookies.set('token', config.headers.token);
+    window.sessionStorage.setItem('token', config.headers.token);
   }
   if (config.data.code === 401) {
     message({
@@ -41,7 +39,7 @@ axios.interceptors.response.use(config => {
       message: '身份过期,请重新登录！',
       duration: 2000,
       onClose: () => {
-        Cookies.clear();
+        window.sessionStorage.clear();
         router.replace({
           path: '/login'
         });
@@ -65,7 +63,7 @@ axios.interceptors.response.use(config => {
           message: '身份过期,请重新登录！',
           duration: 2000,
           onClose: () => {
-            Cookies.remove();
+            window.sessionStorage.clear();
             router.replace({
               path: '/login'
             });
@@ -79,7 +77,7 @@ axios.interceptors.response.use(config => {
           message: '账号被占用或者连接中断，请重新登录！',
           duration: 2000,
           onClose: () => {
-            Cookies.remove();
+            window.sessionStorage.clear();
             router.replace({
               path: '/login'
             });

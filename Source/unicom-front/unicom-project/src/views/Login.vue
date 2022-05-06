@@ -34,6 +34,7 @@
 <script>
   import '../assets/js/profill'
   import '../assets/js/sm3'
+ import Cookies from 'js-cookie'
 
   export default {
     name: 'Login',
@@ -50,18 +51,22 @@
       login() {
         if (this.loginForm.userName === '' || this.loginForm.password === '') return this.$message.error('请输入用户名和密码！');
         this.$refs.loginFormRef.validate(async valid => {
-          if (!valid) return;
-          window.sessionStorage.clear();
-          const newPsd = sm3(this.loginForm.password + this.loginForm.userName);
+          if (!valid){
+             Cookies.remove("userName");
+            Cookies.remove("password");
+          }else{
+             const newPsd = sm3(this.loginForm.password + this.loginForm.userName);
           const {data: res} = await this.$http.post('login/sysLogin', {
             'password': newPsd, 'userName': this.loginForm.userName
           });
-          if (res.code !== 0) return this.$message.error(res.msg !== null && res.msg !== '' ? res.msg : '登录失败！');
-          window.sessionStorage.setItem('token', res.data.token);
-          window.sessionStorage.setItem('loginName', this.loginForm.userName);
-          window.sessionStorage.setItem('accountTypeLogin', res.data.accountType);
-          window.sessionStorage.setItem('userId', res.data.userId);
+          console.log(res.data)
+          if (res.code !== 0) return this.$message.error(res.msg !== null && res.msg !== '' ? res.msg : '登录失败！');    
           this.$router.push('/home')
+         Cookies.set('token', res.data.token);
+         Cookies.set('loginName', this.loginForm.userName);
+          Cookies.set('accountTypeLogin', res.data.accountType);
+         Cookies.set('userId', res.data.userId);
+          }             
         })
       },
     }

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
+import Cookies from 'js-cookie'
 // import Home from '../views/Home.vue'
 const Home = () => import("../views/Home.vue");
 const Welcome = () => import("../views/Welcome.vue");
@@ -27,7 +28,7 @@ const GroupAuth = () => import("../views/GroupAuth.vue");
 const NoFound = () => import('../views/NoFound.vue');
 const ApplicationManagerUser = () => import("../views/ApplicationManagerUser.vue");
 const AppList = () => import("../views/AppList.vue");
-import Cookies from 'js-cookie'
+
 
 Vue.use(VueRouter);
 
@@ -79,15 +80,15 @@ const routes = [
 ];
 
 const router = new VueRouter({
-  routes,
+  routes,Cookies
 });
 
 router.beforeEach((to, from, next) => {
 //to将要访问的路径，from代表从哪一个路径跳转而来
   if (to.path === '/login') return next();
-  const tokenStr = window.sessionStorage.getItem('token');
+  const tokenStr =Cookies.get('token');
   if (!tokenStr) {
-    window.sessionStorage.clear();
+   Cookies.remove();
     return next('/login');
   }
   next()
