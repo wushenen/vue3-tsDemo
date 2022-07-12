@@ -42,7 +42,7 @@
             <if test="email != null and !&quot;&quot;.equals(email.trim())">
                 email = #{email},
             </if>
-            <if test="comments != null and !&quot;&quot;.equals(comments.trim())">
+            <if test="comments != null">
                 comments = #{comments},
             </if>
             update_time = now()

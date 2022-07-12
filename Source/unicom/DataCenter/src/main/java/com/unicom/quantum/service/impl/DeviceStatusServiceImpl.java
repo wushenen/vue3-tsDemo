@@ -1,6 +1,5 @@
 package com.unicom.quantum.service.impl;
 
-import com.unicom.quantum.component.annotation.OperateLogAnno;
 import com.unicom.quantum.component.util.CalculateUtil;
 import com.unicom.quantum.controller.vo.DeviceStatusDataResponse;
 import com.unicom.quantum.mapper.DeviceStatusMapper;
@@ -46,7 +45,7 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
         return deviceStatusMapper.listDeviceStatusInfo();
     }
 
-    @OperateLogAnno(operateDesc = "查看系统所有终端汇总状态数据", operateModel = OPERATE_MODEL)
+//    @OperateLogAnno(operateDesc = "查看系统所有终端汇总状态数据", operateModel = OPERATE_MODEL)
     @Override
     public DeviceStatusDataResponse getStatusShowInfo() {
         DeviceStatusDataResponse response = new DeviceStatusDataResponse();
@@ -78,12 +77,14 @@ public class DeviceStatusServiceImpl implements DeviceStatusService {
         switch (operation){
             case 0:
                 List<DeviceStatus> deviceStatuses = deviceStatusMapper.listDeviceStatusInfo();
-                for (DeviceStatus deviceStatus : deviceStatuses) {
-                    if (deviceStatus.isWorkStatus()) {
-                        if (System.currentTimeMillis() - deviceStatus.getUpdateTime().getTime() > 60000) {
-                            deviceStatus.setWorkStatus(false);
-                            deviceStatus.setOnlineTime(null);
-                            deviceStatusMapper.updateDeviceStatusInfo(deviceStatus);
+                if (deviceStatuses.size()!=0) {
+                    for (DeviceStatus deviceStatus : deviceStatuses) {
+                        if (deviceStatus.isWorkStatus()) {
+                            if (System.currentTimeMillis() - deviceStatus.getUpdateTime().getTime() > 60000) {
+                                deviceStatus.setWorkStatus(false);
+                                deviceStatus.setOnlineTime(null);
+                                deviceStatusMapper.updateDeviceStatusInfo(deviceStatus);
+                            }
                         }
                     }
                 }
