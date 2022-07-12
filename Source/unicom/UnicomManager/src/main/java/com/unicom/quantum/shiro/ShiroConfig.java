@@ -36,6 +36,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/fonts/**", "anon");
         filterChainDefinitionMap.put("/login/**", "anon");
         filterChainDefinitionMap.put("/device/getDeviceUserModel","anon");
+        filterChainDefinitionMap.put("/brain/**","anon");
+        filterChainDefinitionMap.put("/status/getDeviceStatusInfo","anon");
 
         //放行swagger
         filterChainDefinitionMap.put("/swagger-ui/**","anon");

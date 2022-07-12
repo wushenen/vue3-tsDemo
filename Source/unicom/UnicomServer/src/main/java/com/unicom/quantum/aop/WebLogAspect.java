@@ -45,8 +45,12 @@ public class WebLogAspect {
     @Pointcut("!execution(public * com.unicom.quantum.service.impl..*.getAllIps(..))")
     public void controllerLog2(){}
     @Pointcut("!execution(public * com.unicom.quantum.service.impl..*.getQemsConfig(..))")
+    public void controllerLog4(){}
+    @Pointcut("!execution(public * com.unicom.quantum.service.impl..*.getPhysicalMachineInfo(..))")
+    public void controllerLog5(){}
+    @Pointcut("!execution(public * com.unicom.quantum.service.impl..*.getQemsConfig(..))")
     public void controllerLog3(){}
-    @Pointcut("controllerLog1() && controllerLog2() && controllerLog3()")
+    @Pointcut("controllerLog1() && controllerLog2() && controllerLog3() && controllerLog4() && controllerLog5()")
     public void controllerLog(){}
 
 
